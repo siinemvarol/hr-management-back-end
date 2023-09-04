@@ -5,7 +5,6 @@ buildscript {
 }
 
 dependencies {
-    implementation libs.springBootMailSender
-    implementation libs.swaggerui
 
+    implementation libs.springDataMongodb
 }
