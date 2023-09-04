@@ -24,11 +24,13 @@ public class Auth extends BaseEntity {
     private String username;
     private String email;
     private String password;
+    private String activationLink;
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private EStatus eStatus=EStatus.PENDING;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private ERole eRole=ERole.GUEST;
+
 
 }

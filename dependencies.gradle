@@ -1,8 +1,10 @@
 ext {
     versions = [
-            springBoot: "2.7.9",
-            postgreSql: "42.6.0",
-            lombok    : "1.18.26"
+            springBoot    : "2.7.9",
+            postgreSql    : "42.6.0",
+            lombok        : "1.18.26",
+            mapstruct     : "1.5.5.Final",
+
     ]
 
     libs = [
@@ -10,7 +12,12 @@ ext {
             springBootJpa    : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
             springDataMongodb: "org.springframework.boot:spring-boot-starter-data-mongodb:${versions.springBoot}",
             postgreSql       : "org.postgresql:postgresql:${versions.postgreSql}",
-            lombok           : "org.projectlombok:lombok:${versions.lombok}"
+            lombok           : "org.projectlombok:lombok:${versions.lombok}",
+            springBootRabbitMQ          : "org.springframework.boot:spring-boot-starter-amqp:${versions.springBoot}",
+            mapstruct                   : "org.mapstruct:mapstruct:${versions.mapstruct}",
+            mapstructProcessor          : "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
+            springBootValidation        : "org.springframework.boot:spring-boot-starter-validation:${versions.springBoot}",
+
 
     ]
 }
