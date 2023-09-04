@@ -14,5 +14,6 @@ ext {
             lombok              : "org.projectlombok:lombok:${versions.lombok}",
             springBootMailSender: "org.springframework.boot:spring-boot-starter-mail:$versions.springBoot",
             swaggerui           : "org.springdoc:springdoc-openapi-ui:$versions.swaggerui"
+      
     ]
 }

@@ -1,6 +1,9 @@
 package com.bilgeadam.repository.entity;
 
+import com.bilgeadam.repository.enums.ERole;
+import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -17,4 +20,15 @@ public class Auth extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String username;
+    private String email;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private EStatus eStatus=EStatus.PENDING;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private ERole eRole=ERole.GUEST;
+
 }
