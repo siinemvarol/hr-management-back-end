@@ -2,15 +2,17 @@ ext {
     versions = [
             springBoot: "2.7.9",
             postgreSql: "42.6.0",
+            swaggerui : "1.6.14",
             lombok    : "1.18.26"
     ]
 
     libs = [
-            springBootWeb    : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
-            springBootJpa    : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
-            springDataMongodb: "org.springframework.boot:spring-boot-starter-data-mongodb:${versions.springBoot}",
-            postgreSql       : "org.postgresql:postgresql:${versions.postgreSql}",
-            lombok           : "org.projectlombok:lombok:${versions.lombok}"
-
+            springBootWeb       : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
+            springBootJpa       : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
+            springDataMongodb   : "org.springframework.boot:spring-boot-starter-data-mongodb:${versions.springBoot}",
+            postgreSql          : "org.postgresql:postgresql:${versions.postgreSql}",
+            lombok              : "org.projectlombok:lombok:${versions.lombok}",
+            springBootMailSender: "org.springframework.boot:spring-boot-starter-mail:$versions.springBoot",
+            swaggerui           : "org.springdoc:springdoc-openapi-ui:$versions.swaggerui"
     ]
 }
