@@ -1,0 +1,15 @@
+server:
+  port: 7071
+
+spring:
+  mail:
+    username: bilgeadamhumanresources@gmail.com #systemofdeveloper@gmail.com #${MAILUSERNAME}
+    password: tmqpgcfqgisgnjfs #BilgeAdam123 #${MAILPASSWORD} #qypodmhoxpjkwcmh
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
