@@ -1,24 +1,27 @@
 package com.bilgeadam.controller;
 
 
+
+import com.bilgeadam.entity.Mail;
 import com.bilgeadam.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.bilgeadam.constant.RestApiList.MAIL;
+import static com.bilgeadam.constant.RestApiList.MAILSEND;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/mail")
+@RequestMapping(MAIL)
 public class MailController {
     private final MailService mailSenderService;
 
-    @GetMapping("/send")
-    public ResponseEntity<?> sendMessage(@RequestParam String email){
+    @PostMapping(MAILSEND)
+    public ResponseEntity<?> sendMessage(@RequestBody Mail mail){
 
-        return ResponseEntity.ok(mailSenderService.sendMail(email));
+        return ResponseEntity.ok(mailSenderService.sendMail(mail));
+
     }
 
 }
