@@ -10,7 +10,8 @@ ext {
             springBootJpa    : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
             springDataMongodb: "org.springframework.boot:spring-boot-starter-data-mongodb:${versions.springBoot}",
             postgreSql       : "org.postgresql:postgresql:${versions.postgreSql}",
-            lombok           : "org.projectlombok:lombok:${versions.lombok}"
+            lombok           : "org.projectlombok:lombok:${versions.lombok}",
+
 
     ]
 }
