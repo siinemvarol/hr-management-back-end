@@ -1,5 +1,6 @@
 package com.bilgeadam.repository.entity;
 
+import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,17 +13,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Builder
 @Document
-public class User {
+public class User extends BaseEntity {
 
     @Id
-    String id;
-
-    Long authid;
-    String name;
-    String surname;
-    String email;
-    Long createdDate;
-    Long updatedDate;
-
+    private String id;
+    private Long authid;
+    private String name;
+    private String surname;
+    private String username;
+    private String email;
+    private String password;
+    private String phone;
+    private String address;
+    private String info;
+    private String avatar;
+    private String birthday;
+    @Builder.Default
+    private EStatus eStatus=EStatus.PENDING;
 
 }
