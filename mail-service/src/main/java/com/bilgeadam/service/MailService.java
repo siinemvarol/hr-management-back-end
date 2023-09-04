@@ -1,15 +1,18 @@
 package com.bilgeadam.service;
 
+
 import com.bilgeadam.entity.Mail;
 
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.MailException;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MailService {
+
 
     private final JavaMailSender mailSender;
 
@@ -32,6 +35,7 @@ public class MailService {
     }catch (MailException e) {
         throw new MailException(ErrorType.MAIL_SEND_ERROR);
     }
+
 
 
     }

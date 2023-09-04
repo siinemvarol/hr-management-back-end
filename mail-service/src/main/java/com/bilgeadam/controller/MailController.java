@@ -1,6 +1,7 @@
 package com.bilgeadam.controller;
 
 
+
 import com.bilgeadam.entity.Mail;
 import com.bilgeadam.service.MailService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class MailController {
     public ResponseEntity<?> sendMessage(@RequestBody Mail mail){
 
         return ResponseEntity.ok(mailSenderService.sendMail(mail));
+
     }
 
 }
