@@ -13,5 +13,13 @@ public class RabbitMqConfig {
     Queue authRegisterQueue(){
         return new Queue(authRegisterQueue);
     }
+    //Company register consumer
+
+    String userCompanyRegisterQueue = "user-company-register-queue";
+
+    @Bean
+    Queue userRegisterQueue() {
+        return new Queue(userCompanyRegisterQueue);
+    }
 
 }

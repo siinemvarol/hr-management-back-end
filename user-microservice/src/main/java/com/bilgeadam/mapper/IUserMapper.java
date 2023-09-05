@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IUserMapper {
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
-    User fromRegisterModelToUserProfile(final UserRegisterModel model);
     User fromRegisterModelToUserProfile(final AuthRegisterModel model);
     User fromUserCompanyRegisterModelToUser(final UserCompanyRegisterModel model);
 
