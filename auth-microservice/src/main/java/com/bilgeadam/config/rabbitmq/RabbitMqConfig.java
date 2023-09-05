@@ -28,6 +28,6 @@ public class RabbitMqConfig {
 
     @Bean
     public Binding userRegisterBinding(final Queue userRegisterQueue, final DirectExchange authExchange){
-        return BindingBuilder.bind(userRegisterQueue()).to(authExchange).with(userRegisterBinding);
+        return BindingBuilder.bind(userRegisterQueue).to(authExchange).with(userRegisterBinding);
     }
 }

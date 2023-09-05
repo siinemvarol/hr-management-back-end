@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
     //Auth register Consumer
-    String authRegisterQueue = "auth-register-queue";
+    String authRegisterQueue = "user-register-queue";
 
     @Bean
     Queue authRegisterQueue(){
