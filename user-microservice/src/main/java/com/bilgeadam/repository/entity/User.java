@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Document
 public class User extends BaseEntity {
 
@@ -30,5 +31,6 @@ public class User extends BaseEntity {
     private String birthday;
     @Builder.Default
     private EStatus eStatus=EStatus.PENDING;
+    //TODO EROLE field eklenmesi gerekiyor
 
 }

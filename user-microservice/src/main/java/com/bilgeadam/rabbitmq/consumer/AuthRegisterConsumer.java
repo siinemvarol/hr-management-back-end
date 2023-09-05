@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthRegisterConsumer {
     private final UserService userService;
-    @RabbitListener(queues = "user-register-queue")
+    @RabbitListener(queues = ("user-register-queue"))
     public void consumerRegister(UserRegisterModel model){
         userService.createUser(model);
     }
