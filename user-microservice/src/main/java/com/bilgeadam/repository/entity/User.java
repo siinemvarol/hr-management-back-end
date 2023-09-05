@@ -32,5 +32,6 @@ public class User extends BaseEntity {
     private String birthday;
     @Builder.Default
     private EStatus eStatus=EStatus.PENDING;
+    //TODO EROLE field eklenmesi gerekiyor
 
 }
