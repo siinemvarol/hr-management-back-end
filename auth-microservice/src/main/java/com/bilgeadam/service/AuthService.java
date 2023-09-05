@@ -30,7 +30,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
         Auth auth = IAuthMapper.INSTANCE.fromRegisterDto(dto);
         if (auth.getPassword().equals(dto.getRePassword())) {
             save(auth);
-            userRegisterProducer.sendRegisterMessage(IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth));
+            userRegisterProducer.sendRegisterProducer(IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth));
         } else {
             throw new AuthManagerException(ErrorType.PASSWORDS_NOT_MATCH);
         }

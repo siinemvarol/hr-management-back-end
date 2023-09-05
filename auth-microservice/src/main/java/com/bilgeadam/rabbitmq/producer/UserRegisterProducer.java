@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserRegisterProducer {
+    private String exchange = "auth-exchange";
+
+    private String userRegisterBinding = "user-register-binding";
+
     private final RabbitTemplate rabbitTemplate;
-    public void sendRegisterMessage(UserRegisterModel userRegisterModel){
-        rabbitTemplate.convertAndSend("auth-exchange",
-                "user-register-binding", userRegisterModel);
+    public void sendRegisterProducer(UserRegisterModel userRegisterModel){
+        rabbitTemplate.convertAndSend(exchange, userRegisterBinding, userRegisterModel);
     }
 }
