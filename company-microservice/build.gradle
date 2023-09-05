@@ -7,4 +7,9 @@ buildscript {
 dependencies {
 
     implementation libs.springDataMongodb
+    implementation libs.springBootRabbitMQ
+    implementation libs.mapstruct
+    implementation libs.mapstructProcessor
+    implementation libs.springBootValidation
+    implementation libs.swaggerui
 }
