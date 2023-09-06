@@ -8,6 +8,5 @@ dependencies {
     implementation libs.springDataMongodb
     implementation libs.springBootRabbitMQ
     implementation libs.springBootValidation
-    implementation libs.mapstruct
-    implementation libs.mapstructProcessor
+
 }
