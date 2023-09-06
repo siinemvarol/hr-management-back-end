@@ -7,6 +7,7 @@ import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.IAuthMapper;
 import com.bilgeadam.rabbitmq.model.MailRegisterModel;
+import com.bilgeadam.rabbitmq.model.UserRegisterModel;
 import com.bilgeadam.rabbitmq.producer.UserRegisterProducer;
 import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
@@ -28,14 +29,21 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
     public AuthRegisterResponseDto registerSave(AuthRegisterRequestDto dto) {
         Auth auth = IAuthMapper.INSTANCE.fromRegisterDto(dto);
+        System.out.println(auth);
+
         if (auth.getPassword().equals(dto.getRePassword())) {
+
             save(auth);
-            userRegisterProducer.sendRegisterProducer(IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth));
+            UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
+
+            userRegisterProducer.sendRegisterProducer(userRegisterModel);
+            AuthRegisterResponseDto authRegisterResponseDto = IAuthMapper.INSTANCE.fromAuthToRegisterResponseDto(auth);
+            return authRegisterResponseDto;
         } else {
             throw new AuthManagerException(ErrorType.PASSWORDS_NOT_MATCH);
         }
-        AuthRegisterResponseDto authRegisterResponseDto = IAuthMapper.INSTANCE.fromAuth(auth);
-        return authRegisterResponseDto;
+
+
     }
 
     public Boolean login(AuthLoginRequestDto dto){

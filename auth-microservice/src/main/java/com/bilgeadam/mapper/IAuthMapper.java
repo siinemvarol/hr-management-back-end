@@ -15,11 +15,12 @@ public interface IAuthMapper {
 
     Auth fromRegisterDto(final AuthRegisterRequestDto dto);
 
-    @Mapping(source = "id", target = "authId")
+    @Mapping(source = "id", target = "authid")
     UserRegisterModel fromAuthToUserRegisterModel(final Auth auth);
     MailRegisterModel fromAuthToMailRegisterModel(final Auth auth);
 
     AuthRegisterResponseDto fromAuth(final Auth auth);
 
 
+    AuthRegisterResponseDto fromAuthToRegisterResponseDto(final Auth auth);
 }
