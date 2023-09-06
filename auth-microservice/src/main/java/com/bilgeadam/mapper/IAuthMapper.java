@@ -25,8 +25,10 @@ public interface IAuthMapper {
 
     AuthRegisterResponseDto fromAuthToRegisterResponseDto(final Auth auth);
 
+
     @Mapping(source = "id", target = "authid")
     UserForgotPassModel fromAuthToUserForgotPassModel(final Auth auth);
 
     MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
+
 }

@@ -23,13 +23,13 @@ public class AuthController {
     }
     @PostMapping(REGISTER)
     public ResponseEntity<AuthRegisterResponseDto> register(@RequestBody AuthRegisterRequestDto authRegisterRequestDto){
-        System.out.println(authRegisterRequestDto);
         return ResponseEntity.ok(authService.registerSave(authRegisterRequestDto));
     }
-
+  
     @PostMapping(FORGOT_PASSWORD)
     public ResponseEntity<String> forgotPassword(@RequestBody AuthForgotPasswordRequestDto dto){
         return ResponseEntity.ok(authService.forgotPassword(dto));
+
     }
 
 

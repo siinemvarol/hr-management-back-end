@@ -4,6 +4,7 @@ import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
 import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
+import lombok.RequiredArgsConstructor;
 import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
 import com.bilgeadam.rabbitmq.model.UserRegisterModel;
 import com.bilgeadam.repository.IUserRepository;
@@ -22,8 +23,8 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public Boolean createUser(UserRegisterModel model) {
-
-        System.out.println(userRepository.save(IUserMapper.INSTANCE.fromRegisterModelToUserProfile(model)));
+        System.out.println(model);
+        User user = userRepository.save(IUserMapper.INSTANCE.fromRegisterModelToUserProfile(model));
         return true;
     }
     public Boolean saveCompanyUser(UserCompanyRegisterModel model) {
