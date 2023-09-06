@@ -57,8 +57,10 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
     public Boolean login(AuthLoginRequestDto dto) {
+
         Optional<Auth> optionalAuth = authRepository.findOptionalByEmailAndPassword(dto.getEmail(), dto.getPassword());
-        if (optionalAuth.isEmpty() || !dto.getPassword().equals(optionalAuth.get().getPassword())) {
+
+        if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
         if (!optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
