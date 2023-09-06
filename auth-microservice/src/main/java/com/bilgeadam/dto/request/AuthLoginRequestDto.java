@@ -1,19 +1,15 @@
-package com.bilgeadam.rabbitmq.model;
+package com.bilgeadam.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRegisterModel implements Serializable {
-    private Long authId;
-    private String username;
+public class AuthLoginRequestDto {
     private String email;
     private String password;
 }
