@@ -1,38 +1,30 @@
-package com.bilgeadam.repository.entity;
+package com.bilgeadam.rabbitmq.model;
 
 import com.bilgeadam.repository.enums.ERole;
-import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-@Document
-public class User extends BaseEntity {
-
-    @Id
-    private String id;
-    private Long authid;
+@NoArgsConstructor
+@Builder
+public class UserAddEmployeeModel implements Serializable {
     private String companyId;
     private String name;
     private String surname;
     private String username;
     private String email;
     private String password;
+    private String rePassword;
     private String phone;
     private String address;
     private String info;
     private String avatar;
     private String birthday;
     @Builder.Default
-    private EStatus eStatus=EStatus.PENDING;
-    private ERole eRole=ERole.EMPLOYEE;
-
+    private ERole role = ERole.EMPLOYEE;
 }

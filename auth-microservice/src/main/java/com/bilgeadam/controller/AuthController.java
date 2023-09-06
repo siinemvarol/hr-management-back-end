@@ -21,10 +21,12 @@ public class AuthController {
     public ResponseEntity<Boolean> login(@RequestBody AuthLoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
     }
-    @PostMapping(REGISTER)
-    public ResponseEntity<AuthRegisterResponseDto> register(@RequestBody AuthRegisterRequestDto authRegisterRequestDto){
-        return ResponseEntity.ok(authService.registerSave(authRegisterRequestDto));
-    }
+
+    //Kısa bir Süreliğine Devre DISIIII!!!!
+//    @PostMapping(REGISTER)
+//    public ResponseEntity<AuthRegisterResponseDto> register(@RequestBody AuthRegisterRequestDto authRegisterRequestDto){
+//        return ResponseEntity.ok(authService.registerSave(authRegisterRequestDto));
+//    }
   
     @PostMapping(FORGOT_PASSWORD)
     public ResponseEntity<String> forgotPassword(@RequestBody AuthForgotPasswordRequestDto dto){
