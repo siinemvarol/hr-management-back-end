@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UserRegisterModel implements Serializable {
-
-    private Long authid;
+public class MailForgotPassModel implements Serializable {
     private String username;
     private String email;
-    private String password;
+    private String randomPassword;
 }
-

@@ -1,5 +1,6 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.dto.request.AuthForgotPasswordRequestDto;
 import com.bilgeadam.dto.request.AuthLoginRequestDto;
 import com.bilgeadam.dto.request.AuthRegisterRequestDto;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
@@ -23,6 +24,11 @@ public class AuthController {
     @PostMapping(REGISTER)
     public ResponseEntity<AuthRegisterResponseDto> register(@RequestBody AuthRegisterRequestDto authRegisterRequestDto){
         return ResponseEntity.ok(authService.registerSave(authRegisterRequestDto));
+    }
+  
+    @PostMapping(FORGOT_PASSWORD)
+    public ResponseEntity<String> forgotPassword(@RequestBody AuthForgotPasswordRequestDto dto){
+        return ResponseEntity.ok(authService.forgotPassword(dto));
 
     }
 
