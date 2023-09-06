@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class UserRegisterModel implements Serializable {
-    private Long authid;
+    private Long authId;
     private String username;
     private String email;
     private String password;

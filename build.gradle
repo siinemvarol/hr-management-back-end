@@ -42,8 +42,6 @@ allprojects {
         implementation libs.springBootWeb
         implementation libs.lombok
         annotationProcessor libs.lombok
-        implementation libs.mapstruct
-        annotationProcessor libs.mapstructProcessor
     }
 }
 
