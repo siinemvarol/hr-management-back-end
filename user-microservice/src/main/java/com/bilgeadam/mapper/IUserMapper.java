@@ -12,4 +12,5 @@ public interface IUserMapper {
     User fromRegisterModelToUserProfile(final UserRegisterModel model);
     User fromUserCompanyRegisterModelToUser(final UserCompanyRegisterModel model);
 
+
 }
