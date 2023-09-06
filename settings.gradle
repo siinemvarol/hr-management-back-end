@@ -3,6 +3,4 @@ include 'auth-microservice'
 include 'user-microservice'
 include 'mail-service'
 include 'company-microservice'
-include 'company-microservice:src:main:resources'
-findProject(':company-microservice:src:main:resources')?.name = 'resources'
 

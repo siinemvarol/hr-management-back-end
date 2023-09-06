@@ -15,7 +15,7 @@ public interface IAuthMapper {
 
     Auth fromRegisterDto(final AuthRegisterRequestDto dto);
 
-    @Mapping(source = "id", target = "authid")
+    @Mapping(source = "id", target = "authId")
     UserRegisterModel fromAuthToUserRegisterModel(final Auth auth);
     MailRegisterModel fromAuthToMailRegisterModel(final Auth auth);
 
