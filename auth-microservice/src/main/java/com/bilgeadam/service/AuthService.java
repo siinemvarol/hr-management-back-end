@@ -8,6 +8,7 @@ import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.IAuthMapper;
 import com.bilgeadam.rabbitmq.model.MailRegisterModel;
+import com.bilgeadam.rabbitmq.model.UserAddEmployeeModel;
 import com.bilgeadam.rabbitmq.model.UserRegisterModel;
 import com.bilgeadam.rabbitmq.producer.MailForgotPassProducer;
 import com.bilgeadam.rabbitmq.producer.UserForgotPassProducer;
@@ -37,28 +38,21 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.userForgotPassProducer = userForgotPassProducer;
     }
 
-    public AuthRegisterResponseDto registerSave(AuthRegisterRequestDto dto) {
-        Auth auth = IAuthMapper.INSTANCE.fromRegisterDto(dto);
+    public Auth addEmployee(UserAddEmployeeModel model){
+        System.out.println(model);
+        Auth auth = IAuthMapper.INSTANCE.authFromUserAddEmployeeModel(model);
         System.out.println(auth);
-
-        if (auth.getPassword().equals(dto.getRePassword())) {
-
-            save(auth);
-            UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
-
-            userRegisterProducer.sendRegisterProducer(userRegisterModel);
-            AuthRegisterResponseDto authRegisterResponseDto = IAuthMapper.INSTANCE.fromAuthToRegisterResponseDto(auth);
-            return authRegisterResponseDto;
-        } else {
-            throw new AuthManagerException(ErrorType.PASSWORDS_NOT_MATCH);
-        }
-
-
+        authRepository.save(auth);
+        UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
+        userRegisterProducer.sendRegisterProducer(userRegisterModel);
+        return auth;
     }
 
     public Boolean login(AuthLoginRequestDto dto) {
+
         Optional<Auth> optionalAuth = authRepository.findOptionalByEmailAndPassword(dto.getEmail(), dto.getPassword());
-        if (optionalAuth.isEmpty() || !dto.getPassword().equals(optionalAuth.get().getPassword())) {
+
+        if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
         if (!optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {

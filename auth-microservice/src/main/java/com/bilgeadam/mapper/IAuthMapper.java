@@ -2,10 +2,7 @@ package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.AuthRegisterRequestDto;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
-import com.bilgeadam.rabbitmq.model.MailForgotPassModel;
-import com.bilgeadam.rabbitmq.model.MailRegisterModel;
-import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
-import com.bilgeadam.rabbitmq.model.UserRegisterModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Auth;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -30,5 +27,8 @@ public interface IAuthMapper {
     UserForgotPassModel fromAuthToUserForgotPassModel(final Auth auth);
 
     MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
+
+    @Mapping(source = "role", target = "eRole")
+    Auth authFromUserAddEmployeeModel(final UserAddEmployeeModel model);
 
 }

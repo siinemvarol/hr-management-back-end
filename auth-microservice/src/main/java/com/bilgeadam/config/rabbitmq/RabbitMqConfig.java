@@ -9,7 +9,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
+    //Consumer
+    String userAddEmployeeQueue = "add-employee-queue";
+    @Bean
+    Queue userAddEmployeeQueue(){
+        return new Queue(userAddEmployeeQueue);
+    }
 
+    //Producer
     private String exchange ="auth-exchange";
     @Bean
     DirectExchange authExchange(){
