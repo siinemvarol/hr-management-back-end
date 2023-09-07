@@ -37,4 +37,50 @@ public class RabbitMqConfig {
     public Binding userRegisterBinding(final Queue userRegisterQueue, final DirectExchange authExchange){
         return BindingBuilder.bind(userRegisterQueue).to(authExchange).with(userRegisterBinding);
     }
+
+    //Mail register producer(Auth için activation mail gönderimi)
+    private String mailRegisterQueue = "mail-register-queue";
+
+    @Bean
+    Queue mailRegisterQueue(){
+        return new Queue(mailRegisterQueue);
+    }
+    private String mailRegisterBinding = "mail-register-binding";
+
+    @Bean
+    public Binding mailRegisterBinding(final Queue mailRegisterQueue, final DirectExchange authExchange){
+        return BindingBuilder.bind(mailRegisterQueue).to(authExchange).with(mailRegisterBinding);
+    }
+
+
+    //maile forgot password gönderimi
+    private String mailForgotPasswordQueue = "mail-forgot-password-queue";
+
+    @Bean
+    Queue mailForgotPasswordQueue(){
+        return new Queue(mailForgotPasswordQueue);
+    }
+    private String mailForgotPassBinding = "mail-forgot-password-binding";
+
+    @Bean
+    public Binding registerMailBinding(final Queue mailForgotPasswordQueue, final DirectExchange authExchange){
+        return BindingBuilder.bind(mailForgotPasswordQueue).to(authExchange).with(mailForgotPassBinding);
+    }
+
+
+
+    //Usera forgot password gönderimi
+    private String userForgotPasswordQueue = "user-forgot-password-queue";
+
+    @Bean
+    Queue userForgotPasswordQueue(){
+        return new Queue(userForgotPasswordQueue);
+    }
+    private String userForgotPasswordBinding = "user-forgot-user-binding";
+
+    @Bean
+    public Binding userForgotPasswordBinding(final Queue userForgotPasswordQueue, final DirectExchange authExchange){
+        return BindingBuilder.bind(userForgotPasswordQueue).to(authExchange).with(userForgotPasswordBinding);
+    }
+
 }

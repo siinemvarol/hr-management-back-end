@@ -32,7 +32,10 @@ public class AuthController {
     @PostMapping(FORGOT_PASSWORD)
     public ResponseEntity<String> forgotPassword(@RequestBody AuthForgotPasswordRequestDto dto) {
         return ResponseEntity.ok(authService.forgotPassword(dto));
-
+    }
+    @GetMapping(USER_ACTIVE)
+    public Auth userActive(String token){
+        return authService.userActive(token);
     }
 
 

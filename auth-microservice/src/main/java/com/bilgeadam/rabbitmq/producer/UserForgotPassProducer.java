@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 public class UserForgotPassProducer {
 
     private String exchange = "auth-exchange";
-    private String forgotPassBinding = "forgot-pass-binding";
+    private String userForgotPasswordBinding = "user-forgot-user-binding";
+
     private final RabbitTemplate rabbitTemplate;
 
-    public void userForgotPassword(UserForgotPassModel userForgotPassModel){
-        rabbitTemplate.convertAndSend(exchange, forgotPassBinding, userForgotPassModel);
+    public void userForgotPassword(UserForgotPassModel userForgotPassModel) {
 
+        rabbitTemplate.convertAndSend(exchange, userForgotPasswordBinding, userForgotPassModel);
+        System.out.println("şuan buradayım");
+        System.out.println(userForgotPassModel);
     }
 }

@@ -31,6 +31,7 @@ public class RabbitMqConfig {
     }
 
 
+
     private String userListCompanyQueue = "userList-company-queue";
     private String userListCompanyBinding = "userList-company-binding";
 
@@ -44,6 +45,7 @@ public class RabbitMqConfig {
     }
 
 
+
     //Auth register Consumer
     String authRegisterQueue = "auth-register-queue";
 
@@ -51,8 +53,9 @@ public class RabbitMqConfig {
     Queue authRegisterQueue(){
         return new Queue(authRegisterQueue);
     }
-    //Company register consumer
 
+
+    //Company register consumer
     String userCompanyRegisterQueue = "user-company-register-queue";
 
     @Bean
@@ -60,11 +63,14 @@ public class RabbitMqConfig {
         return new Queue(userCompanyRegisterQueue);
     }
 
-    // auth forgot password
-    private String forgotPassQueue = "forgot-pass-queue";
+
+
+    // auth forgot password consumer
+    String userForgotPasswordQueue = "user-forgot-password-queue";
+
     @Bean
-    Queue forgotPassQueue(){
-        return new Queue(forgotPassQueue);
+    Queue userForgotPasswordQueue() {
+        return new Queue(userForgotPasswordQueue);
     }
 
     //company Id user
@@ -73,5 +79,6 @@ public class RabbitMqConfig {
     Queue userCompanyIdQueue(){
         return new Queue(userCompanyIdQueue);
     }
+
 
 }
