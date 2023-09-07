@@ -6,13 +6,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: "jdbc:postgresql://localhost:5432/AuthDB"
     username: "postgres"
-    password: "12345"
+    password: "12345678"
   jpa:
     hibernate:
       ddl-auto: update
   rabbitmq:
     host: localhost
     port: 5672
-    username: java8
-    password: root
+    username: bilgejava8
+    password: bilgeadmin*
     #TODO rabbit mq diğer servicelere de eklenmesi gerekiyor
