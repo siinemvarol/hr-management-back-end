@@ -25,10 +25,36 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Binding userRegisterBinding(final DirectExchange authExchange,
+    public Binding userRegisterBinding(final DirectExchange companyExchange,
                                        final Queue userRegisterQueue) {
         return BindingBuilder.bind(userRegisterQueue)
-                .to(authExchange)
+                .to(companyExchange)
                 .with(userCompanyRegisterBinding);
     }
+    // UserCompanyId producer
+
+    private final String userCompanyIdQueue = "user-company-id-queue";
+    private final String userCompanyIdBinding = "user-company-id-binding";
+    @Bean
+    Queue userCompanyIdQueue() {
+        return new Queue(userCompanyIdQueue);
+    }
+
+    @Bean
+    public Binding userCompanyIdBinding(final DirectExchange companyExchange,
+                                       final Queue userCompanyIdQueue) {
+        return BindingBuilder.bind(userCompanyIdQueue)
+                .to(companyExchange)
+                .with(userCompanyIdBinding);
+    }
+
+    //Consumer
+
+    String userListCompanyQueue = "userList-company-queue";
+
+    @Bean
+    Queue userListCompanyQueue(){
+        return new Queue(userListCompanyQueue);
+    }
+
 }

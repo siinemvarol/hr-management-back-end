@@ -1,19 +1,21 @@
-package com.bilgeadam.rabbitmq.model;
+package com.bilgeadam.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserCompanyRegisterModel implements Serializable {
+public class CompanyUpdateRequestDto {
     private String companyId;
     private String name;
     private String surname;
     private String email;
+    private String companyName;
+    private String city;
     private String phone;
+
 }

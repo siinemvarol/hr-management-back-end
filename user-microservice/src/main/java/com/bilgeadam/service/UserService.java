@@ -3,27 +3,28 @@ package com.bilgeadam.service;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
-import com.bilgeadam.rabbitmq.model.UserAddEmployeeModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.AddEmloyeeProducer;
-import lombok.RequiredArgsConstructor;
-import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
-import com.bilgeadam.rabbitmq.model.UserRegisterModel;
+import com.bilgeadam.rabbitmq.producer.UserCompanyIdModelsProducer;
 import com.bilgeadam.repository.IUserRepository;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService extends ServiceManager<User, String> {
     private final IUserRepository userRepository;
     private final AddEmloyeeProducer addEmloyeeProducer;
-    public UserService(IUserRepository userRepository,AddEmloyeeProducer addEmloyeeProducer){
+    private final UserCompanyIdModelsProducer userCompanyIdModelsProducer;
+    public UserService(IUserRepository userRepository, AddEmloyeeProducer addEmloyeeProducer, UserCompanyIdModelsProducer userCompanyIdModelsProducer){
         super(userRepository);
         this.userRepository = userRepository;
         this.addEmloyeeProducer = addEmloyeeProducer;
+        this.userCompanyIdModelsProducer = userCompanyIdModelsProducer;
     }
 
     public Boolean createUser(UserRegisterModel model) {
@@ -50,5 +51,16 @@ public class UserService extends ServiceManager<User, String> {
         }
         addEmloyeeProducer.sendAddEmployee(userAddEmployeeModel);
         return userAddEmployeeModel;
+    }
+
+    public void findByCompanyId(UserCompanyIdModel model) {
+        List<UserCompanyIdModel> companyIdModels = new ArrayList<>();
+        List<User> userList = userRepository.findByCompanyId(model.getCompanyId());
+        System.out.println(userList + "userservice");
+        userList.forEach(x -> {
+            UserCompanyIdModel userCompanyIdModel = IUserMapper.INSTANCE.userCompanyIdModelFromUser(x);
+            companyIdModels.add(userCompanyIdModel);
+        });
+        userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
 }
