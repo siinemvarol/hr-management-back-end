@@ -26,9 +26,10 @@ public interface IAuthMapper {
     @Mapping(source = "id", target = "authid")
     UserForgotPassModel fromAuthToUserForgotPassModel(final Auth auth);
 
-    MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
 
     @Mapping(source = "role", target = "eRole")
-    Auth authFromUserAddEmployeeModel(final UserAddEmployeeModel model);
+    Auth authFromUserAddEmployeeModel(final UserCreateEmployeeModel model);
 
+    @Mapping(source = "password", target = "randomPassword")
+    MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
 }

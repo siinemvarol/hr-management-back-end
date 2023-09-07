@@ -1,6 +1,6 @@
 package com.bilgeadam.rabbitmq.producer;
 
-import com.bilgeadam.rabbitmq.model.UserAddEmployeeModel;
+import com.bilgeadam.rabbitmq.model.UserCreateEmployeeModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class AddEmloyeeProducer {
     private String addEmployeeBinding = "add-employee-binding";
 
     private final RabbitTemplate rabbitTemplate;
-    public void sendAddEmployee( UserAddEmployeeModel userAddEmployeeModel){
+    public void sendAddEmployee( UserCreateEmployeeModel userAddEmployeeModel){
         rabbitTemplate.convertAndSend(exchange, addEmployeeBinding, userAddEmployeeModel);
     }
 }
