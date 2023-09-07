@@ -1,5 +1,6 @@
 package com.bilgeadam.mapper;
 
+import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
 import com.bilgeadam.rabbitmq.model.UserRegisterModel;
 import com.bilgeadam.repository.entity.User;
@@ -13,4 +14,5 @@ public interface IUserMapper {
     User fromUserCompanyRegisterModelToUser(final UserCompanyRegisterModel model);
 
 
+    UserCompanyIdModel userCompanyIdModelFromUser(final User x);
 }

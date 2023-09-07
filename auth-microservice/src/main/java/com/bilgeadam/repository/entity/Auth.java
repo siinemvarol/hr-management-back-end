@@ -30,7 +30,7 @@ public class Auth extends BaseEntity {
     private EStatus eStatus=EStatus.PENDING;
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private ERole eRole=ERole.GUEST;
+    private ERole eRole=ERole.COMPANY_MANAGER;
 
 
 }

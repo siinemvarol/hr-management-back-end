@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserCompanyRegisterModel implements Serializable {
-    private String companyId;
+public class UserCompanyListModel {
+    private String avatar;
     private String name;
-    private String surname;
-    private String email;
-    private String phone;
+    private String mail;
+    private String salary;
+    private String status;
 }
