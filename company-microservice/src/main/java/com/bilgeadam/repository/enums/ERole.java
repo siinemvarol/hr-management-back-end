@@ -1,5 +1,5 @@
 package com.bilgeadam.repository.enums;
 
 public enum ERole {
-COMPANY_MANAGER,EMPLOYEE;
+    EMPLOYEE,ADMIN,GUEST,COMPANY_MANAGER;
 }

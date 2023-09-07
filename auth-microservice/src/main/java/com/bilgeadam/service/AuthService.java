@@ -2,6 +2,9 @@ package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.AuthForgotPasswordRequestDto;
 import com.bilgeadam.dto.request.AuthLoginRequestDto;
+import com.bilgeadam.dto.request.AuthRegisterRequestDto;
+import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.IAuthMapper;
@@ -44,12 +47,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
     public void createEmployee(UserCreateEmployeeModel model) {
 
         System.out.println(model);
-
         Auth auth = IAuthMapper.INSTANCE.authFromUserAddEmployeeModel(model);
         auth.setActivationLink(CodeGenerator.generateCode());
         System.out.println(auth);
         auth = authRepository.save(auth);
         UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
+        userRegisterModel.setCompanyId(model.getCompanyId());
+        userRegisterModel.setName(model.getName());
         userRegisterProducer.sendRegisterProducer(userRegisterModel);
         MailRegisterModel mailRegisterModel = IAuthMapper.INSTANCE.fromAuthToMailRegisterModel(auth);
         mailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
@@ -85,6 +89,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
         throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
     }
 
+
+    public RegisterRequestDto registerSave(RegisterRequestDto registerRequestDto) {
+
+
+        return null;
+    }
     public Auth userActive(String token) {
         Long authid = Long.parseLong(token.split("-")[0]);
         String activationLink = token.split("-")[1];
@@ -103,5 +113,6 @@ public class AuthService extends ServiceManager<Auth, Long> {
             userRegisterProducer.sendRegisterProducer(userRegisterModel);
         } else throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
         return optionalAuth.get();
+
     }
 }

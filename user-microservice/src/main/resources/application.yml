@@ -12,5 +12,5 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: bilgejava8
-    password: bilgeadmin*
+    username: java8
+    password: root

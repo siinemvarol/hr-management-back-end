@@ -18,6 +18,7 @@ public class UserCreateEmployeeModel implements Serializable {
     private String surname;
     private String username;
     private String email;
+    private String companyEmail;
     private String password;
     private String rePassword;
     private String activationLink;

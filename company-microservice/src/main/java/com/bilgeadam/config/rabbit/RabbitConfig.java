@@ -25,10 +25,49 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Binding userRegisterBinding(final DirectExchange authExchange,
+    public Binding userRegisterBinding(final DirectExchange companyExchange,
                                        final Queue userRegisterQueue) {
         return BindingBuilder.bind(userRegisterQueue)
-                .to(authExchange)
+                .to(companyExchange)
                 .with(userCompanyRegisterBinding);
     }
+    // UserCompanyId producer
+
+    private final String userCompanyIdQueue = "user-company-id-queue";
+    private final String userCompanyIdBinding = "user-company-id-binding";
+    @Bean
+    Queue userCompanyIdQueue() {
+        return new Queue(userCompanyIdQueue);
+    }
+
+    @Bean
+    public Binding userCompanyIdBinding(final DirectExchange companyExchange,
+                                       final Queue userCompanyIdQueue) {
+        return BindingBuilder.bind(userCompanyIdQueue)
+                .to(companyExchange)
+                .with(userCompanyIdBinding);
+    }
+
+    //AddEmployeeCompanyProducer
+    private String addEmployeeCompanyQueue = "add-employee-company-queue";
+    private String addEmployeeCompanyBinding = "add-employee-company-binding";
+
+    @Bean
+    Queue addEmployeeCompanyQueue(){
+        return new Queue(addEmployeeCompanyQueue);
+    }
+    @Bean
+    public Binding addEmployeeCompanyBinding(final Queue addEmployeeCompanyQueue, final DirectExchange directExchange){
+        return BindingBuilder.bind(addEmployeeCompanyQueue).to(directExchange).with(addEmployeeCompanyBinding);
+    }
+
+    //Consumer
+
+    String userListCompanyQueue = "userList-company-queue";
+
+    @Bean
+    Queue userListCompanyQueue(){
+        return new Queue(userListCompanyQueue);
+    }
+
 }

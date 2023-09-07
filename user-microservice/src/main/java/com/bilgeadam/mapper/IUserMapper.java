@@ -1,7 +1,6 @@
 package com.bilgeadam.mapper;
 
-import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
-import com.bilgeadam.rabbitmq.model.UserRegisterModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -13,4 +12,9 @@ public interface IUserMapper {
     User fromUserCompanyRegisterModelToUser(final UserCompanyRegisterModel model);
 
 
+
+
+    UserCreateEmployeeModel userCreateEmployeeModelfromAddEmployeeCompanyModel(final AddEmployeeCompanyModel model);
+
+    UserCompanyListModel userCompanyListModelFromUser(final User x);
 }
