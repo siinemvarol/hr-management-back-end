@@ -3,6 +3,8 @@ package com.bilgeadam.controller;
 
 
 import com.bilgeadam.entity.Mail;
+import com.bilgeadam.rabbitmq.consumer.MailRegisterConsumer;
+import com.bilgeadam.rabbitmq.model.MailRegisterModel;
 import com.bilgeadam.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class MailController {
     private final MailService mailSenderService;
 
     @PostMapping(MAILSEND)
-    public ResponseEntity<?> sendMessage(@RequestBody Mail mail){
+    public ResponseEntity<?> sendMessage(@RequestBody MailRegisterModel mail){
 
         return ResponseEntity.ok(mailSenderService.sendMail(mail));
 

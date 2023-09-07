@@ -5,14 +5,12 @@ import com.bilgeadam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
-
 @Service
 @RequiredArgsConstructor
-public class AuthForgotPassConsumer {
+public class UserForgotPassConsumer {
     private final UserService userService;
-
-    @RabbitListener(queues = "forgot-pass-queue")
-    public void forgotPassword(UserForgotPassModel userForgotPassModel){
+    @RabbitListener(queues = "user-forgot-password-queue")
+    public void userForgotConsumer(UserForgotPassModel userForgotPassModel){
         userService.forgotPassword(userForgotPassModel);
     }
 }

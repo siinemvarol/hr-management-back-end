@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserAddEmployeeModel implements Serializable {
+public class UserCreateEmployeeModel implements Serializable {
     private String companyId;
     private String name;
     private String surname;
@@ -20,6 +20,7 @@ public class UserAddEmployeeModel implements Serializable {
     private String email;
     private String password;
     private String rePassword;
+    private String activationLink;
     private String phone;
     private String address;
     private String info;
