@@ -23,6 +23,7 @@ public class Auth extends BaseEntity {
     @Column(unique = true)
     private String username;
     private String email;
+    private String companyEmail;
     private String password;
     private String activationLink;
     @Enumerated(EnumType.STRING)

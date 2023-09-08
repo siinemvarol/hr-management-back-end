@@ -47,12 +47,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
     public void createEmployee(UserCreateEmployeeModel model) {
 
         System.out.println(model);
-
         Auth auth = IAuthMapper.INSTANCE.authFromUserAddEmployeeModel(model);
         auth.setActivationLink(CodeGenerator.generateCode());
         System.out.println(auth);
         auth = authRepository.save(auth);
         UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
+        userRegisterModel.setCompanyId(model.getCompanyId());
+        userRegisterModel.setName(model.getName());
         userRegisterProducer.sendRegisterProducer(userRegisterModel);
         MailRegisterModel mailRegisterModel = IAuthMapper.INSTANCE.fromAuthToMailRegisterModel(auth);
         mailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
@@ -93,7 +94,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
 
         return null;
-
+    }
     public Auth userActive(String token) {
         Long authid = Long.parseLong(token.split("-")[0]);
         String activationLink = token.split("-")[1];

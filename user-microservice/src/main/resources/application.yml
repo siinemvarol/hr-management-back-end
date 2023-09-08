@@ -7,8 +7,8 @@ spring:
       host: localhost
       port: 27017
       database: hruserdb
-      username: Java8User
-      password: root
+      username: hrmanagementadmin
+      password: hrmanagement33**
   rabbitmq:
     host: localhost
     port: 5672

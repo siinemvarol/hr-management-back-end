@@ -32,6 +32,7 @@ public class RabbitMqConfig {
 
 
 
+    //Producer
     private String userListCompanyQueue = "userList-company-queue";
     private String userListCompanyBinding = "userList-company-binding";
 
@@ -78,6 +79,13 @@ public class RabbitMqConfig {
     @Bean
     Queue userCompanyIdQueue(){
         return new Queue(userCompanyIdQueue);
+    }
+
+    //addEmployeeCompany Consumer
+    private String addEmployeeCompanyQueue = "add-employee-company-queue";
+    @Bean
+    Queue addEmployeeCompanyQueue(){
+        return new Queue(addEmployeeCompanyQueue);
     }
 
 

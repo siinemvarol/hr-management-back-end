@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserCompanyListModel {
+public class UserCompanyListModel implements Serializable {
     private String avatar;
     private String name;
     private String mail;

@@ -61,30 +61,36 @@ public class UserService extends ServiceManager<User, String> {
 
         if (optionalUser.isEmpty()) {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
-        } else {
-            System.out.println("hhhhhhaaayyy");
         }
         optionalUser.get().setPassword(userForgotPassModel.getPassword());
         update(optionalUser.get());
     }
 
     public UserCreateEmployeeModel createEmployee(UserCreateEmployeeModel userAddEmployeeModel) {
+        System.out.println(userAddEmployeeModel);
         if (userRepository.findOptionalByUsername(userAddEmployeeModel.getUsername()).isPresent()) {
             throw new UserManagerException(ErrorType.USERNAME_DUPLICATE);
         }
-        System.out.println(userAddEmployeeModel);
+        System.out.println("USer service-UserCreateEmployeeModel"+userAddEmployeeModel);
         addEmloyeeProducer.sendAddEmployee(userAddEmployeeModel);
         return userAddEmployeeModel;
     }
+    public void addEmployeeCompany(AddEmployeeCompanyModel model) {
+        UserCreateEmployeeModel userCreateEmployeeModel = IUserMapper.INSTANCE.userCreateEmployeeModelfromAddEmployeeCompanyModel(model);
+        createEmployee(userCreateEmployeeModel);
+    }
+
 
     public void findByCompanyId(UserCompanyIdModel model) {
-        List<UserCompanyIdModel> companyIdModels = new ArrayList<>();
+        List<UserCompanyListModel> companyIdModels = new ArrayList<>();
         List<User> userList = userRepository.findByCompanyId(model.getCompanyId());
-        System.out.println(userList + "userservice");
         userList.forEach(x -> {
-            UserCompanyIdModel userCompanyIdModel = IUserMapper.INSTANCE.userCompanyIdModelFromUser(x);
-            companyIdModels.add(userCompanyIdModel);
+            UserCompanyListModel userCompanyListModel = IUserMapper.INSTANCE.userCompanyListModelFromUser(x);
+            companyIdModels.add(userCompanyListModel);
         });
+        System.out.println("Göndereceğimiz liste = "+ companyIdModels);
         userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
+
+
 }

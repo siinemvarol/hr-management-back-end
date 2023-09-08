@@ -1,7 +1,9 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import static com.bilgeadam.constant.ApiUrls.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +37,9 @@ public class CompanyController {
     @PostMapping(GETUSERS)
     public ResponseEntity<Boolean> getUserList(@RequestBody @Valid UserCompanyIdModel model){
         return ResponseEntity.ok(companyService.sendCompanyId(model));
+    }
+    @PostMapping(ADDEMPLOYEE)
+    public ResponseEntity<AddEmployeeCompanyModel> addEmployee(@RequestBody AddEmployeeCompanyDto addEmployeeCompanyDto){
+        return ResponseEntity.ok(companyService.addEmployee(addEmployeeCompanyDto));
     }
 }

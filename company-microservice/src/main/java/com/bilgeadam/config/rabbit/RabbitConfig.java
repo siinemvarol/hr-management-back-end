@@ -48,6 +48,19 @@ public class RabbitConfig {
                 .with(userCompanyIdBinding);
     }
 
+    //AddEmployeeCompanyProducer
+    private String addEmployeeCompanyQueue = "add-employee-company-queue";
+    private String addEmployeeCompanyBinding = "add-employee-company-binding";
+
+    @Bean
+    Queue addEmployeeCompanyQueue(){
+        return new Queue(addEmployeeCompanyQueue);
+    }
+    @Bean
+    public Binding addEmployeeCompanyBinding(final Queue addEmployeeCompanyQueue, final DirectExchange directExchange){
+        return BindingBuilder.bind(addEmployeeCompanyQueue).to(directExchange).with(addEmployeeCompanyBinding);
+    }
+
     //Consumer
 
     String userListCompanyQueue = "userList-company-queue";

@@ -20,8 +20,6 @@ public class CompanyRegisterRequestDto {
     @NotEmpty(message = "This field is required and cannot be empty")
     private String surname;
     @Email(message = "Please enter a valid email address.")
-    @Pattern(
-            regexp = "[a-z0-9]+@[a-z]+.[a-z]{2,4}")
     private String email;
     @NotEmpty(message = "This field is required and cannot be empty")
     private String phone;
