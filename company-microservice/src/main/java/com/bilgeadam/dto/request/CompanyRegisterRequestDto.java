@@ -15,14 +15,16 @@ import javax.validation.constraints.Pattern;
 @Builder
 public class CompanyRegisterRequestDto {
 
-    @NotEmpty(message = "This field is required and cannot be empty")
+    private String username;
     private String name;
-    @NotEmpty(message = "This field is required and cannot be empty")
     private String surname;
-    @Email(message = "Please enter a valid email address.")
     private String email;
-    @NotEmpty(message = "This field is required and cannot be empty")
-    private String phone;
+    private String password;
+    private String companyName;
+    private String phoneNumber;
+    private String vkn;
+    private String address;
+
 
 }
 

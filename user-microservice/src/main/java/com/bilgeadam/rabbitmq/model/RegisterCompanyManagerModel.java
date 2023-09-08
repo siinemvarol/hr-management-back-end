@@ -1,6 +1,7 @@
 package com.bilgeadam.rabbitmq.model;
 
 import com.bilgeadam.repository.enums.ERole;
+import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserCreateEmployeeModel implements Serializable {
+public class RegisterCompanyManagerModel implements Serializable {
+
     private String companyId;
     private String name;
     private String surname;
@@ -20,12 +22,10 @@ public class UserCreateEmployeeModel implements Serializable {
     private String email;
     private String companyEmail;
     private String password;
-    private String rePassword;
-    private String activationLink;
-    private String phone;
-    private String address;
-    private String info;
-    private String avatar;
-    private String birthday;
-    private ERole role;
+
+    @Builder.Default
+    private EStatus eStatus=EStatus.PENDING;
+    @Builder.Default
+    private ERole eRole=ERole.EMPLOYEE;
+
 }

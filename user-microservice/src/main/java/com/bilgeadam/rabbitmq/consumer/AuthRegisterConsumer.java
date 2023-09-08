@@ -12,6 +12,7 @@ public class AuthRegisterConsumer {
     private final UserService userService;
     @RabbitListener(queues = "user-register-queue")
     public void consumerRegister(UserRegisterModel model){
+
         userService.createUser(model);
     }
 }

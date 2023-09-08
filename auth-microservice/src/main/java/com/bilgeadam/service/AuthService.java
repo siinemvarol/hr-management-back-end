@@ -46,10 +46,11 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public void createEmployee(UserCreateEmployeeModel model) {
 
-        System.out.println(model);
         Auth auth = IAuthMapper.INSTANCE.authFromUserAddEmployeeModel(model);
         auth.setActivationLink(CodeGenerator.generateCode());
-        System.out.println(auth);
+        if (authRepository.findByUsername(auth.getUsername()).isPresent()){
+            throw new AuthManagerException(ErrorType.BAD_REQUEST);
+        }
         auth = authRepository.save(auth);
         UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
         userRegisterModel.setCompanyId(model.getCompanyId());

@@ -14,6 +14,11 @@ public class AddEmployeeCompanyConsumer {
 
     @RabbitListener(queues = "add-employee-company-queue")
     public void addEmployeeCompany(AddEmployeeCompanyModel model){
-        userService.addEmployeeCompany(model);
+        try{
+            userService.addEmployeeCompany(model);
+        }catch (Exception e){
+            System.out.println( e.getMessage());
+        }
+
     }
 }

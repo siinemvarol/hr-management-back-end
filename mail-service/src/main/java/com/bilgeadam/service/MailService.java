@@ -28,7 +28,21 @@ public class MailService {
             mailMessage.setTo(mailRegisterModel.getEmail());
             mailMessage.setSubject("Username: " + mailRegisterModel.getUsername());
             mailMessage.setSubject("Password: " + mailRegisterModel.getPassword());
-            mailMessage.setText("Merhaba, Neredeyse işleminiz tamamlandı.  \n\nLütfen Aktivasyon kodunu giriniz...\n\nAktivasyon Linkiniz:   " + "http://localhost:9090/api/v1/auth/user-active?token=" + mailRegisterModel.getActivationLink());
+
+            String[] mailArray = mailRegisterModel.getCompanyEmail().toLowerCase().split(" ");
+            String companyMail ="";
+            for (String part : mailArray) {
+                companyMail=companyMail+part;
+            }
+            System.out.println(companyMail);
+
+            mailMessage.setText("Merhaba, Neredeyse işleminiz tamamlandı.  \n\n"
+                    +"Username:      "+ mailRegisterModel.getUsername()+"\n\n"
+                    +"Password:      " + mailRegisterModel.getPassword()+"\n\n"
+                    +"Company Email: " +companyMail+"\n\n"
+                    + "\n\nLütfen Aktivasyon kodunu giriniz...\n\nAktivasyon Linkiniz:   "
+                    + "http://localhost:9090/api/v1/auth/user-active?token="
+                    + mailRegisterModel.getActivationLink());
 
             mailSender.send(mailMessage);
             System.out.println("Mail Gönderildi");
