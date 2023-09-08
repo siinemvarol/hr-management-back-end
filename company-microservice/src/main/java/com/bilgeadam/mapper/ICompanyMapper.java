@@ -3,6 +3,7 @@ import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
+import com.bilgeadam.rabbitmq.model.RegisterCompanyManagerModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
 import com.bilgeadam.repository.entity.Company;
@@ -20,4 +21,6 @@ public interface ICompanyMapper {
     UserCompanyIdModel fromCompanyToUserCompanyIdModel(final Company company);
 
     AddEmployeeCompanyModel addEmployeeCompanyModelfromAddEmployeeCompanyDto(final AddEmployeeCompanyDto addEmployeeCompanyDto);
+
+    RegisterCompanyManagerModel registerCompanyManagerModelFromDto(final CompanyRegisterRequestDto dto);
 }

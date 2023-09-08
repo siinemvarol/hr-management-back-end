@@ -7,15 +7,14 @@ import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
-import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyListModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.AddEmployeeCompanyProducer;
+import com.bilgeadam.rabbitmq.producer.RegisterCompanyManagerProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyRegisterProducer;
 import com.bilgeadam.repository.ICompanyRepository;
 import com.bilgeadam.repository.entity.Company;
+import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
@@ -28,18 +27,25 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final UserCompanyRegisterProducer userRegisterProducer;
     private final UserCompanyIdProducer userCompanyIdProducer;
     private final AddEmployeeCompanyProducer addEmployeeCompanyProducer;
+    private final RegisterCompanyManagerProducer registerCompanyManagerProducer;
 
-    public CompanyService(ICompanyRepository companyRepository, UserCompanyRegisterProducer userRegisterProducer, AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer) {
+    public CompanyService(ICompanyRepository companyRepository, UserCompanyRegisterProducer userRegisterProducer, RegisterCompanyManagerProducer registerCompanyManagerProducer,
+                          AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userRegisterProducer = userRegisterProducer;
         this.userCompanyIdProducer = userCompanyIdProducer;
-        this.addEmployeeCompanyProducer=addEmployeeCompanyProducer;
+        this.addEmployeeCompanyProducer = addEmployeeCompanyProducer;
+        this.registerCompanyManagerProducer =registerCompanyManagerProducer;
     }
-
     public Boolean register(CompanyRegisterRequestDto dto) {
         Company company = ICompanyMapper.INSTANCE.fromRegisterDtoToCompany(dto);
         save(company);
+        RegisterCompanyManagerModel registerCompanyManagerModel = ICompanyMapper.INSTANCE.registerCompanyManagerModelFromDto(dto);
+        registerCompanyManagerModel.setCompanyEmail(dto.getName()+dto.getSurname()+"@"+company.getName()+".com");
+        registerCompanyManagerModel.setCompanyId(company.getId());
+        registerCompanyManagerModel.setUsername(dto.getUsername());
+        registerCompanyManagerProducer.sendRegisterCompanyManagerModel(registerCompanyManagerModel);
         userRegisterProducer.sendRegisterMessage(ICompanyMapper.INSTANCE.fromCompanyToUserRegisterModel(company));
         return true;
     }
@@ -58,12 +64,10 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
     public List<UserCompanyListModel> userListCompany(List<UserCompanyListModel> model) {
-        System.out.println("listelerin son yeri-Company"+model);
         return model;
     }
 
     public AddEmployeeCompanyModel addEmployee(AddEmployeeCompanyDto addEmployeeCompanyDto) {
-
         Optional<Company> optionalCompany = companyRepository.findById(addEmployeeCompanyDto.getCompanyId());
         if (optionalCompany.isEmpty()){
             throw new CompanyManagerException(ErrorType.INVALID_COMPANY);

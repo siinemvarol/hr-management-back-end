@@ -61,6 +61,21 @@ public class RabbitConfig {
         return BindingBuilder.bind(addEmployeeCompanyQueue).to(directExchange).with(addEmployeeCompanyBinding);
     }
 
+    //RegisterCompanyManager Prdoucer
+    private String registerCompanyManagerQueue = "register-company-manager-queue";
+    private String registerCompanyManagerBinding = "register-company-manager-binding";
+
+    @Bean
+    Queue registerCompanyManagerQueue(){
+        return new Queue(registerCompanyManagerQueue);
+    }
+    @Bean
+    public Binding registerCompanyManagerBinding(final Queue registerCompanyManagerQueue, final DirectExchange directExchange){
+        return BindingBuilder.bind(registerCompanyManagerQueue).to(directExchange).with(registerCompanyManagerBinding);
+    }
+
+
+
     //Consumer
 
     String userListCompanyQueue = "userList-company-queue";

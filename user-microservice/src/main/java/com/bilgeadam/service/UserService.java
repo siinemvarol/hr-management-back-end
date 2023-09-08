@@ -37,16 +37,18 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public Boolean createUser(UserRegisterModel model) {
-        System.out.println("-----" + model);
         Optional<User> optionalUser = userRepository.findOptionalByUsername(model.getUsername());
         if (optionalUser.isPresent()) {
             optionalUser.get().setEStatus(EStatus.ACTIVE);
             update(optionalUser.get());
             return true;
+
         } else {
             User user = userRepository.save(IUserMapper.INSTANCE.fromRegisterModelToUserProfile(model));
             return true;
         }
+
+
     }
 
     public Boolean saveCompanyUser(UserCompanyRegisterModel model) {
@@ -55,7 +57,6 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public void forgotPassword(UserForgotPassModel userForgotPassModel) {
-        System.out.println(userForgotPassModel);
 
         Optional<User> optionalUser = userRepository.findOptionalByAuthid(userForgotPassModel.getAuthid());
 
@@ -67,11 +68,11 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public UserCreateEmployeeModel createEmployee(UserCreateEmployeeModel userAddEmployeeModel) {
-        System.out.println(userAddEmployeeModel);
+
         if (userRepository.findOptionalByUsername(userAddEmployeeModel.getUsername()).isPresent()) {
             throw new UserManagerException(ErrorType.USERNAME_DUPLICATE);
         }
-        System.out.println("USer service-UserCreateEmployeeModel"+userAddEmployeeModel);
+
         addEmloyeeProducer.sendAddEmployee(userAddEmployeeModel);
         return userAddEmployeeModel;
     }
@@ -88,7 +89,6 @@ public class UserService extends ServiceManager<User, String> {
             UserCompanyListModel userCompanyListModel = IUserMapper.INSTANCE.userCompanyListModelFromUser(x);
             companyIdModels.add(userCompanyListModel);
         });
-        System.out.println("Göndereceğimiz liste = "+ companyIdModels);
         userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
 
