@@ -11,17 +11,20 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CompanyRegisterRequestDto {
 
-    private String companyManagerName;
-    private String companyManagerSurname;
+    // company manager (user)
+    private String name;
+    private String surname;
     private String companyEmail;
-    private String companyManagerPhone;
+    private String phone;
     private String password;
+
+    // company
     private String companyName;
-    private String companyInfoEmail;
+    private String infoEmail;
     private String companyPhone;
-    private String companyTaxId;
+    private String taxId;
     private String companyAddress;
-    private String companyCity;
+    private String city;
 
 
 }

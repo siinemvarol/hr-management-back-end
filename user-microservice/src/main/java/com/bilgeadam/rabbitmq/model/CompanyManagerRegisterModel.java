@@ -12,9 +12,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class CompanyManagerRegisterModel implements Serializable {
-    private String companyManagerName;
-    private String companyManagerSurname;
-    private String companyManagerCompanyEmail;
-    private String companyManagerPhone;
-    private String companyManagerPassword;
+    private String name;
+    private String surname;
+    private String companyEmail;
+    private String phone;
+    private String password;
 }

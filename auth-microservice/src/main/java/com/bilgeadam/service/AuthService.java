@@ -116,10 +116,15 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean companyRegister(CompanyRegisterRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToAuth(dto);
+        System.out.println("auth: " + auth);
         save(auth);
         CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);
         companyRegisterProducer.sendCompany(companyRegisterModel);
-        companyManagerRegisterProducer.sendCompanyManager(IAuthMapper.INSTANCE.fromAuthToCompanyManagerRegisterModel(auth));
+
+        CompanyManagerRegisterModel companyManagerRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(dto);
+        System.out.println("company manager register model...:" + companyManagerRegisterModel);
+
+        companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
         return true;
     }
 }

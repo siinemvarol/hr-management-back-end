@@ -93,7 +93,8 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel){
-        userRepository.save(IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel));
+        User user = IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel);
+        save(user);
         return true;
     }
 
