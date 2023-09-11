@@ -11,7 +11,6 @@ import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
 import com.bilgeadam.rabbitmq.model.UserCreateEmployeeModel;
 import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
 import com.bilgeadam.rabbitmq.model.UserRegisterModel;
-import com.bilgeadam.rabbitmq.producer.AddEmloyeeProducer;
 import com.bilgeadam.repository.IUserRepository;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.EStatus;
