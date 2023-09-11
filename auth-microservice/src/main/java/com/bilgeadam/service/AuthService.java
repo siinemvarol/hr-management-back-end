@@ -1,7 +1,6 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.*;
-import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.IAuthMapper;
@@ -11,6 +10,7 @@ import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.CodeGenerator;
+import com.bilgeadam.utility.JwtTokenManager;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +26,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
     private final MailForgotPasswordProducer mailForgotPassProducer;
     private final CompanyRegisterProducer companyRegisterProducer;
     private final CompanyManagerRegisterProducer companyManagerRegisterProducer;
+    private final JwtTokenManager jwtTokenManager;
 
     public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer,
                        MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer,
                        MailRegisterProducer mailRegisterProducer, CompanyRegisterProducer companyRegisterProducer,
-                       CompanyManagerRegisterProducer companyManagerRegisterProducer) {
+                       CompanyManagerRegisterProducer companyManagerRegisterProducer, JwtTokenManager jwtTokenManager) {
         super(authRepository);
         this.authRepository = authRepository;
         this.userRegisterProducer = userRegisterProducer;
@@ -39,6 +40,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.mailForgotPassProducer = mailForgotPassProducer;
         this.companyRegisterProducer = companyRegisterProducer;
         this.companyManagerRegisterProducer = companyManagerRegisterProducer;
+        this.jwtTokenManager = jwtTokenManager;
     }
 
     public void createEmployee(UserCreateEmployeeModel model) {
@@ -58,7 +60,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         mailRegisterProducer.sendMailRegister(mailRegisterModel);
     }
 
-    public Boolean login(AuthLoginRequestDto dto) {
+    public String login(AuthLoginRequestDto dto) {
 
         Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmailAndPassword(dto.getEmail(), dto.getPassword());
 
@@ -68,7 +70,9 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (!optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
             throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
         }
-        return true;
+        Optional<String> token = jwtTokenManager.createToken(optionalAuth.get().getId(),optionalAuth.get().getERole());
+        if (token.isEmpty()) throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
+        return token.get();
     }
 
     public String forgotPassword(AuthForgotPasswordRequestDto dto) {

@@ -5,7 +5,8 @@ ext {
             postgreSql: "42.6.0",
             swaggerui : "1.6.14",
             lombok    : "1.18.26",
-            mapstruct : "1.5.5.Final"
+            mapstruct : "1.5.5.Final",
+            jwt           : "4.3.0"
     ]
 
     libs = [
@@ -20,6 +21,7 @@ ext {
             mapstruct           : "org.mapstruct:mapstruct:${versions.mapstruct}",
             mapstructProcessor  : "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
             springBootValidation: "org.springframework.boot:spring-boot-starter-validation:${versions.springBoot}",
+            javaJWT                     : "com.auth0:java-jwt:${versions.jwt}"
 
     ]
 }

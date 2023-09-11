@@ -1,7 +1,6 @@
 package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.*;
-import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(LOGIN)
-    public ResponseEntity<Boolean> login(@RequestBody AuthLoginRequestDto dto) {
+    public ResponseEntity<String> login(@RequestBody AuthLoginRequestDto dto) {
         return ResponseEntity.ok(authService.login(dto));
     }
 
