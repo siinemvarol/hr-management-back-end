@@ -1,6 +1,7 @@
 package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.AuthRegisterRequestDto;
+import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Auth;
@@ -32,4 +33,10 @@ public interface IAuthMapper {
 
     @Mapping(source = "password", target = "randomPassword")
     MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
+
+    Auth fromCompanyRegisterRequestDtoToAuth(final CompanyRegisterRequestDto dto);
+
+    CompanyRegisterModel fromCompanyRegisterRequestDtoToCompanyRegisterModel(final CompanyRegisterRequestDto dto);
+
+    CompanyManagerRegisterModel fromAuthToCompanyManagerRegisterModel(final Auth auth);
 }

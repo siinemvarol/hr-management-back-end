@@ -96,5 +96,12 @@ public class RabbitMqConfig {
         return new Queue(registerCompanyManagerQueue);
     }
 
+    // company manager register consumer
+    String companyManagerRegisterQueue = "company-manager-register-queue";
+
+    @Bean
+    Queue companyManagerRegisterQueue(){
+        return new Queue(companyManagerRegisterQueue);
+    }
 
 }

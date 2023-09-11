@@ -9,20 +9,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
+
+    private String exchange ="auth-exchange";
+
+    @Bean
+    DirectExchange authExchange(){
+        return new DirectExchange(exchange);
+    }
+
     //Consumer
     String userAddEmployeeQueue = "add-employee-queue";
     @Bean
     Queue userAddEmployeeQueue(){
         return new Queue(userAddEmployeeQueue);
     }
-
-    //Producer
-    private String exchange ="auth-exchange";
-    @Bean
-    DirectExchange authExchange(){
-        return new DirectExchange(exchange);
-    }
-
 
     //User register producer
     private String userRegisterQueue = "user-register-queue";
@@ -81,6 +81,18 @@ public class RabbitMqConfig {
     @Bean
     public Binding userForgotPasswordBinding(final Queue userForgotPasswordQueue, final DirectExchange authExchange){
         return BindingBuilder.bind(userForgotPasswordQueue).to(authExchange).with(userForgotPasswordBinding);
+    }
+
+    // company register producer: saving company when registering new company with company manager
+    private final String companyRegisterQueue = "company-register-queue";
+    @Bean
+    Queue companyRegisterQueue(){
+        return new Queue(companyRegisterQueue);
+    }
+    private final String companyRegisterBinding = "company-register-binding";
+    @Bean
+    public Binding companyRegisterMailBinding(final DirectExchange authExchange, final Queue companyRegisterQueue){
+        return BindingBuilder.bind(companyRegisterQueue).to(authExchange).with(companyRegisterBinding);
     }
 
 }

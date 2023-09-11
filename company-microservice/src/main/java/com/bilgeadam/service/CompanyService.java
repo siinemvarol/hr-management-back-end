@@ -1,7 +1,6 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyIdDto;
 import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.exception.CompanyManagerException;
@@ -14,7 +13,6 @@ import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyRegisterProducer;
 import com.bilgeadam.repository.ICompanyRepository;
 import com.bilgeadam.repository.entity.Company;
-import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
@@ -79,5 +77,10 @@ public class CompanyService extends ServiceManager<Company, String> {
         addEmployeeCompanyProducer.sendAddEmployeeMessage(addEmployeeCompanyModel);
 
         return null;
+    }
+
+    public Boolean createNewCompany(CompanyRegisterModel companyRegisterModel){
+        companyRepository.save(ICompanyMapper.INSTANCE.fromCompanyRegisterModelToCompany(companyRegisterModel));
+        return true;
     }
 }

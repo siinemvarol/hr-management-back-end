@@ -85,4 +85,12 @@ public class RabbitConfig {
         return new Queue(userListCompanyQueue);
     }
 
+    // company register consumer
+    String companyRegisterQueue = "company-register-queue";
+
+    @Bean
+    Queue companyRegisterQueue(){
+        return new Queue(companyRegisterQueue);
+    }
+
 }

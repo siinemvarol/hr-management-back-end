@@ -2,10 +2,7 @@ package com.bilgeadam.mapper;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
-import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
-import com.bilgeadam.rabbitmq.model.RegisterCompanyManagerModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
-import com.bilgeadam.rabbitmq.model.UserCompanyRegisterModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Company;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -23,4 +20,6 @@ public interface ICompanyMapper {
     AddEmployeeCompanyModel addEmployeeCompanyModelfromAddEmployeeCompanyDto(final AddEmployeeCompanyDto addEmployeeCompanyDto);
 
     RegisterCompanyManagerModel registerCompanyManagerModelFromDto(final CompanyRegisterRequestDto dto);
+
+    Company fromCompanyRegisterModelToCompany(final CompanyRegisterModel companyRegisterModel);
 }

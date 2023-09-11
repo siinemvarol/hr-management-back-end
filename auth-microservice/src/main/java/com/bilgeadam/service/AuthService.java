@@ -1,21 +1,12 @@
 package com.bilgeadam.service;
 
-import com.bilgeadam.dto.request.AuthForgotPasswordRequestDto;
-import com.bilgeadam.dto.request.AuthLoginRequestDto;
-import com.bilgeadam.dto.request.AuthRegisterRequestDto;
-import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.request.*;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.IAuthMapper;
-import com.bilgeadam.rabbitmq.model.MailRegisterModel;
-import com.bilgeadam.rabbitmq.model.UserCreateEmployeeModel;
-import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
-import com.bilgeadam.rabbitmq.model.UserRegisterModel;
-import com.bilgeadam.rabbitmq.producer.MailForgotPasswordProducer;
-import com.bilgeadam.rabbitmq.producer.MailRegisterProducer;
-import com.bilgeadam.rabbitmq.producer.UserForgotPassProducer;
-import com.bilgeadam.rabbitmq.producer.UserRegisterProducer;
+import com.bilgeadam.rabbitmq.model.*;
+import com.bilgeadam.rabbitmq.producer.*;
 import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.repository.enums.EStatus;
@@ -33,15 +24,21 @@ public class AuthService extends ServiceManager<Auth, Long> {
     private final MailRegisterProducer mailRegisterProducer;
     private  final UserForgotPassProducer userForgotPassProducer;
     private final MailForgotPasswordProducer mailForgotPassProducer;
+    private final CompanyRegisterProducer companyRegisterProducer;
+    private final CompanyManagerRegisterProducer companyManagerRegisterProducer;
 
-
-    public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer, MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer, MailRegisterProducer mailRegisterProducer) {
+    public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer,
+                       MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer,
+                       MailRegisterProducer mailRegisterProducer, CompanyRegisterProducer companyRegisterProducer,
+                       CompanyManagerRegisterProducer companyManagerRegisterProducer) {
         super(authRepository);
         this.authRepository = authRepository;
         this.userRegisterProducer = userRegisterProducer;
         this.userForgotPassProducer = userForgotPassProducer;
         this.mailRegisterProducer = mailRegisterProducer;
         this.mailForgotPassProducer = mailForgotPassProducer;
+        this.companyRegisterProducer = companyRegisterProducer;
+        this.companyManagerRegisterProducer = companyManagerRegisterProducer;
     }
 
     public void createEmployee(UserCreateEmployeeModel model) {
@@ -63,7 +60,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean login(AuthLoginRequestDto dto) {
 
-        Optional<Auth> optionalAuth = authRepository.findOptionalByEmailAndPassword(dto.getEmail(), dto.getPassword());
+        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmailAndPassword(dto.getEmail(), dto.getPassword());
 
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
@@ -75,7 +72,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
     public String forgotPassword(AuthForgotPasswordRequestDto dto) {
-        Optional<Auth> optionalAuth = authRepository.findOptionalByEmail(dto.getEmail());
+        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmail(dto.getEmail());
         if (optionalAuth.isPresent() && optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
             //random password
             String randomPassword = UUID.randomUUID().toString();
@@ -115,5 +112,14 @@ public class AuthService extends ServiceManager<Auth, Long> {
         } else throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
         return optionalAuth.get();
 
+    }
+
+    public Boolean companyRegister(CompanyRegisterRequestDto dto){
+        Auth auth = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToAuth(dto);
+        save(auth);
+        CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);
+        companyRegisterProducer.sendCompany(companyRegisterModel);
+        companyManagerRegisterProducer.sendCompanyManager(IAuthMapper.INSTANCE.fromAuthToCompanyManagerRegisterModel(auth));
+        return true;
     }
 }
