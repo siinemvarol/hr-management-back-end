@@ -27,9 +27,9 @@ public class UserService extends ServiceManager<User, String> {
     private final IUserRepository userRepository;
     private final AddEmloyeeProducer addEmloyeeProducer;
     private final UserCompanyIdModelsProducer userCompanyIdModelsProducer;
-  
-    public UserService(IUserRepository userRepository, AddEmloyeeProducer addEmloyeeProducer, UserCompanyIdModelsProducer userCompanyIdModelsProducer){
-      
+
+    public UserService(IUserRepository userRepository, AddEmloyeeProducer addEmloyeeProducer, UserCompanyIdModelsProducer userCompanyIdModelsProducer) {
+
         super(userRepository);
         this.userRepository = userRepository;
         this.addEmloyeeProducer = addEmloyeeProducer;
@@ -76,6 +76,7 @@ public class UserService extends ServiceManager<User, String> {
         addEmloyeeProducer.sendAddEmployee(userAddEmployeeModel);
         return userAddEmployeeModel;
     }
+
     public void addEmployeeCompany(AddEmployeeCompanyModel model) {
         UserCreateEmployeeModel userCreateEmployeeModel = IUserMapper.INSTANCE.userCreateEmployeeModelfromAddEmployeeCompanyModel(model);
         createEmployee(userCreateEmployeeModel);
@@ -92,10 +93,19 @@ public class UserService extends ServiceManager<User, String> {
         userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
 
-    public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel){
+    public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel) {
         User user = IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel);
         save(user);
         return true;
     }
 
+    public Optional<User> findEmployeeByAuthId(Long authId) {
+        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+        if (employee.isPresent()) {
+            System.out.println(employee.get());
+            return employee;
+        } else {
+            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+        }
+    }
 }

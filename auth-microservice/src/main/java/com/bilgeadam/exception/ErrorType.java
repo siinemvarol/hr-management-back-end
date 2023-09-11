@@ -13,9 +13,11 @@ public enum ErrorType {
     USERNAME_DUPLICATE(4002,"User already exist" ,HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4003,"User not found" ,HttpStatus.BAD_REQUEST),
     ACCOUNT_NOT_ACTIVE(4004,"Account is not active" ,HttpStatus.BAD_REQUEST),
-    ACCOUNT_ALREADY_ACTIVE(4004,"Account is allready active" ,HttpStatus.BAD_REQUEST),
+    ACCOUNT_ALREADY_ACTIVE(4004,"Account is already active" ,HttpStatus.BAD_REQUEST),
     INTERNAL_ERROR(5000,"Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR),
-    PASSWORDS_NOT_MATCH(4007,"Passwords do not match",HttpStatus.BAD_REQUEST);
+    PASSWORDS_NOT_MATCH(4007,"Passwords do not match",HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(4008,"Invalid Token" , HttpStatus.BAD_REQUEST),
+    TOKEN_NOT_CREATED(4009,"Token not created" ,HttpStatus.BAD_REQUEST );
 
     private int code;
     private String message;
