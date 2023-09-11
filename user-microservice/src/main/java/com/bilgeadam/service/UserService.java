@@ -92,5 +92,9 @@ public class UserService extends ServiceManager<User, String> {
         userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
 
+    public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel){
+        userRepository.save(IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel));
+        return true;
+    }
 
 }

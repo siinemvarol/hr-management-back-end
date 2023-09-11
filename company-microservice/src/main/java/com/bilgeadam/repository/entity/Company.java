@@ -20,12 +20,17 @@ public class Company extends BaseEntity{
     private String id;
     private String name;
     private String phone;
-    private String email;
+    private String infoEmail;
     private String address;
-    private String kurulusYili;
-    private String vergiDairesi;
-    private String vergiNo;
+    private String establishmentDate;
+    private String city;
+    private String taxId;
     private String logo;
+    private Long revenue;
+    private Long expense;
+    private Long profit;
+    private Long loss;
+    private Long netIncome;
     @Builder.Default
     private EStatus eStatus=EStatus.NOT_AUTHORIZED;
 

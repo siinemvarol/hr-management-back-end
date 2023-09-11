@@ -1,9 +1,6 @@
 package com.bilgeadam.controller;
 
-import com.bilgeadam.dto.request.AuthForgotPasswordRequestDto;
-import com.bilgeadam.dto.request.AuthLoginRequestDto;
-import com.bilgeadam.dto.request.AuthRegisterRequestDto;
-import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.request.*;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.service.AuthService;
@@ -37,6 +34,11 @@ public class AuthController {
     @GetMapping(USER_ACTIVE)
     public Auth userActive(String token){
         return authService.userActive(token);
+    }
+
+    @PostMapping(COMPANY_REGISTER)
+    public ResponseEntity<Boolean> companyRegister(@RequestBody CompanyRegisterRequestDto dto) {
+        return ResponseEntity.ok(authService.companyRegister(dto));
     }
 
 
