@@ -40,7 +40,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         Company company = ICompanyMapper.INSTANCE.fromRegisterDtoToCompany(dto);
         save(company);
         RegisterCompanyManagerModel registerCompanyManagerModel = ICompanyMapper.INSTANCE.registerCompanyManagerModelFromDto(dto);
-        registerCompanyManagerModel.setCompanyEmail(dto.getName()+dto.getSurname()+"@"+company.getName()+".com");
+        registerCompanyManagerModel.setCompanyEmail(dto.getName()+dto.getSurname()+"@"+company.getCompanyName()+".com");
         registerCompanyManagerModel.setCompanyId(company.getId());
         registerCompanyManagerModel.setUsername(dto.getUsername());
         registerCompanyManagerProducer.sendRegisterCompanyManagerModel(registerCompanyManagerModel);
@@ -71,7 +71,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             throw new CompanyManagerException(ErrorType.INVALID_COMPANY);
         }
         AddEmployeeCompanyModel addEmployeeCompanyModel = ICompanyMapper.INSTANCE.addEmployeeCompanyModelfromAddEmployeeCompanyDto(addEmployeeCompanyDto);
-        String companyEmail =addEmployeeCompanyModel.getName()+addEmployeeCompanyModel.getSurname()+"@"+optionalCompany.get().getName()+".com";
+        String companyEmail =addEmployeeCompanyModel.getName()+addEmployeeCompanyModel.getSurname()+"@"+optionalCompany.get().getCompanyName()+".com";
         addEmployeeCompanyModel.setCompanyEmail(companyEmail);
         addEmployeeCompanyModel.setCompanyId(optionalCompany.get().getId());
         addEmployeeCompanyProducer.sendAddEmployeeMessage(addEmployeeCompanyModel);

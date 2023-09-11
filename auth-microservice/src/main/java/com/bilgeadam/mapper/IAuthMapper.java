@@ -34,9 +34,12 @@ public interface IAuthMapper {
     @Mapping(source = "password", target = "randomPassword")
     MailForgotPassModel fromAuthToMailForgotPassModel(final Auth auth);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Auth fromCompanyRegisterRequestDtoToAuth(final CompanyRegisterRequestDto dto);
 
     CompanyRegisterModel fromCompanyRegisterRequestDtoToCompanyRegisterModel(final CompanyRegisterRequestDto dto);
 
     CompanyManagerRegisterModel fromAuthToCompanyManagerRegisterModel(final Auth auth);
+
+    CompanyManagerRegisterModel fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(final CompanyRegisterRequestDto dto);
 }

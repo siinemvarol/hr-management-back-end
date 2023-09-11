@@ -13,6 +13,7 @@ public class CompanyRegisterProducer {
     private String companyRegisterBinding = "company-register-binding";
     private final RabbitTemplate rabbitTemplate;
     public void sendCompany(CompanyRegisterModel companyRegisterModel){
+        System.out.println("company register model producer: " + companyRegisterModel);
         rabbitTemplate.convertAndSend(exchange, companyRegisterBinding, companyRegisterModel);
     }
 }

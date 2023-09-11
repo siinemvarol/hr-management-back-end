@@ -13,12 +13,12 @@ import java.io.Serializable;
 @Builder
 public class CompanyRegisterModel implements Serializable {
 
-    private String companyId;
+    private String id;
     private String companyName;
-    private String companyInfoEmail;
+    private String infoEmail;
     private String companyPhone;
-    private String companyTaxId;
+    private String taxId;
     private String companyAddress;
-    private String companyCity;
+    private String city;
 
 }

@@ -18,10 +18,10 @@ public class Company extends BaseEntity{
 
     @Id
     private String id;
-    private String name;
-    private String phone;
+    private String companyName;
+    private String companyPhone;
     private String infoEmail;
-    private String address;
+    private String companyAddress;
     private String establishmentDate;
     private String city;
     private String taxId;

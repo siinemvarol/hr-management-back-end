@@ -20,5 +20,6 @@ public interface IUserMapper {
 
     UserCreateEmployeeModel userCreateEmployeeModelFromModel(final RegisterCompanyManagerModel registerCompanyManagerModel);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User fromCompanyManagerRegisterModelToUser(final CompanyManagerRegisterModel companyManagerRegisterModel);
 }
