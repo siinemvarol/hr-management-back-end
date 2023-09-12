@@ -104,4 +104,14 @@ public class RabbitMqConfig {
         return new Queue(companyManagerRegisterQueue);
     }
 
+    // guest register consumer
+    String guestRegisterQueue = "guest-register-queue";
+
+    @Bean
+    Queue guestRegisterQueue(){
+        return new Queue(guestRegisterQueue);
+    }
+
+
+
 }

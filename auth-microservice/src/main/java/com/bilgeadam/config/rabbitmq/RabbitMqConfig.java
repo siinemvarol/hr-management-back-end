@@ -107,4 +107,16 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(companyManagerRegisterQueue).to(authExchange).with(companyManagerRegisterBinding);
     }
 
+    // guest register producer: saving guest to user microservice when registering
+    private final String guestRegisterQueue = "guest-register-queue";
+    @Bean
+    Queue guestRegisterQueue(){
+        return new Queue(guestRegisterQueue);
+    }
+    private final String guestRegisterBinding = "guest-register-binding";
+    @Bean
+    public Binding guestRegisterBinding(final DirectExchange authExchange, final Queue guestRegisterQueue){
+        return BindingBuilder.bind(guestRegisterQueue).to(authExchange).with(guestRegisterBinding);
+    }
+
 }
