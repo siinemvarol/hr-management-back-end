@@ -91,8 +91,20 @@ public class RabbitMqConfig {
     }
     private final String companyRegisterBinding = "company-register-binding";
     @Bean
-    public Binding companyRegisterMailBinding(final DirectExchange authExchange, final Queue companyRegisterQueue){
+    public Binding companyRegisterBinding(final DirectExchange authExchange, final Queue companyRegisterQueue){
         return BindingBuilder.bind(companyRegisterQueue).to(authExchange).with(companyRegisterBinding);
+    }
+
+    // company manager register producer: saving company manager to user when registering new company
+    private final String companyManagerRegisterQueue = "company-manager-register-queue";
+    @Bean
+    Queue companyManagerRegisterQueue(){
+        return new Queue(companyManagerRegisterQueue);
+    }
+    private final String companyManagerRegisterBinding = "company-manager-register-binding";
+    @Bean
+    public Binding companyManagerRegisterBinding(final DirectExchange authExchange, final Queue companyManagerRegisterQueue){
+        return BindingBuilder.bind(companyManagerRegisterQueue).to(authExchange).with(companyManagerRegisterBinding);
     }
 
 }
