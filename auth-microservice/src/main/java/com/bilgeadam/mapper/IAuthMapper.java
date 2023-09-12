@@ -2,6 +2,7 @@ package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.AuthRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
+import com.bilgeadam.dto.request.GuestRegisterRequestDto;
 import com.bilgeadam.dto.response.AuthRegisterResponseDto;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Auth;
@@ -42,4 +43,8 @@ public interface IAuthMapper {
     CompanyManagerRegisterModel fromAuthToCompanyManagerRegisterModel(final Auth auth);
 
     CompanyManagerRegisterModel fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(final CompanyRegisterRequestDto dto);
+
+    Auth fromGuestRegisterRequestDtoToAuth(final GuestRegisterRequestDto guestRegisterRequestDto);
+
+    GuestRegisterModel fromGuestRegisterRequestToGuestRegisterModel(final GuestRegisterRequestDto guestRegisterRequestDto);
 }

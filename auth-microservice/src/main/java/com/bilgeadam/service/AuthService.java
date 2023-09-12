@@ -26,12 +26,14 @@ public class AuthService extends ServiceManager<Auth, Long> {
     private final MailForgotPasswordProducer mailForgotPassProducer;
     private final CompanyRegisterProducer companyRegisterProducer;
     private final CompanyManagerRegisterProducer companyManagerRegisterProducer;
+    private final GuestRegisterProducer guestRegisterProducer;
     private final JwtTokenManager jwtTokenManager;
 
     public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer,
                        MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer,
                        MailRegisterProducer mailRegisterProducer, CompanyRegisterProducer companyRegisterProducer,
-                       CompanyManagerRegisterProducer companyManagerRegisterProducer, JwtTokenManager jwtTokenManager) {
+                       CompanyManagerRegisterProducer companyManagerRegisterProducer, GuestRegisterProducer guestRegisterProducer,
+                       JwtTokenManager jwtTokenManager) {
         super(authRepository);
         this.authRepository = authRepository;
         this.userRegisterProducer = userRegisterProducer;
@@ -40,6 +42,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.mailForgotPassProducer = mailForgotPassProducer;
         this.companyRegisterProducer = companyRegisterProducer;
         this.companyManagerRegisterProducer = companyManagerRegisterProducer;
+        this.guestRegisterProducer = guestRegisterProducer;
         this.jwtTokenManager = jwtTokenManager;
     }
 
@@ -92,10 +95,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
 
-    public RegisterRequestDto registerSave(RegisterRequestDto registerRequestDto) {
-
-
-        return null;
+    public Boolean guestRegister(GuestRegisterRequestDto guestRegisterRequestDto) {
+        Auth auth = IAuthMapper.INSTANCE.fromGuestRegisterRequestDtoToAuth(guestRegisterRequestDto);
+        save(auth);
+        GuestRegisterModel guestRegisterModel = IAuthMapper.INSTANCE.fromGuestRegisterRequestToGuestRegisterModel(guestRegisterRequestDto);
+        guestRegisterProducer.sendGuest(guestRegisterModel);
+        return true;
     }
     public Auth userActive(String token) {
         Long authid = Long.parseLong(token.split("-")[0]);

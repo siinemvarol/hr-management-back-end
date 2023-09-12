@@ -21,9 +21,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(dto));
     }
 
-    @PostMapping(REGISTER)
-    public ResponseEntity<RegisterRequestDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
-        return ResponseEntity.ok(authService.registerSave(registerRequestDto));
+    @PostMapping(GUEST_REGISTER)
+    public ResponseEntity<Boolean> guestRegister(@RequestBody GuestRegisterRequestDto guestRegisterRequestDto) {
+        return ResponseEntity.ok(authService.guestRegister(guestRegisterRequestDto));
     }
 
     @PostMapping(FORGOT_PASSWORD)

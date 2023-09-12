@@ -22,4 +22,6 @@ public interface IUserMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User fromCompanyManagerRegisterModelToUser(final CompanyManagerRegisterModel companyManagerRegisterModel);
+
+    User fromGuestRegisterModelToUser(final GuestRegisterModel guestRegisterModel);
 }

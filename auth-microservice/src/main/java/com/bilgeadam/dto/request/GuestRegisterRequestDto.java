@@ -11,15 +11,12 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterRequestDto {
-    @NotBlank
-    private String userName;
+public class GuestRegisterRequestDto {
     private String name;
-    private String email;
-    private String password;
-    private String companyName;
+    private String surname;
     private String phoneNumber;
-    private String vkn;
     private String address;
+    private String personalEmail;
+    private String password;
 
 }

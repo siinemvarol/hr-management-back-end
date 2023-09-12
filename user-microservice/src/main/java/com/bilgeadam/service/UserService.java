@@ -15,6 +15,7 @@ import com.bilgeadam.repository.IUserRepository;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -92,6 +93,8 @@ public class UserService extends ServiceManager<User, String> {
         userCompanyIdModelsProducer.sendUserList(companyIdModels);
     }
 
+
+    // saving company manager as user (when registering new company)
     public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel) {
         User user = IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel);
         save(user);
@@ -106,5 +109,12 @@ public class UserService extends ServiceManager<User, String> {
         } else {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
         }
+    }
+
+    // saving guest as user (when guest is registering)
+    public Boolean createNewGuest(GuestRegisterModel guestRegisterModel) {
+        User user = IUserMapper.INSTANCE.fromGuestRegisterModelToUser(guestRegisterModel);
+        save(user);
+        return true;
     }
 }
