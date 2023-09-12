@@ -26,10 +26,6 @@ import static com.bilgeadam.constant.ApiUrls.*;
 public class CompanyController {
     private final CompanyService companyService;
 
-    @PostMapping(COMPANY_REGISTER)
-    public ResponseEntity<Boolean> register(@RequestBody CompanyRegisterRequestDto dto){
-        return ResponseEntity.ok(companyService.register(dto));
-    }
     @PostMapping(UPDATE)
     public ResponseEntity<Boolean> update(@RequestBody @Valid CompanyUpdateRequestDto dto){
         return ResponseEntity.ok(companyService.updateCompany(dto));

@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ICompanyMapper {
     ICompanyMapper INSTANCE = Mappers.getMapper(ICompanyMapper.class);
-    Company fromRegisterDtoToCompany(final CompanyRegisterRequestDto dto);
     @Mapping(source = "id",target = "companyId")
     UserCompanyRegisterModel fromCompanyToUserRegisterModel(final Company company);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -19,7 +18,6 @@ public interface ICompanyMapper {
 
     AddEmployeeCompanyModel addEmployeeCompanyModelfromAddEmployeeCompanyDto(final AddEmployeeCompanyDto addEmployeeCompanyDto);
 
-    RegisterCompanyManagerModel registerCompanyManagerModelFromDto(final CompanyRegisterRequestDto dto);
 
     Company fromCompanyRegisterModelToCompany(final CompanyRegisterModel companyRegisterModel);
 }
