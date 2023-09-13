@@ -1,11 +1,9 @@
 package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
-import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,6 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyRegisterRequestDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
@@ -56,8 +55,16 @@ public class CompanyService extends ServiceManager<Company, String> {
         }
         AddEmployeeCompanyModel addEmployeeCompanyModel = ICompanyMapper.INSTANCE.addEmployeeCompanyModelfromAddEmployeeCompanyDto(addEmployeeCompanyDto);
         String companyEmail =addEmployeeCompanyModel.getName()+addEmployeeCompanyModel.getSurname()+"@"+optionalCompany.get().getCompanyName()+".com";
+
+        String[] mailArray = companyEmail.toLowerCase().split(" ");
+        companyEmail ="";
+        for (String part : mailArray) {
+            companyEmail=companyEmail+part;
+        }
+
         addEmployeeCompanyModel.setCompanyEmail(companyEmail);
-        addEmployeeCompanyModel.setCompanyId(optionalCompany.get().getId());
+
+//        addEmployeeCompanyModel.setCompanyId(optionalCompany.get().getId());
         addEmployeeCompanyProducer.sendAddEmployeeMessage(addEmployeeCompanyModel);
 
         return null;

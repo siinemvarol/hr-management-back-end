@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Builder
 public class MailForgotPassModel implements Serializable {
     private String username;
-    private String email;
+    private String personalEmail;
     private String randomPassword;
+
 }

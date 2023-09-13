@@ -16,13 +16,11 @@ public class AddEmployeeCompanyDto {
     private String name;
     private String surname;
     private String username;
-    private String email;
+    private String personalEmail;
     private String password;
-    private String rePassword;
     private String phone;
     private String address;
     private String info;
     private String avatar;
     private String birthday;
-
 }

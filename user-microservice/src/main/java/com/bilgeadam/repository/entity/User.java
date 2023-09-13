@@ -34,7 +34,7 @@ public class User extends BaseEntity {
     private String avatar;
     private String birthday;
     @Builder.Default
-    private EStatus eStatus=EStatus.PENDING;
-    private ERole eRole;
+    private EStatus status=EStatus.PENDING;
+    private ERole role;
 
 }

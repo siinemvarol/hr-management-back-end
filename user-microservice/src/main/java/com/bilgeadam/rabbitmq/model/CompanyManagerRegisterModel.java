@@ -18,5 +18,5 @@ public class CompanyManagerRegisterModel implements Serializable {
     private String companyEmail;
     private String phone;
     private String password;
-    private ERole eRole;
+    private ERole role;
 }

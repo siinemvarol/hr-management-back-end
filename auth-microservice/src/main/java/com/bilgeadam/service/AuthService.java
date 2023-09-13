@@ -54,34 +54,41 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (authRepository.findByUsername(auth.getUsername()).isPresent()){
             throw new AuthManagerException(ErrorType.BAD_REQUEST);
         }
-        auth = authRepository.save(auth);
-        UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(auth);
-        userRegisterModel.setCompanyId(model.getCompanyId());
-        userRegisterModel.setName(model.getName());
+        auth.setRole(ERole.EMPLOYEE);
+        auth = save(auth);
+        UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.FromUserCreateEmployeetoUserRegisterModel(model);
+        userRegisterModel.setActivationLink(auth.getActivationLink());
+        userRegisterModel.setAuthid(auth.getId());
+        userRegisterModel.setRole(auth.getRole());
+
         userRegisterProducer.sendRegisterProducer(userRegisterModel);
         MailRegisterModel mailRegisterModel = IAuthMapper.INSTANCE.fromAuthToMailRegisterModel(auth);
         mailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
+        System.out.println(mailRegisterModel);
         mailRegisterProducer.sendMailRegister(mailRegisterModel);
     }
 
     public String login(AuthLoginRequestDto dto) {
 
-        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmailAndPassword(dto.getCompanyEmail(), dto.getPassword());
+        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmail(dto.getCompanyEmail());
 
+        if (!optionalAuth.get().getPassword().equals(dto.getPassword())){
+            throw new AuthManagerException(ErrorType.PASSWORDS_NOT_MATCH);
+        }
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
-        if (!optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
+        if (!optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
             throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
         }
-        Optional<String> token = jwtTokenManager.createToken(optionalAuth.get().getId(),optionalAuth.get().getERole());
+        Optional<String> token = jwtTokenManager.createToken(optionalAuth.get().getId(),optionalAuth.get().getRole());
         if (token.isEmpty()) throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
         return token.get();
     }
 
     public String forgotPassword(AuthForgotPasswordRequestDto dto) {
         Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmail(dto.getEmail());
-        if (optionalAuth.isPresent() && optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
+        if (optionalAuth.isPresent() && optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
             //random password
             String randomPassword = UUID.randomUUID().toString();
             optionalAuth.get().setPassword(randomPassword);
@@ -98,7 +105,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean guestRegister(GuestRegisterRequestDto guestRegisterRequestDto) {
         Auth auth = IAuthMapper.INSTANCE.fromGuestRegisterRequestDtoToAuth(guestRegisterRequestDto);
-        auth.setERole(ERole.GUEST);
+        auth.setRole(ERole.GUEST);
         save(auth);
         GuestRegisterModel guestRegisterModel = IAuthMapper.INSTANCE.fromGuestRegisterRequestToGuestRegisterModel(guestRegisterRequestDto);
         guestRegisterProducer.sendGuest(guestRegisterModel);
@@ -111,11 +118,11 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
-        if (optionalAuth.get().getEStatus().equals(EStatus.ACTIVE)) {
+        if (optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
             throw new AuthManagerException(ErrorType.ACCOUNT_ALREADY_ACTIVE);
         }
         if (optionalAuth.get().getActivationLink().equals(activationLink)) {
-            optionalAuth.get().setEStatus(EStatus.ACTIVE);
+            optionalAuth.get().setStatus(EStatus.ACTIVE);
             update(optionalAuth.get());
             UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(optionalAuth.get());
             userRegisterModel.setStatus(EStatus.ACTIVE);
@@ -127,14 +134,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean companyRegister(CompanyRegisterRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToAuth(dto);
-        auth.setERole(ERole.COMPANY_MANAGER);
-        System.out.println("auth: " + auth);
+        auth.setRole(ERole.COMPANY_MANAGER);
         save(auth);
         CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);
         companyRegisterProducer.sendCompany(companyRegisterModel);
 
         CompanyManagerRegisterModel companyManagerRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(dto);
-        System.out.println("company manager register model...:" + companyManagerRegisterModel);
+
 
         companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
         return true;

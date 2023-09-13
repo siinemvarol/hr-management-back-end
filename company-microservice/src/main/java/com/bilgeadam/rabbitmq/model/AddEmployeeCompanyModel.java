@@ -18,10 +18,9 @@ public class AddEmployeeCompanyModel  implements Serializable {
     private String name;
     private String surname;
     private String username;
-    private String email;
+    private String personalEmail;
     private String companyEmail;
     private String password;
-    private String rePassword;
     private String phone;
     private String address;
     private String info;

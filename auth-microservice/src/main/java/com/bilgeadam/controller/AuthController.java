@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.bilgeadam.constant.ApiUrls.*;
 
 @RestController
@@ -36,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping(COMPANY_REGISTER)
-    public ResponseEntity<Boolean> companyRegister(@RequestBody CompanyRegisterRequestDto dto) {
+    public ResponseEntity<Boolean> companyRegister(@RequestBody @Valid CompanyRegisterRequestDto dto) {
         return ResponseEntity.ok(authService.companyRegister(dto));
     }
 

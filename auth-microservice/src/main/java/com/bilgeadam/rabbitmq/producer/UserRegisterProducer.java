@@ -15,7 +15,7 @@ public class UserRegisterProducer {
 
     private final RabbitTemplate rabbitTemplate;
     public void sendRegisterProducer(UserRegisterModel userRegisterModel){
-        System.out.println(userRegisterModel);
+
         rabbitTemplate.convertAndSend(exchange, userRegisterBinding, userRegisterModel);
     }
 }

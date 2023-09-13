@@ -19,5 +19,5 @@ public class GuestRegisterModel implements Serializable {
     private String address;
     private String personalEmail;
     private String password;
-    private ERole eRole;
+    private ERole role;
 }

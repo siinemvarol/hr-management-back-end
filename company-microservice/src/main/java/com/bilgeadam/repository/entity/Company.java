@@ -32,6 +32,6 @@ public class Company extends BaseEntity{
     private Long loss;
     private Long netIncome;
     @Builder.Default
-    private EStatus eStatus=EStatus.NOT_AUTHORIZED;
+    private EStatus status=EStatus.NOT_AUTHORIZED;
 
 }
