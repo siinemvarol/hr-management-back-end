@@ -8,6 +8,7 @@ import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.*;
 import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
+import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.CodeGenerator;
 import com.bilgeadam.utility.JwtTokenManager;
@@ -97,6 +98,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean guestRegister(GuestRegisterRequestDto guestRegisterRequestDto) {
         Auth auth = IAuthMapper.INSTANCE.fromGuestRegisterRequestDtoToAuth(guestRegisterRequestDto);
+        auth.setERole(ERole.GUEST);
         save(auth);
         GuestRegisterModel guestRegisterModel = IAuthMapper.INSTANCE.fromGuestRegisterRequestToGuestRegisterModel(guestRegisterRequestDto);
         guestRegisterProducer.sendGuest(guestRegisterModel);
@@ -125,6 +127,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean companyRegister(CompanyRegisterRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToAuth(dto);
+        auth.setERole(ERole.COMPANY_MANAGER);
         System.out.println("auth: " + auth);
         save(auth);
         CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);

@@ -13,6 +13,7 @@ import com.bilgeadam.rabbitmq.model.UserForgotPassModel;
 import com.bilgeadam.rabbitmq.model.UserRegisterModel;
 import com.bilgeadam.repository.IUserRepository;
 import com.bilgeadam.repository.entity.User;
+import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
 import org.mapstruct.control.MappingControl;
@@ -97,6 +98,7 @@ public class UserService extends ServiceManager<User, String> {
     // saving company manager as user (when registering new company)
     public Boolean createNewCompanyManager(CompanyManagerRegisterModel companyManagerRegisterModel) {
         User user = IUserMapper.INSTANCE.fromCompanyManagerRegisterModelToUser(companyManagerRegisterModel);
+        user.setERole(ERole.COMPANY_MANAGER);
         save(user);
         return true;
     }
@@ -114,6 +116,7 @@ public class UserService extends ServiceManager<User, String> {
     // saving guest as user (when guest is registering)
     public Boolean createNewGuest(GuestRegisterModel guestRegisterModel) {
         User user = IUserMapper.INSTANCE.fromGuestRegisterModelToUser(guestRegisterModel);
+        user.setERole(ERole.GUEST);
         save(user);
         return true;
     }
