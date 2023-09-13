@@ -15,6 +15,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(USER)
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
