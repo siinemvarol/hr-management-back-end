@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AuthLoginRequestDto {
-    private String email;
+    private String companyEmail;
     private String password;
 }

@@ -65,7 +65,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public String login(AuthLoginRequestDto dto) {
 
-        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmailAndPassword(dto.getEmail(), dto.getPassword());
+        Optional<Auth> optionalAuth = authRepository.findOptionalByCompanyEmailAndPassword(dto.getCompanyEmail(), dto.getPassword());
 
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
