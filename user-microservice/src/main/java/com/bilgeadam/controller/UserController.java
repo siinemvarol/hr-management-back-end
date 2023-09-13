@@ -1,5 +1,6 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
 import com.bilgeadam.rabbitmq.model.UserCreateEmployeeModel;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.service.UserService;
@@ -32,6 +33,10 @@ public class UserController {
     @GetMapping("/find-by-id/{authId}")
     public ResponseEntity<Optional<User>> findEmployeeByAuthId(@PathVariable Long authId){
         return ResponseEntity.ok(userService.findEmployeeByAuthId(authId));
+    }
+    @PutMapping("update/{authId}")
+    public ResponseEntity<Boolean> updateEmployeeInfo(@RequestBody EmployeeInfoUpdateDto dto, @PathVariable Long authId){
+        return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
     }
 }
 
