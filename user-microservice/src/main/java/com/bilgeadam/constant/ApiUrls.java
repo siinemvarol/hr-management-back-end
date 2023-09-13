@@ -8,4 +8,5 @@ public class ApiUrls {
     public static final String LOGIN = "/login";
     public static final String FORGOT_PASSWORD = "forgot-password";
     public static final String CREATEEMPLOYEE = "create-employee";
+    public static final String UPDATE = "update";
 }

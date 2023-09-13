@@ -1,5 +1,6 @@
 package com.bilgeadam.service;
 
+import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
@@ -103,7 +104,6 @@ public class UserService extends ServiceManager<User, String> {
     public Optional<User> findEmployeeByAuthId(Long authId) {
         Optional<User> employee = userRepository.findOptionalByAuthid(authId);
         if (employee.isPresent()) {
-            System.out.println(employee.get());
             return employee;
         } else {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
@@ -116,5 +116,16 @@ public class UserService extends ServiceManager<User, String> {
         user.setRole(ERole.GUEST);
         save(user);
         return true;
+    }
+
+    // update employee profile information
+    public Boolean updateEmployeeInfo(EmployeeInfoUpdateDto dto,Long authId) {
+        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+        if (employee.isPresent()) {
+            userRepository.save(IUserMapper.INSTANCE.fromEmployeeInfoUpdateRequestDtoToUser(dto,employee.get()));
+            return true;
+        } else {
+            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+        }
     }
 }
