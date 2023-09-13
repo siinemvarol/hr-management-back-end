@@ -7,10 +7,10 @@ spring:
       host: localhost
       port: 27017
       database: hruserdb
-      username: mongoadmin
-      password: secret
+      username: hrmanagementadmin
+      password: hrmanagement33**
   rabbitmq:
     host: localhost
     port: 5672
-    username: user
-    password: secret
+    username: bilgejava8
+    password: bilgeadmin*

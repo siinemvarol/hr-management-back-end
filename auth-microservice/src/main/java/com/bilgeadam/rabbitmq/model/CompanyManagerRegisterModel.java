@@ -1,5 +1,6 @@
 package com.bilgeadam.rabbitmq.model;
 
+import com.bilgeadam.repository.enums.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class CompanyManagerRegisterModel implements Serializable {
     private String companyEmail;
     private String phone;
     private String password;
+    private ERole eRole;
 }

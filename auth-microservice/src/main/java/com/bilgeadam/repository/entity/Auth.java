@@ -29,9 +29,8 @@ public class Auth extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private EStatus eStatus=EStatus.PENDING;
-    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private ERole eRole=ERole.COMPANY_MANAGER;
+    private ERole eRole;
 
 
 }

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AddEmployeeConsumer {
     private final AuthService authService;
-    @RabbitListener(queues =  "add-employee-queue")
-    public void addEmployee(UserCreateEmployeeModel userAddEmployeeModel){
-        authService.createEmployee(userAddEmployeeModel);
-    }
+//    @RabbitListener(queues =  "add-employee-queue")
+//    public void addEmployee(UserCreateEmployeeModel userAddEmployeeModel){
+//        authService.createEmployee(userAddEmployeeModel);
+//    }
 
 }
