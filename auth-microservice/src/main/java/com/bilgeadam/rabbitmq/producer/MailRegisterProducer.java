@@ -15,6 +15,7 @@ public class MailRegisterProducer {
     private String mailRegisterBinding = "mail-register-binding";
 
     public void sendMailRegister(MailRegisterModel mailRegisterModel) {
+        System.out.println("auth mail producer : "+mailRegisterModel);
         rabbitTemplate.convertAndSend(exchange,
                 mailRegisterBinding, mailRegisterModel);
     }

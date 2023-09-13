@@ -52,8 +52,7 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(mailRegisterQueue).to(authExchange).with(mailRegisterBinding);
     }
 
-
-    //maile forgot password gönderimi
+    //maile forgot password gönderimi producer
     private String mailForgotPasswordQueue = "mail-forgot-password-queue";
 
     @Bean
@@ -67,9 +66,7 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(mailForgotPasswordQueue).to(authExchange).with(mailForgotPassBinding);
     }
 
-
-
-    //Usera forgot password gönderimi
+    //Usera forgot password gönderimi producer
     private String userForgotPasswordQueue = "user-forgot-password-queue";
 
     @Bean
@@ -118,5 +115,4 @@ public class RabbitMqConfig {
     public Binding guestRegisterBinding(final DirectExchange authExchange, final Queue guestRegisterQueue){
         return BindingBuilder.bind(guestRegisterQueue).to(authExchange).with(guestRegisterBinding);
     }
-
 }

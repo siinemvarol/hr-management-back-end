@@ -16,20 +16,16 @@ public interface IAuthMapper {
 
     Auth fromRegisterDto(final AuthRegisterRequestDto dto);
 
-    @Mapping(source = "id", target = "authid")
-    UserRegisterModel fromAuthToUserRegisterModel(final Auth auth);
+
     MailRegisterModel fromAuthToMailRegisterModel(final Auth auth);
 
     AuthRegisterResponseDto fromAuth(final Auth auth);
 
     AuthRegisterResponseDto fromAuthToRegisterResponseDto(final Auth auth);
 
-
     @Mapping(source = "id", target = "authid")
     UserForgotPassModel fromAuthToUserForgotPassModel(final Auth auth);
 
-
-    @Mapping(source = "role", target = "eRole")
     Auth authFromUserAddEmployeeModel(final UserCreateEmployeeModel model);
 
     @Mapping(source = "password", target = "randomPassword")
@@ -47,4 +43,10 @@ public interface IAuthMapper {
     Auth fromGuestRegisterRequestDtoToAuth(final GuestRegisterRequestDto guestRegisterRequestDto);
 
     GuestRegisterModel fromGuestRegisterRequestToGuestRegisterModel(final GuestRegisterRequestDto guestRegisterRequestDto);
+
+    UserRegisterModel UserRegisterModelFromUserCreateEmployee(final UserCreateEmployeeModel model);
+
+    UserRegisterModel fromAuthToUserRegisterModel(final Auth auth);
+
+    UserRegisterModel FromUserCreateEmployeetoUserRegisterModel(final UserCreateEmployeeModel model);
 }

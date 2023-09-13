@@ -13,6 +13,7 @@ public class AddEmployeeCompanyProducer {
     private String exchange =  "company-exchange";
     private String addEmployeeCompanyBinding = "add-employee-company-binding";
     public void sendAddEmployeeMessage(AddEmployeeCompanyModel addEmployeeCompanyModel){
+        System.out.println(addEmployeeCompanyModel);
         rabbitTemplate.convertAndSend(exchange,addEmployeeCompanyBinding,addEmployeeCompanyModel);
     }
 }

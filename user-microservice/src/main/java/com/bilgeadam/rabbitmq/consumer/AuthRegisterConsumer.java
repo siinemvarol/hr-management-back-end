@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 public class AuthRegisterConsumer {
     private final UserService userService;
     @RabbitListener(queues = "user-register-queue")
-    public void consumerRegister(UserRegisterModel model){
 
+    public void consumerRegister(UserRegisterModel model){
+        System.out.println("user register"+model);
         userService.createUser(model);
     }
 }

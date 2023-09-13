@@ -30,8 +30,6 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(addEmployeeQueue).to(directExchange).with(addEmployeeBinding);
     }
 
-
-
     //Producer
     private String userListCompanyQueue = "userList-company-queue";
     private String userListCompanyBinding = "userList-company-binding";
@@ -44,8 +42,6 @@ public class RabbitMqConfig {
     public Binding userListCompanyBinding(final Queue userListCompanyQueue, final DirectExchange directExchange){
         return BindingBuilder.bind(userListCompanyQueue).to(directExchange).with(userListCompanyBinding);
     }
-
-
 
     //Auth register Consumer
     String authRegisterQueue = "auth-register-queue";
@@ -65,7 +61,6 @@ public class RabbitMqConfig {
     }
 
 
-
     // auth forgot password consumer
     String userForgotPasswordQueue = "user-forgot-password-queue";
 
@@ -74,7 +69,7 @@ public class RabbitMqConfig {
         return new Queue(userForgotPasswordQueue);
     }
 
-    //company Id user
+    //company Id user consumer
     private final String userCompanyIdQueue = "user-company-id-queue";
     @Bean
     Queue userCompanyIdQueue(){
@@ -111,7 +106,5 @@ public class RabbitMqConfig {
     Queue guestRegisterQueue(){
         return new Queue(guestRegisterQueue);
     }
-
-
 
 }

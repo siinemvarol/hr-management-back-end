@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 public class AddEmployeeConsumer {
     private final AuthService authService;
     @RabbitListener(queues =  "add-employee-queue")
-    public void addEmployee(UserCreateEmployeeModel userAddEmployeeModel){
-        authService.createEmployee(userAddEmployeeModel);
+    public void addEmployee(UserCreateEmployeeModel userCreateEmployeeModel){
+
+        authService.createEmployee(userCreateEmployeeModel);
     }
 
 }

@@ -21,25 +21,22 @@ public class MailService {
     }
 
     public String sendMail(MailRegisterModel mailRegisterModel) {
-        System.out.println(mailRegisterModel);
+
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("your_email@example.com"); // Şirketinizi temsil eden e-posta adresi
-            mailMessage.setTo(mailRegisterModel.getEmail());
+            mailMessage.setFrom("${spring.mail.username}"); // Şirketinizi temsil eden e-posta adresi
+//            mailMessage.setTo(mailRegisterModel.getPersonalEmail());
+
+            mailMessage.setTo(mailRegisterModel.getPersonalEmail());
             mailMessage.setSubject("Username: " + mailRegisterModel.getUsername());
             mailMessage.setSubject("Password: " + mailRegisterModel.getPassword());
 
-            String[] mailArray = mailRegisterModel.getCompanyEmail().toLowerCase().split(" ");
-            String companyMail ="";
-            for (String part : mailArray) {
-                companyMail=companyMail+part;
-            }
-            System.out.println(companyMail);
+
 
             mailMessage.setText("Merhaba, Neredeyse işleminiz tamamlandı.  \n\n"
                     +"Username:      "+ mailRegisterModel.getUsername()+"\n\n"
                     +"Password:      " + mailRegisterModel.getPassword()+"\n\n"
-                    +"Company Email: " +companyMail+"\n\n"
+                    +"Company Email: " +mailRegisterModel.getCompanyEmail()+"\n\n"
                     + "\n\nLütfen Aktivasyon kodunu giriniz...\n\nAktivasyon Linkiniz:   "
                     + "http://localhost:9090/api/v1/auth/user-active?token="
                     + mailRegisterModel.getActivationLink());
@@ -58,7 +55,7 @@ public class MailService {
             System.out.println(mailForgotPassModel);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom("your_email@example.com"); // Şirketinizi temsil eden e-posta adresi
-            mailMessage.setTo(mailForgotPassModel.getEmail());
+            mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
             mailMessage.setSubject("Sayın " + mailForgotPassModel.getUsername());
             mailMessage.setText("Yenilenen şifreniz aşağıda bulunmaktadır. \n\n Password: " + mailForgotPassModel.getRandomPassword());
             mailSender.send(mailMessage);

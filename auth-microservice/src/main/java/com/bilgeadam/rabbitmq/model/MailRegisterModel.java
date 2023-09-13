@@ -15,6 +15,6 @@ public class MailRegisterModel implements Serializable {
     private String activationLink;
     private String username;
     private String password;
-    private String email;
+    private String personalEmail;
     private String companyEmail;
 }

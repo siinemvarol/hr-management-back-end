@@ -13,6 +13,6 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: user
-    password: secret
+    username: java8
+    password: root
     #TODO rabbit mq diğer servicelere de eklenmesi gerekiyor
