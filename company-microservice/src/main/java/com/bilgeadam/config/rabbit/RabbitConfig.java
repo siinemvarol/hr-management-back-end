@@ -74,6 +74,18 @@ public class RabbitConfig {
         return BindingBuilder.bind(registerCompanyManagerQueue).to(directExchange).with(registerCompanyManagerBinding);
     }
 
+    // add comment save comment producer
+    private final String addCommentSaveCommentQueue = "add-comment-save-comment-queue";
+    @Bean
+    Queue addCommentSaveCommentQueue(){
+        return new Queue(addCommentSaveCommentQueue);
+    }
+    private final String addCommentSaveCommentBinding = "add-comment-save-comment-binding";
+    @Bean
+    public Binding addCommentSaveCommentBinding(final DirectExchange companyExchange, final  Queue addCommentSaveCommentQueue){
+        return BindingBuilder.bind(addCommentSaveCommentQueue).to(companyExchange).with(addCommentSaveCommentBinding);
+    }
+
 
 
     //Consumer

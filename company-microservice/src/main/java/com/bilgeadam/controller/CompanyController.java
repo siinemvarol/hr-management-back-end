@@ -1,5 +1,6 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
@@ -35,5 +36,11 @@ public class CompanyController {
     @PostMapping(ADDEMPLOYEE)
     public ResponseEntity<AddEmployeeCompanyModel> addEmployee(@RequestBody AddEmployeeCompanyDto addEmployeeCompanyDto){
         return ResponseEntity.ok(companyService.addEmployee(addEmployeeCompanyDto));
+    }
+
+    @PostMapping(ADD_COMMENT)
+    public ResponseEntity<Boolean> addComment(@RequestBody AddCommentRequestDto addCommentRequestDto){
+        System.out.println("company controller is working...");
+        return ResponseEntity.ok(companyService.addComment(addCommentRequestDto));
     }
 }

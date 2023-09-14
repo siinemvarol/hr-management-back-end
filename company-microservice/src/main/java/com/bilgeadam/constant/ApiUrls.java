@@ -8,5 +8,7 @@ public class ApiUrls {
     public static  final String UPDATE = "/update-company";
     public static final String GETUSERS = "/get-users";
     public static final String ADDEMPLOYEE = "/add-employee";
+    public static final String ADD_COMMENT = "/add-comment";
+
 
 }

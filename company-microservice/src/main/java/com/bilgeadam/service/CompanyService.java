@@ -1,11 +1,13 @@
 package com.bilgeadam.service;
 
+import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
 import com.bilgeadam.rabbitmq.model.*;
+import com.bilgeadam.rabbitmq.producer.AddCommentSaveCommentProducer;
 import com.bilgeadam.rabbitmq.producer.AddEmployeeCompanyProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
 import com.bilgeadam.repository.ICompanyRepository;
@@ -21,13 +23,16 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final ICompanyRepository companyRepository;
     private final UserCompanyIdProducer userCompanyIdProducer;
     private final AddEmployeeCompanyProducer addEmployeeCompanyProducer;
+    private final AddCommentSaveCommentProducer addCommentSaveCommentProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
-                          AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer) {
+                          AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer,
+                          AddCommentSaveCommentProducer addCommentSaveCommentProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
         this.addEmployeeCompanyProducer = addEmployeeCompanyProducer;
+        this.addCommentSaveCommentProducer = addCommentSaveCommentProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -39,7 +44,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         throw new RuntimeException("hata");
     }
 
-    public Boolean sendCompanyId(UserCompanyIdModel model){
+    public Boolean sendCompanyId(UserCompanyIdModel model) {
         userCompanyIdProducer.sendCompanyIdMessage(model);
         return true;
     }
@@ -50,16 +55,16 @@ public class CompanyService extends ServiceManager<Company, String> {
 
     public AddEmployeeCompanyModel addEmployee(AddEmployeeCompanyDto addEmployeeCompanyDto) {
         Optional<Company> optionalCompany = companyRepository.findById(addEmployeeCompanyDto.getCompanyId());
-        if (optionalCompany.isEmpty()){
+        if (optionalCompany.isEmpty()) {
             throw new CompanyManagerException(ErrorType.INVALID_COMPANY);
         }
         AddEmployeeCompanyModel addEmployeeCompanyModel = ICompanyMapper.INSTANCE.addEmployeeCompanyModelfromAddEmployeeCompanyDto(addEmployeeCompanyDto);
-        String companyEmail =addEmployeeCompanyModel.getName()+addEmployeeCompanyModel.getSurname()+"@"+optionalCompany.get().getCompanyName()+".com";
+        String companyEmail = addEmployeeCompanyModel.getName() + addEmployeeCompanyModel.getSurname() + "@" + optionalCompany.get().getCompanyName() + ".com";
 
         String[] mailArray = companyEmail.toLowerCase().split(" ");
-        companyEmail ="";
+        companyEmail = "";
         for (String part : mailArray) {
-            companyEmail=companyEmail+part;
+            companyEmail = companyEmail + part;
         }
 
         addEmployeeCompanyModel.setCompanyEmail(companyEmail);
@@ -70,8 +75,16 @@ public class CompanyService extends ServiceManager<Company, String> {
         return null;
     }
 
-    public Boolean createNewCompany(CompanyRegisterModel companyRegisterModel){
+    public Boolean createNewCompany(CompanyRegisterModel companyRegisterModel) {
         companyRepository.save(ICompanyMapper.INSTANCE.fromCompanyRegisterModelToCompany(companyRegisterModel));
+        return true;
+    }
+
+    // method for adding new comment to a company by an employee
+    // first it checks if user is authorized to make comment to company
+    // then it saves the comment
+    public Boolean addComment(AddCommentRequestDto addCommentRequestDto) {
+        addCommentSaveCommentProducer.sendCommentToSave(ICompanyMapper.INSTANCE.fromAddCommentRequestDtoToAddCommentSaveCommentModel(addCommentRequestDto));
         return true;
     }
 }
