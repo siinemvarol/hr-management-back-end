@@ -11,5 +11,6 @@ dependencies {
     implementation libs.springBootRabbitMQ
     implementation libs.springBootValidation
     implementation libs.javaJWT
+    implementation libs.springCloudConfigClient
 
 }
