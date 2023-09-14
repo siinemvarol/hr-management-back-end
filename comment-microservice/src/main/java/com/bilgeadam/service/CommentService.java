@@ -1,5 +1,7 @@
 package com.bilgeadam.service;
 
+import com.bilgeadam.mapper.ICommentMapper;
+import com.bilgeadam.rabbitmq.model.AddCommentSaveCommentModel;
 import com.bilgeadam.repository.ICommentRepository;
 import com.bilgeadam.repository.entity.Comment;
 import com.bilgeadam.utility.ServiceManager;
@@ -13,5 +15,9 @@ public class CommentService extends ServiceManager<Comment, String> {
         this.commentRepository = commentRepository;
     }
 
-
+    // adds comment to comment db
+    public Boolean addCommentSaveComment(AddCommentSaveCommentModel addCommentSaveCommentModel) {
+        commentRepository.save(ICommentMapper.INSTANCE.fromAddCommentSaveCommentModelToComment(addCommentSaveCommentModel));
+        return true;
+    }
 }

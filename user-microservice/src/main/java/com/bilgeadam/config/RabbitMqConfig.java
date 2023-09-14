@@ -107,4 +107,5 @@ public class RabbitMqConfig {
         return new Queue(guestRegisterQueue);
     }
 
+
 }

@@ -16,6 +16,7 @@ public enum ErrorType {
     ACTIVATE_CODE_ERROR(4005, "Aktivasyon kodu hatası", HttpStatus.BAD_REQUEST),
     ALREADY_ACTIVE(4006, "Kullanıcı zaten aktif", HttpStatus.BAD_GATEWAY),
     PASSWORD_ERROR(4007,"Şifreler uyuşmuyor.", HttpStatus.BAD_REQUEST),
+    USER_NOT_AUTHORIZED(4008,"User is not authorized to make comment for this company.", HttpStatus.BAD_REQUEST),
 
     // Service Error
     INTERNAL_ERROR(5000, "Sunucu hatası", HttpStatus.INTERNAL_SERVER_ERROR),;

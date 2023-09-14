@@ -6,6 +6,8 @@ import com.bilgeadam.repository.entity.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IUserMapper {
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
@@ -24,5 +26,6 @@ public interface IUserMapper {
     User fromGuestRegisterModelToUser(final GuestRegisterModel guestRegisterModel);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User fromEmployeeInfoUpdateRequestDtoToUser(final EmployeeInfoUpdateDto dto, @MappingTarget User user);
+
 
 }

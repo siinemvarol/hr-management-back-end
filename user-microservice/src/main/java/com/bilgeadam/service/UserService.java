@@ -16,6 +16,7 @@ import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -73,8 +74,6 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
-
-
     public void addEmployeeCompany(AddEmployeeCompanyModel model) {
         UserCreateEmployeeModel userCreateEmployeeModel = IUserMapper.INSTANCE.userCreateEmployeeModelfromAddEmployeeCompanyModel(model);
 
@@ -119,13 +118,14 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     // update employee profile information
-    public Boolean updateEmployeeInfo(EmployeeInfoUpdateDto dto,Long authId) {
+    public Boolean updateEmployeeInfo(EmployeeInfoUpdateDto dto, Long authId) {
         Optional<User> employee = userRepository.findOptionalByAuthid(authId);
         if (employee.isPresent()) {
-            userRepository.save(IUserMapper.INSTANCE.fromEmployeeInfoUpdateRequestDtoToUser(dto,employee.get()));
+            userRepository.save(IUserMapper.INSTANCE.fromEmployeeInfoUpdateRequestDtoToUser(dto, employee.get()));
             return true;
         } else {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
         }
     }
+
 }
