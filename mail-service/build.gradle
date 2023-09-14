@@ -8,5 +8,6 @@ dependencies {
     implementation libs.springBootMailSender
     implementation libs.swaggerui
     implementation libs.springBootRabbitMQ
+    implementation libs.springCloudConfigClient
 
 }

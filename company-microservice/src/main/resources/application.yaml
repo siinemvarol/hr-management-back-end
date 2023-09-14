@@ -1,16 +1,8 @@
-server:
-  port: 9091
-
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: hrcompanydb
-      username: admin
-      password: root
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: bilgejava8
-    password: bilgeadmin*
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_URL}
+  config:
+    import: "configserver:"
+  application:
+    name: company-application
