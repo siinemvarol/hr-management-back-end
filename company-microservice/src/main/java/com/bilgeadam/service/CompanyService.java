@@ -3,6 +3,7 @@ package com.bilgeadam.service;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
@@ -89,6 +90,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         return true;
     }
 
+
     public Integer getNumberCompany() {
         return companyRepository.findAll().size();
     }
@@ -123,6 +125,15 @@ public class CompanyService extends ServiceManager<Company, String> {
             return true;
         }
         throw new RuntimeException("hata");
+
+
+    public GetCompanyInformationResponseDto getCompanyInformation(String companyId) {
+        Optional<Company> optionalCompany = companyRepository.findById(companyId);
+        if(optionalCompany.isPresent()){
+            GetCompanyInformationResponseDto getCompanyInformationResponseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyInformationResponseDto(optionalCompany.get());
+            return getCompanyInformationResponseDto;
+        }
+        return null;
 
     }
 }
