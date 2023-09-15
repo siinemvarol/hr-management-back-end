@@ -1,0 +1,16 @@
+server:
+  port: 9093
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hrcommentdb
+      username: ${MONGO_USERNAME_COMMENT}
+      password: ${MONGO_PASS_COMMENT}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASS}
