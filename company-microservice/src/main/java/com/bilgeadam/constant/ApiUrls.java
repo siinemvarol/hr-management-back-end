@@ -12,4 +12,10 @@ public class ApiUrls {
     public static final String GET_COMPANY_INFORMATION = "/get-company-information";
 
 
+    public static final String GET_NUMBER_COMPANY = "/get-number-company";
+    public static final String GET_NEW_NUMBER_COMPANY = "/get-new-number-company";
+    public static final String GET_COMPANIES ="/get-companies" ;
+    public static final String GET_NOT_AUTHORIZED_COMPANIES = "/get-not-authorized-companies";
+    public static final String ACTIVATE_COMPANY = "/activate-company";
+    public static final String DENIED_COMPANY = "/denied-company";
 }

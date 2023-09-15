@@ -38,5 +38,8 @@ public class UserController {
     public ResponseEntity<Boolean> updateEmployeeInfo(@RequestBody EmployeeInfoUpdateDto dto, @PathVariable Long authId){
         return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
     }
+
+
+
 }
 

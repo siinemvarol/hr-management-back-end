@@ -7,8 +7,8 @@ spring:
       host: localhost
       port: 27017
       database: hrcommentdb
-      username: ${MONGO_USERNAME}
-      password: ${MONGO_PASS}
+      username: ${MONGO_USERNAME_COMMENT}
+      password: ${MONGO_PASS_COMMENT}
   rabbitmq:
     host: localhost
     port: 5672

@@ -13,6 +13,7 @@ import com.bilgeadam.rabbitmq.producer.AddEmployeeCompanyProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
 import com.bilgeadam.repository.ICompanyRepository;
 import com.bilgeadam.repository.entity.Company;
+import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,43 @@ public class CompanyService extends ServiceManager<Company, String> {
         return true;
     }
 
+
+    public Integer getNumberCompany() {
+        return companyRepository.findAll().size();
+    }
+
+    public List<Company> getNewNumberCompany() {
+        Long date = System.currentTimeMillis()-86400000;
+        return companyRepository.findByCreateDateAfter(date);
+    }
+
+    public List<Company> getCompanies() {
+        return  companyRepository.findAll();
+    }
+
+    public List<Company> getNotAuthorizedCompanies() {
+        return companyRepository.findByStatus(EStatus.NOT_AUTHORIZED);
+    }
+    public Boolean activateCompany(String id) {
+        Optional<Company> optionalCompany = companyRepository.findById(id);
+        if (optionalCompany.isPresent()) {
+            optionalCompany.get().setStatus(EStatus.ACTIVE);
+            update(optionalCompany.get());
+            return true;
+        }
+        throw new RuntimeException("hata");
+    }
+
+    public Boolean deniedCompany(String id) {
+        Optional<Company> optionalCompany = companyRepository.findById(id);
+        if (optionalCompany.isPresent()) {
+            optionalCompany.get().setStatus(EStatus.DENIED);
+            update(optionalCompany.get());
+            return true;
+        }
+        throw new RuntimeException("hata");
+
+
     public GetCompanyInformationResponseDto getCompanyInformation(String companyId) {
         Optional<Company> optionalCompany = companyRepository.findById(companyId);
         if(optionalCompany.isPresent()){
@@ -96,5 +134,6 @@ public class CompanyService extends ServiceManager<Company, String> {
             return getCompanyInformationResponseDto;
         }
         return null;
+
     }
 }
