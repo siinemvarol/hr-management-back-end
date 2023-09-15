@@ -2,6 +2,7 @@ package com.bilgeadam.mapper;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Company;
 import org.mapstruct.*;
@@ -20,4 +21,6 @@ public interface ICompanyMapper {
     Company fromCompanyRegisterModelToCompany(final CompanyRegisterModel companyRegisterModel);
 
     AddCommentSaveCommentModel fromAddCommentRequestDtoToAddCommentSaveCommentModel(final AddCommentRequestDto addCommentRequestDto);
+
+    GetCompanyInformationResponseDto fromCompanyToGetCompanyInformationResponseDto(final Company company);
 }

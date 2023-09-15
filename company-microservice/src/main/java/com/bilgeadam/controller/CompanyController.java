@@ -3,15 +3,13 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
@@ -22,6 +20,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(COMPANY)
+@CrossOrigin(origins = "http://localhost:3000")
 public class CompanyController {
     private final CompanyService companyService;
 
@@ -42,5 +41,9 @@ public class CompanyController {
     public ResponseEntity<Boolean> addComment(@RequestBody AddCommentRequestDto addCommentRequestDto){
         System.out.println("company controller is working...");
         return ResponseEntity.ok(companyService.addComment(addCommentRequestDto));
+    }
+    @GetMapping(GET_COMPANY_INFORMATION+"/{companyId}")
+    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
+        return ResponseEntity.ok(companyService.getCompanyInformation(companyId));
     }
 }
