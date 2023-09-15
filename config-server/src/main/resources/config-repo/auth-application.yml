@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5432/AuthDB"
+    username: "postgres"
+    password: ${POSTGRES_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASS}
