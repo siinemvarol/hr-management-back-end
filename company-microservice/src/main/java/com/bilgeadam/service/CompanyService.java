@@ -124,7 +124,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             return true;
         }
         throw new RuntimeException("hata");
-
+    }
 
 
     public GetCompanyInformationResponseDto getCompanyInformation(String companyId) {
@@ -136,4 +136,5 @@ public class CompanyService extends ServiceManager<Company, String> {
         return null;
 
     }
+
 }
