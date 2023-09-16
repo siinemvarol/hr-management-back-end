@@ -90,7 +90,6 @@ public class CompanyService extends ServiceManager<Company, String> {
         return true;
     }
 
-
     public Integer getNumberCompany() {
         return companyRepository.findAll().size();
     }
@@ -125,6 +124,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             return true;
         }
         throw new RuntimeException("hata");
+
 
 
     public GetCompanyInformationResponseDto getCompanyInformation(String companyId) {

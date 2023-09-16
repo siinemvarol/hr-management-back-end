@@ -25,7 +25,7 @@ public class MailService {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom("${spring.mail.username}"); // Şirketinizi temsil eden e-posta adresi
-//            mailMessage.setTo(mailRegisterModel.getPersonalEmail());
+           mailMessage.setTo(mailRegisterModel.getPersonalEmail());
 
             mailMessage.setTo(mailRegisterModel.getPersonalEmail());
             mailMessage.setSubject("Username: " + mailRegisterModel.getUsername());
@@ -60,7 +60,7 @@ public class MailService {
             mailMessage.setText("Yenilenen şifreniz aşağıda bulunmaktadır. \n\n Password: " + mailForgotPassModel.getRandomPassword());
             mailSender.send(mailMessage);
             System.out.println("Mail Gönderildi");
-
+//
         } catch (MailException e) {
             throw new MailException(ErrorType.MAIL_SEND_ERROR);
         }

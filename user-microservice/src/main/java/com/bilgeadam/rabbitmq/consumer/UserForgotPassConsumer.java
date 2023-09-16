@@ -12,5 +12,6 @@ public class UserForgotPassConsumer {
     @RabbitListener(queues = "user-forgot-password-queue")
     public void userForgotConsumer(UserForgotPassModel userForgotPassModel){
         userService.forgotPassword(userForgotPassModel);
+        System.out.println("userForgotConsumer : " + userForgotPassModel);
     }
 }

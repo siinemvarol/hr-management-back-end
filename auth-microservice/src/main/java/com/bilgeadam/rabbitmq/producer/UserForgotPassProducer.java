@@ -17,7 +17,6 @@ public class UserForgotPassProducer {
     public void userForgotPassword(UserForgotPassModel userForgotPassModel) {
 
         rabbitTemplate.convertAndSend(exchange, userForgotPasswordBinding, userForgotPassModel);
-        System.out.println("şuan buradayım");
-        System.out.println(userForgotPassModel);
+        System.out.println("userForgotPassProducer : " + userForgotPassModel);
     }
 }

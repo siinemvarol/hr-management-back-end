@@ -62,7 +62,7 @@ public class UserService extends ServiceManager<User, String> {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
         }
         optionalUser.get().setPassword(userForgotPassModel.getPassword());
-        update(optionalUser.get());
+
     }
 
     public UserCreateEmployeeModel createEmployee(UserCreateEmployeeModel userCreateEmployeeModel) {

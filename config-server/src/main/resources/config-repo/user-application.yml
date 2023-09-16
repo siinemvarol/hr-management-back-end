@@ -7,8 +7,8 @@ spring:
       host: localhost
       port: 27017
       database: hruserdb
-      username: ${MONGO_USERNAME}
-      password: ${MONGO_PASS}
+      username: ${MONGO_USERNAME_USER}
+      password: ${MONGO_PASS_USER}
   rabbitmq:
     host: localhost
     port: 5672

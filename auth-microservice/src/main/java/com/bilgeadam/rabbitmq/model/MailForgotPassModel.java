@@ -15,5 +15,4 @@ public class MailForgotPassModel implements Serializable {
     private String username;
     private String personalEmail;
     private String randomPassword;
-
 }

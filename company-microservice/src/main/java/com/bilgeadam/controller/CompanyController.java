@@ -46,7 +46,6 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.addComment(addCommentRequestDto));
     }
 
-
     @CrossOrigin("*")
     @GetMapping(GET_NUMBER_COMPANY)
     public ResponseEntity<Integer> getNumberCompany(){
@@ -79,7 +78,6 @@ public class CompanyController {
     public ResponseEntity<Boolean> deniedCompany(String id){
         return ResponseEntity.ok(companyService.deniedCompany(id));
     }
-
 
     @GetMapping(GET_COMPANY_INFORMATION+"/{companyId}")
     public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
