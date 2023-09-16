@@ -3,6 +3,7 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
@@ -22,6 +23,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(COMPANY)
+@CrossOrigin(origins = "http://localhost:3000")
 public class CompanyController {
     private final CompanyService companyService;
 
@@ -75,6 +77,11 @@ public class CompanyController {
     @PutMapping(DENIED_COMPANY)
     public ResponseEntity<Boolean> deniedCompany(String id){
         return ResponseEntity.ok(companyService.deniedCompany(id));
+    }
+
+    @GetMapping(GET_COMPANY_INFORMATION+"/{companyId}")
+    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
+        return ResponseEntity.ok(companyService.getCompanyInformation(companyId));
     }
 
 }
