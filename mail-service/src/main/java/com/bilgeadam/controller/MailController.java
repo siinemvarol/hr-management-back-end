@@ -16,6 +16,7 @@ import static com.bilgeadam.constant.RestApiList.MAILSEND;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(MAIL)
+@CrossOrigin(origins = "*" ,allowedHeaders = "*")
 public class MailController {
     private final MailService mailSenderService;
 
