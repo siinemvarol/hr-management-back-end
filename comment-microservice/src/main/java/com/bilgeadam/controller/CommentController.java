@@ -13,27 +13,28 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(COMMENT)
+@CrossOrigin(origins = "*" ,allowedHeaders = "*")
 public class CommentController {
 
     private final CommentService commentService;
 
-    @CrossOrigin("*")
+
     @GetMapping(GET_COMMENTS)
     public ResponseEntity<List<Comment>> getComments(){
         return ResponseEntity.ok(commentService.getComments());
     }
 
-    @CrossOrigin("*")
+
     @GetMapping(GET_PENDING_COMMENTS)
     public ResponseEntity<List<Comment>> getPendingComments(){
         return ResponseEntity.ok(commentService.getPendingComments());
     }
-    @CrossOrigin("*")
+
     @PutMapping(ACTIVATE_COMMENT)
     public ResponseEntity<Boolean> activeComment(String id){
         return ResponseEntity.ok(commentService.activeComment(id));
     }
-    @CrossOrigin("*")
+
     @PutMapping(DENIED_COMMENT)
     public ResponseEntity<Boolean> deniedComment(String id){
         return ResponseEntity.ok(commentService.deniedComment(id));

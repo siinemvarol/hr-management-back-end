@@ -9,4 +9,5 @@ public class ApiUrls {
     public static final String FORGOT_PASSWORD = "forgot-password";
     public static final String CREATEEMPLOYEE = "create-employee";
     public static final String UPDATE = "update";
+    public static final String FIND_BY_ID = "find-by-id";
 }

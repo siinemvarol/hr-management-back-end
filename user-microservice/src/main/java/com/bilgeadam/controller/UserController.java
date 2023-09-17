@@ -16,25 +16,24 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(USER)
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*" ,allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
-
-    //Geçici Süreliğine Devre DISIYIZZZ!!(K:T)
-//    @PutMapping(FORGOT_PASSWORD)
-//    public ResponseEntity<Boolean> forgotPassword(@RequestBody UserForgotPassModel userForgotPassModel){
-//        return ResponseEntity.ok(userService.forgotPassword(userForgotPassModel));
-//    }
+    //   Geçici Süreliğine Devre DISIYIZZZ!!(K:T)
+    //    @PutMapping(FORGOT_PASSWORD)
+    //    public ResponseEntity<Boolean> forgotPassword(@RequestBody UserForgotPassModel userForgotPassModel){
+    //        return ResponseEntity.ok(userService.forgotPassword(userForgotPassModel));
+    //    }
     @PostMapping(CREATEEMPLOYEE)
     public ResponseEntity<UserCreateEmployeeModel> addEmployee(@RequestBody UserCreateEmployeeModel userAddEmployeeModel){
         return ResponseEntity.ok(userService.createEmployee(userAddEmployeeModel));
     }
-    @GetMapping("/find-by-id/{authId}")
+    @GetMapping(FIND_BY_ID+"/{authId}")
     public ResponseEntity<Optional<User>> findEmployeeByAuthId(@PathVariable Long authId){
         return ResponseEntity.ok(userService.findEmployeeByAuthId(authId));
     }
-    @PutMapping("update/{authId}")
+    @PutMapping(UPDATE+"/{authId}")
     public ResponseEntity<Boolean> updateEmployeeInfo(@RequestBody EmployeeInfoUpdateDto dto, @PathVariable Long authId){
         return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
     }

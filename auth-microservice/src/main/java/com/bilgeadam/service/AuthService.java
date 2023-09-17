@@ -29,12 +29,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
     private final CompanyManagerRegisterProducer companyManagerRegisterProducer;
     private final GuestRegisterProducer guestRegisterProducer;
     private final JwtTokenManager jwtTokenManager;
+    private final GuestMailRegisterProducer guestMailRegisterProducer;
 
     public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer,
                        MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer,
                        MailRegisterProducer mailRegisterProducer, CompanyRegisterProducer companyRegisterProducer,
                        CompanyManagerRegisterProducer companyManagerRegisterProducer, GuestRegisterProducer guestRegisterProducer,
-                       JwtTokenManager jwtTokenManager) {
+                       GuestMailRegisterProducer guestMailRegisterProducer, JwtTokenManager jwtTokenManager) {
         super(authRepository);
         this.authRepository = authRepository;
         this.userRegisterProducer = userRegisterProducer;
@@ -44,6 +45,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.companyRegisterProducer = companyRegisterProducer;
         this.companyManagerRegisterProducer = companyManagerRegisterProducer;
         this.guestRegisterProducer = guestRegisterProducer;
+        this.guestMailRegisterProducer = guestMailRegisterProducer;
         this.jwtTokenManager = jwtTokenManager;
     }
 
@@ -106,10 +108,15 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Boolean guestRegister(GuestRegisterRequestDto guestRegisterRequestDto) {
         Auth auth = IAuthMapper.INSTANCE.fromGuestRegisterRequestDtoToAuth(guestRegisterRequestDto);
+        auth.setActivationLink(CodeGenerator.generateCode());
         auth.setRole(ERole.GUEST);
         save(auth);
         GuestRegisterModel guestRegisterModel = IAuthMapper.INSTANCE.fromGuestRegisterRequestToGuestRegisterModel(guestRegisterRequestDto);
         guestRegisterProducer.sendGuest(guestRegisterModel);
+        GuestMailRegisterModel guestMailRegisterModel = IAuthMapper.INSTANCE.fromAuthToGuestMailRegisterModel(auth);
+        guestMailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
+        System.out.println(guestMailRegisterModel);
+        guestMailRegisterProducer.sendMailRegister(guestMailRegisterModel);
         return true;
     }
     public Auth userActive(String token) {

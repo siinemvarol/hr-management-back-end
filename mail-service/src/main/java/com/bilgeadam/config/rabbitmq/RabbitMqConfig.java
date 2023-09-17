@@ -21,5 +21,12 @@ public class RabbitMqConfig {
         return new Queue(mailForgotPasswordQueue);
     }
 
+    //Guest mail register consumer
+    private final String guestMailRegisterQueue = "guest-mail-register-queue";
+    @Bean
+    Queue guestMailRegisterQueue(){
+        return new Queue(guestMailRegisterQueue);
+    }
+
 
 }
