@@ -23,7 +23,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(COMPANY)
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*" ,allowedHeaders = "*")
 public class CompanyController {
     private final CompanyService companyService;
 
@@ -46,34 +46,34 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.addComment(addCommentRequestDto));
     }
 
-    @CrossOrigin("*")
+
     @GetMapping(GET_NUMBER_COMPANY)
     public ResponseEntity<Integer> getNumberCompany(){
         return ResponseEntity.ok(companyService.getNumberCompany());
     }
 
-    @CrossOrigin("*")
+
     @GetMapping(GET_NEW_NUMBER_COMPANY)
     public ResponseEntity<List<Company>> getNewNumberCompany(){
         return ResponseEntity.ok(companyService.getNewNumberCompany());
     }
-    @CrossOrigin("*")
+
     @GetMapping(GET_COMPANIES)
     public ResponseEntity<List<Company>> getCompanies(){
         return ResponseEntity.ok(companyService.getCompanies());
     }
-    @CrossOrigin("*")
+
     @GetMapping(GET_NOT_AUTHORIZED_COMPANIES)
     public ResponseEntity<List<Company>> getNotAuthorizedCompanies(){
         return ResponseEntity.ok(companyService.getNotAuthorizedCompanies());
     }
 
-    @CrossOrigin("*")
+
     @PutMapping(ACTIVATE_COMPANY)
     public ResponseEntity<Boolean> activateCompany(String id){
         return ResponseEntity.ok(companyService.activateCompany(id));
     }
-    @CrossOrigin("*")
+
     @PutMapping(DENIED_COMPANY)
     public ResponseEntity<Boolean> deniedCompany(String id){
         return ResponseEntity.ok(companyService.deniedCompany(id));
