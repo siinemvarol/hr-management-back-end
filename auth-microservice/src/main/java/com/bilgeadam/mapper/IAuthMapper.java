@@ -49,4 +49,6 @@ public interface IAuthMapper {
     UserRegisterModel fromAuthToUserRegisterModel(final Auth auth);
 
     UserRegisterModel FromUserCreateEmployeetoUserRegisterModel(final UserCreateEmployeeModel model);
+
+    GuestMailRegisterModel fromAuthToGuestMailRegisterModel(final Auth auth);
 }

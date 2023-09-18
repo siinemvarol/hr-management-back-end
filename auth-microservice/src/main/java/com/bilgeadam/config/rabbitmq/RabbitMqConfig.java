@@ -115,4 +115,16 @@ public class RabbitMqConfig {
     public Binding guestRegisterBinding(final DirectExchange authExchange, final Queue guestRegisterQueue){
         return BindingBuilder.bind(guestRegisterQueue).to(authExchange).with(guestRegisterBinding);
     }
+
+    // guest mail register producer
+    private final String guestMailRegisterQueue = "guest-mail-register-queue";
+    @Bean
+    Queue guestMailRegisterQueue(){
+        return new Queue(guestMailRegisterQueue);
+    }
+    private final String guestMailRegisterBinding = "guest-mail-register-binding";
+    @Bean
+    public Binding guestMailRegisterBinding(final DirectExchange authExchange, final Queue guestMailRegisterQueue){
+        return BindingBuilder.bind(guestMailRegisterQueue).to(authExchange).with(guestMailRegisterBinding);
+    }
 }

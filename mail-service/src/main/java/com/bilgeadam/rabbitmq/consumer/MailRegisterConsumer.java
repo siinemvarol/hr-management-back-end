@@ -14,6 +14,7 @@ public class MailRegisterConsumer {
     @RabbitListener(queues =  "mail-register-queue")
 
     public void addEmployee(MailRegisterModel mailRegisterModel){
+        System.out.println(mailRegisterModel);
         mailService.sendMail(mailRegisterModel);
     }
 }
