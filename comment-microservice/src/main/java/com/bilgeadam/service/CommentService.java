@@ -2,6 +2,8 @@ package com.bilgeadam.service;
 
 import com.bilgeadam.mapper.ICommentMapper;
 import com.bilgeadam.rabbitmq.model.AddCommentSaveCommentModel;
+import com.bilgeadam.rabbitmq.model.GetCompanyCommentsModel;
+import com.bilgeadam.rabbitmq.producer.GetCompanyCommentsProducer;
 import com.bilgeadam.repository.ICommentRepository;
 import com.bilgeadam.repository.entity.Comment;
 import com.bilgeadam.repository.enums.EStatus;
@@ -14,9 +16,11 @@ import java.util.Optional;
 @Service
 public class CommentService extends ServiceManager<Comment, String> {
     private final ICommentRepository commentRepository;
-    public CommentService(ICommentRepository commentRepository){
+    private final GetCompanyCommentsProducer getCompanyCommentsProducer;
+    public CommentService(ICommentRepository commentRepository, GetCompanyCommentsProducer getCompanyCommentsProducer){
         super(commentRepository);
         this.commentRepository = commentRepository;
+        this.getCompanyCommentsProducer = getCompanyCommentsProducer;
     }
 
     // adds comment to comment db
@@ -51,5 +55,14 @@ public class CommentService extends ServiceManager<Comment, String> {
             return true;
         }
         throw new RuntimeException("hata");
+    }
+
+    public List<Comment> getCommentsByCompanyId(Long authid) {
+        GetCompanyCommentsModel getCompanyCommentsModel = new GetCompanyCommentsModel();
+        getCompanyCommentsModel.setAuthid(authid);
+        String companyId = getCompanyCommentsProducer.sendAuthIdToUser(getCompanyCommentsModel);
+        List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
+        System.out.println("comment service'teki comment list...: " + commentList);
+        return commentList;
     }
 }

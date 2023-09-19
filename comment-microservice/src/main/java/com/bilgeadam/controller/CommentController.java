@@ -39,5 +39,9 @@ public class CommentController {
     public ResponseEntity<Boolean> deniedComment(String id){
         return ResponseEntity.ok(commentService.deniedComment(id));
     }
+    @GetMapping(GET_COMMENTS_BY_COMPANY+"/{authid}")
+    public ResponseEntity<List<Comment>> getCommentsByCompany(@PathVariable Long authid){
+        return ResponseEntity.ok(commentService.getCommentsByCompanyId(authid));
+    }
 
 }

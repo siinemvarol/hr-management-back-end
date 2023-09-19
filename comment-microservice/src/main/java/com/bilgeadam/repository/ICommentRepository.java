@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ICommentRepository extends MongoRepository<Comment, String> {
     List<Comment> findByStatus(EStatus eStatus);
+    List<Comment> findAllByCompanyId(final String companyId);
 }
