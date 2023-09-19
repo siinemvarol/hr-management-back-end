@@ -1,0 +1,58 @@
+server:
+  port: 80
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          predicates:
+            - Path=/auth/**
+          uri: http://localhost:9090
+          filters:
+            - name: CircuitBreaker
+              args:
+                enabled: true
+                fallbackUri: forward:/fallback/auth-service
+        - id: user-service
+          predicates:
+            - Path=/user/**
+          uri: http://localhost:9095
+          filters:
+            - name: CircuitBreaker
+              args:
+                enabled: true
+                fallbackUri: forward:/fallback/user-service
+        - id: mail-service
+          predicates:
+            - Path=/mail/**
+          uri: http://localhost:7071
+          filters:
+            - name: CircuitBreaker
+              args:
+                enabled: true
+                fallbackUri: forward:/fallback/mail-service
+        - id: company-service
+          predicates:
+            - Path=/company/**
+          uri: http://localhost:9091
+          filters:
+            - name: CircuitBreaker
+              args:
+                enabled: true
+                fallbackUri: forward:/fallback/company-service
+        - id: comment-service
+          predicates:
+            - Path=/comment/**
+          uri: http://localhost:9093
+          filters:
+            - name: CircuitBreaker
+              args:
+                enabled: true
+                fallbackUri: forward:/fallback/comment-service
+      default-filters:
+        - RewritePath= /(?<segment>.*),/api/v1/$\{segment}
