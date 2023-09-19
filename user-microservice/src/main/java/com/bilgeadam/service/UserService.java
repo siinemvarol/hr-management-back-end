@@ -137,4 +137,12 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
     }
+
+    public String returnCompanyIdForComments(GetCompanyCommentsModel getCompanyCommentsModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyCommentsModel.getAuthid());
+        if (optionalUser.isPresent()) {
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
 }
