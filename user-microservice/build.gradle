@@ -9,5 +9,5 @@ dependencies {
     implementation libs.springBootRabbitMQ
     implementation libs.springBootValidation
     implementation libs.springCloudConfigClient
-
+    implementation libs.springCloudConfigStarter
 }

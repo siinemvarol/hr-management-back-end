@@ -7,5 +7,4 @@ buildscript {
 dependencies {
     implementation libs.springCloudConfigServer
     implementation libs.springCloudConfigStarter
-
 }

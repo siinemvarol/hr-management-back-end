@@ -2,57 +2,73 @@ server:
   port: 80
 
 spring:
-  main:
-    web-application-type: reactive
   application:
     name: api-gateway-service
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      default-filters:
+        - RewritePath= /(?<segment>.*) , /api/v1/$\{segment}
       routes:
         - id: auth-service
+          uri: http://localhost:9090
           predicates:
             - Path=/auth/**
-          uri: http://localhost:9090
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
-                enabled: true
-                fallbackUri: forward:/fallback/auth-service
+                name: auth
+                fallbackUri: forward:/fallback/auth
         - id: user-service
+          uri: http://localhost:9095
           predicates:
             - Path=/user/**
-          uri: http://localhost:9095
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
-                enabled: true
-                fallbackUri: forward:/fallback/user-service
+                name: user
+                fallbackUri: forward:/fallback/user
         - id: mail-service
+          uri: http://localhost:7071
           predicates:
             - Path=/mail/**
-          uri: http://localhost:7071
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
-                enabled: true
-                fallbackUri: forward:/fallback/mail-service
+                name: mail
+                fallbackUri: forward:/fallback/mail
         - id: company-service
+          uri: http://localhost:9091
           predicates:
             - Path=/company/**
-          uri: http://localhost:9091
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
-                enabled: true
-                fallbackUri: forward:/fallback/company-service
+                name: company
+                fallbackUri: forward:/fallback/company
         - id: comment-service
+          uri: http://localhost:9093
           predicates:
             - Path=/comment/**
-          uri: http://localhost:9093
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
-                enabled: true
-                fallbackUri: forward:/fallback/comment-service
-      default-filters:
-        - RewritePath= /(?<segment>.*),/api/v1/$\{segment}
+                name: comment
+                fallbackUri: forward:/fallback/comment

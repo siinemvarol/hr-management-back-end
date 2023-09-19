@@ -9,5 +9,5 @@ dependencies {
     implementation libs.swaggerui
     implementation libs.springBootRabbitMQ
     implementation libs.springCloudConfigClient
-
+    implementation libs.springCloudConfigStarter
 }
