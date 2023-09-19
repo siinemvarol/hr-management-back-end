@@ -12,16 +12,9 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Builder
 public class AddCommentRequestDto {
-
-    @NotEmpty(message = "Company id field cannot be empty")
-    private String companyId;
-
-    @NotEmpty(message = "User id field cannot be empty")
-    private String userId;
-
+    private Long authid;
     @NotEmpty(message = "Header field cannot be empty")
     private String header;
-
     @NotEmpty(message = "Content field cannot be empty")
     private String content;
 }
