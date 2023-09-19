@@ -8,6 +8,7 @@ ext {
             mapstruct : "1.5.5.Final",
             jwt           : "4.3.0",
             springCloud   : "3.1.5",
+            circuitBreaker: "2.1.6",
     ]
 
     libs = [
@@ -27,6 +28,10 @@ ext {
             springCloudConfigServer : "org.springframework.cloud:spring-cloud-config-server:${versions.springCloud}",
             springCloudConfigClient : "org.springframework.cloud:spring-cloud-config-client:${versions.springCloud}",
             springCloudConfigStarter: "org.springframework.cloud:spring-cloud-starter-config:${versions.springCloud}",
+            //Api-gateway
+            springCloudStarterApiGateway: "org.springframework.cloud:spring-cloud-starter-gateway:${versions.springCloud}",
+            springCloudCircuitBreaker   : "org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:${versions.circuitBreaker}",
+            springCloudCircuitReactor   : "org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j:${versions.circuitBreaker}",
 
     ]
 }
