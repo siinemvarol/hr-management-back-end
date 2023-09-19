@@ -10,6 +10,7 @@ import com.bilgeadam.mapper.ICompanyMapper;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.AddCommentSaveCommentProducer;
 import com.bilgeadam.rabbitmq.producer.AddEmployeeCompanyProducer;
+import com.bilgeadam.rabbitmq.producer.GetCompanyInformationProducer;
 import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
 import com.bilgeadam.repository.ICompanyRepository;
 import com.bilgeadam.repository.entity.Company;
@@ -18,6 +19,7 @@ import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -26,15 +28,18 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final UserCompanyIdProducer userCompanyIdProducer;
     private final AddEmployeeCompanyProducer addEmployeeCompanyProducer;
     private final AddCommentSaveCommentProducer addCommentSaveCommentProducer;
+    private final GetCompanyInformationProducer getCompanyInformationProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
                           AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer,
-                          AddCommentSaveCommentProducer addCommentSaveCommentProducer) {
+                          AddCommentSaveCommentProducer addCommentSaveCommentProducer,
+                          GetCompanyInformationProducer getCompanyInformationProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
         this.addEmployeeCompanyProducer = addEmployeeCompanyProducer;
         this.addCommentSaveCommentProducer = addCommentSaveCommentProducer;
+        this.getCompanyInformationProducer = getCompanyInformationProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -127,13 +132,13 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
 
-    public GetCompanyInformationResponseDto getCompanyInformation(String companyId) {
-        Optional<Company> optionalCompany = companyRepository.findById(companyId);
-        if(optionalCompany.isPresent()){
-            GetCompanyInformationResponseDto getCompanyInformationResponseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyInformationResponseDto(optionalCompany.get());
-            return getCompanyInformationResponseDto;
-        }
-        return null;
+    public GetCompanyInformationResponseDto getCompanyInformation(Long authid) {
+        GetCompanyInformationModel getCompanyInformationModel = new GetCompanyInformationModel();
+        getCompanyInformationModel.setAuthid(authid);
+        String companyId = getCompanyInformationProducer.sendAuthIdToUser(getCompanyInformationModel);
+        Optional<Company> optionalCompany = findById(companyId);
+        GetCompanyInformationResponseDto getCompanyInformationResponseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyInformationResponseDto(optionalCompany.get());
+        return getCompanyInformationResponseDto;
 
     }
 

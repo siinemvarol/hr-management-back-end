@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -128,4 +129,12 @@ public class UserService extends ServiceManager<User, String> {
         }
     }
 
+    // returns company id for getting company information of an employee (from user service)
+    public String returnCompanyId(GetCompanyInformationModel getCompanyInformationModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyInformationModel.getAuthid());
+        if (optionalUser.isPresent()) {
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
 }
