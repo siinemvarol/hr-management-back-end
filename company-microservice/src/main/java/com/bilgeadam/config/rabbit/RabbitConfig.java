@@ -86,6 +86,18 @@ public class RabbitConfig {
         return BindingBuilder.bind(addCommentSaveCommentQueue).to(companyExchange).with(addCommentSaveCommentBinding);
     }
 
+    // get company information producer (to user service)
+    private final String getCompanyInformationQueue = "get-company-information-queue";
+    @Bean
+    Queue getCompanyInformationQueue(){
+        return new Queue(getCompanyInformationQueue);
+    }
+    private final String getCompanyInformationBinding = "get-company-information-binding";
+    @Bean
+    public Binding getCompanyInformationBinding(final DirectExchange companyExchange, final Queue getCompanyInformationQueue){
+        return BindingBuilder.bind(getCompanyInformationQueue).to(companyExchange).with(getCompanyInformationBinding);
+    }
+
 
 
     //Consumer

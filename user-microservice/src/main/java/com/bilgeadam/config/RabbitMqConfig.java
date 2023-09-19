@@ -107,5 +107,12 @@ public class RabbitMqConfig {
         return new Queue(guestRegisterQueue);
     }
 
+    // get company information consumer (from auth service)
+    private final String getCompanyInformationQueue = "get-company-information-queue";
+    @Bean
+    Queue getCompanyInformationQueue(){
+        return new Queue(getCompanyInformationQueue);
+    }
+
 
 }

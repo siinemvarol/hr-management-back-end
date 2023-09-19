@@ -79,9 +79,14 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.deniedCompany(id));
     }
 
-    @GetMapping(GET_COMPANY_INFORMATION+"/{companyId}")
-    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
-        return ResponseEntity.ok(companyService.getCompanyInformation(companyId));
+//    @GetMapping(GET_COMPANY_INFORMATION+"/{companyId}")
+//    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
+//        return ResponseEntity.ok(companyService.getCompanyInformation(companyId));
+//    }
+
+    @GetMapping(GET_COMPANY_INFORMATION+"/{authid}")
+    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable Long authid){
+        return ResponseEntity.ok(companyService.getCompanyInformation(authid));
     }
 
 }
