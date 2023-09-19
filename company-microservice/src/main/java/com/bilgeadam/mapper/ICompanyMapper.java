@@ -23,4 +23,8 @@ public interface ICompanyMapper {
     AddCommentSaveCommentModel fromAddCommentRequestDtoToAddCommentSaveCommentModel(final AddCommentRequestDto addCommentRequestDto);
 
     GetCompanyInformationResponseDto fromCompanyToGetCompanyInformationResponseDto(final Company company);
+
+    AddCommentGetUserAndCompanyModel fromAddCommentRequestDtoToAddCommentGetUserAndCompanyModel(final Long authid);
+
+    AddCommentUserAndCompanyResponseModel fromObjectToAddCommentUserAndCompanyResponseModel(final Object convertSendAndReceive);
 }

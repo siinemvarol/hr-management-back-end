@@ -40,7 +40,7 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.addEmployee(addEmployeeCompanyDto));
     }
 
-    @PostMapping(ADD_COMMENT)
+    @PostMapping(ADD_COMMENT+"/{authid}")
     public ResponseEntity<Boolean> addComment(@RequestBody AddCommentRequestDto addCommentRequestDto){
         System.out.println("company controller is working...");
         return ResponseEntity.ok(companyService.addComment(addCommentRequestDto));

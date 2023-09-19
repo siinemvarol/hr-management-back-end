@@ -8,10 +8,7 @@ import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
 import com.bilgeadam.rabbitmq.model.*;
-import com.bilgeadam.rabbitmq.producer.AddCommentSaveCommentProducer;
-import com.bilgeadam.rabbitmq.producer.AddEmployeeCompanyProducer;
-import com.bilgeadam.rabbitmq.producer.GetCompanyInformationProducer;
-import com.bilgeadam.rabbitmq.producer.UserCompanyIdProducer;
+import com.bilgeadam.rabbitmq.producer.*;
 import com.bilgeadam.repository.ICompanyRepository;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.repository.enums.EStatus;
@@ -29,17 +26,20 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final AddEmployeeCompanyProducer addEmployeeCompanyProducer;
     private final AddCommentSaveCommentProducer addCommentSaveCommentProducer;
     private final GetCompanyInformationProducer getCompanyInformationProducer;
+    private final AddCommentGetUserAndCompanyProducer addCommentGetUserAndCompanyProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
                           AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer,
                           AddCommentSaveCommentProducer addCommentSaveCommentProducer,
-                          GetCompanyInformationProducer getCompanyInformationProducer) {
+                          GetCompanyInformationProducer getCompanyInformationProducer,
+                          AddCommentGetUserAndCompanyProducer addCommentGetUserAndCompanyProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
         this.addEmployeeCompanyProducer = addEmployeeCompanyProducer;
         this.addCommentSaveCommentProducer = addCommentSaveCommentProducer;
         this.getCompanyInformationProducer = getCompanyInformationProducer;
+        this.addCommentGetUserAndCompanyProducer = addCommentGetUserAndCompanyProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -88,10 +88,12 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
     // method for adding new comment to a company by an employee
-    // first it checks if user is authorized to make comment to company
-    // then it saves the comment
     public Boolean addComment(AddCommentRequestDto addCommentRequestDto) {
-        addCommentSaveCommentProducer.sendCommentToSave(ICompanyMapper.INSTANCE.fromAddCommentRequestDtoToAddCommentSaveCommentModel(addCommentRequestDto));
+        AddCommentUserAndCompanyResponseModel responseModel = addCommentGetUserAndCompanyProducer.getUserIdAndCompanyId(ICompanyMapper.INSTANCE.fromAddCommentRequestDtoToAddCommentGetUserAndCompanyModel(addCommentRequestDto.getAuthid()));
+        AddCommentSaveCommentModel addCommentSaveCommentModel = ICompanyMapper.INSTANCE.fromAddCommentRequestDtoToAddCommentSaveCommentModel(addCommentRequestDto);
+        addCommentSaveCommentModel.setCompanyId(responseModel.getCompanyId());
+        addCommentSaveCommentModel.setUserId(responseModel.getUserId());
+        addCommentSaveCommentProducer.sendCommentToSave(addCommentSaveCommentModel);
         return true;
     }
 
