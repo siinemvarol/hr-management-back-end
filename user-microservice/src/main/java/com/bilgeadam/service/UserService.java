@@ -145,4 +145,15 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
     }
+
+    public AddCommentUserAndCompanyResponseModel getUserIdAndCompanyId(AddCommentGetUserAndCompanyModel addCommentGetUserAndCompanyModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(addCommentGetUserAndCompanyModel.getAuthid());
+        if(optionalUser.isPresent()){
+            AddCommentUserAndCompanyResponseModel addCommentUserAndCompanyResponseModel = new AddCommentUserAndCompanyResponseModel();
+            addCommentUserAndCompanyResponseModel.setUserId(optionalUser.get().getId());
+            addCommentUserAndCompanyResponseModel.setCompanyId(optionalUser.get().getCompanyId());
+            return addCommentUserAndCompanyResponseModel;
+        }
+        return null;
+    }
 }

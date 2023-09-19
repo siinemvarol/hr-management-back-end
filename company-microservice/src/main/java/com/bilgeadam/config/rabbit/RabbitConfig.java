@@ -61,7 +61,7 @@ public class RabbitConfig {
         return BindingBuilder.bind(addEmployeeCompanyQueue).to(directExchange).with(addEmployeeCompanyBinding);
     }
 
-    //RegisterCompanyManager Prdoucer
+    //RegisterCompanyManager Producer
     private String registerCompanyManagerQueue = "register-company-manager-queue";
     private String registerCompanyManagerBinding = "register-company-manager-binding";
 
@@ -98,6 +98,17 @@ public class RabbitConfig {
         return BindingBuilder.bind(getCompanyInformationQueue).to(companyExchange).with(getCompanyInformationBinding);
     }
 
+    // add comment get userid and companyid producer (to user service)
+    private final String addCommentGetUserAndCompanyQueue = "add-comment-get-user-and-company-queue";
+    @Bean
+    Queue addCompanyGetUserAndCompanyQueue(){
+        return new Queue(addCommentGetUserAndCompanyQueue);
+    }
+    private final String addCommentGetUserAndCompanyBinding = "add-comment-get-user-and-company-binding";
+    @Bean
+    public Binding addCommentGetUserAndCompanyBinding(final DirectExchange companyExchange, final Queue addCompanyGetUserAndCompanyQueue){
+        return BindingBuilder.bind(addCompanyGetUserAndCompanyQueue).to(companyExchange).with(addCommentGetUserAndCompanyBinding);
+    }
 
 
     //Consumer

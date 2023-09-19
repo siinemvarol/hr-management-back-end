@@ -121,5 +121,12 @@ public class RabbitMqConfig {
         return new Queue(getCompanyCommentsQueue);
     }
 
+    // add comment get user and company consumer (from company service)
+    private final String addCommentGetUserAndCompanyQueue = "add-comment-get-user-and-company-queue";
+    @Bean
+    Queue addCompanyGetUserAndCompanyQueue(){
+        return new Queue(addCommentGetUserAndCompanyQueue);
+    }
+
 
 }
