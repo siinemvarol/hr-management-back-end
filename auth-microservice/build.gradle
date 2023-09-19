@@ -12,5 +12,6 @@ dependencies {
     implementation libs.springBootValidation
     implementation libs.javaJWT
     implementation libs.springCloudConfigClient
+    implementation libs.springCloudConfigStarter
 
 }

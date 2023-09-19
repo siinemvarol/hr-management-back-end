@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/fallback")
 public class FallBackController {
 
-    @GetMapping("/auth-service")
+    @GetMapping("/auth")
     public ResponseEntity<String> authServiceFallback(){
         return ResponseEntity.ok("Auth service is currently unavailable.");
     }
-    @GetMapping("/user-service")
+    @GetMapping("/user")
     public ResponseEntity<String> userServiceFallback(){
             return ResponseEntity.ok("User service is currently unavailable.");
     }
-    @GetMapping("/mail-service")
+    @GetMapping("/mail")
     public ResponseEntity<String> mailServiceFallback(){
         return ResponseEntity.ok("Mail service is currently unavailable.");
     }
-    @GetMapping("/company-service")
+    @GetMapping("/company")
     public ResponseEntity<String> companyServiceFallback(){
         return ResponseEntity.ok("Company service is currently unavailable.");
     }
-    @GetMapping("/comment-service")
+    @GetMapping("/comment")
     public ResponseEntity<String> commentServiceFallback(){
         return ResponseEntity.ok("Comment service is currently unavailable.");
     }
