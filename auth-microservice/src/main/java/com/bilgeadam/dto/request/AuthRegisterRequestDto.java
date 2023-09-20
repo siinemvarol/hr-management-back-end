@@ -32,9 +32,6 @@ public class AuthRegisterRequestDto {
     private String email;
 
     @NotEmpty(message = "Password field cannot be empty")
-    @Size(min = 8,max = 64,message = "Password must be between 8-64 characters")
-    @Pattern(message = "Password must be at least 8 characters and contain at least one uppercase, lowercase letter and number.",
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])(?=\\S+$).{8,}$")
     private String password;
 
     private String rePassword;

@@ -14,7 +14,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AUTH)
-//@CrossOrigin(origins = "*" ,allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 public class AuthController {
     private final AuthService authService;
 

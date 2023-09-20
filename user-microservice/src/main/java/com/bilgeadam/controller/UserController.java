@@ -16,7 +16,7 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(USER)
-@CrossOrigin(origins = "*" ,allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
