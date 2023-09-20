@@ -28,7 +28,9 @@ public class MailService {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom("${spring.mail.username}"); // Şirketinizi temsil eden e-posta adresi
-           mailMessage.setTo(mailRegisterModel.getPersonalEmail());
+            if (mailRegisterModel.getCompanyEmail()!=null){
+                mailMessage.setTo(mailRegisterModel.getCompanyEmail());
+            }else mailMessage.setTo(mailRegisterModel.getPersonalEmail());
 
             mailMessage.setTo(mailRegisterModel.getPersonalEmail());
             mailMessage.setSubject("Username: " + mailRegisterModel.getUsername());
@@ -58,7 +60,9 @@ public class MailService {
             System.out.println(mailForgotPassModel);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom("your_email@example.com"); // Şirketinizi temsil eden e-posta adresi
-            mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
+            if (mailForgotPassModel.getCompanyEmail()!=null){
+                mailMessage.setTo(mailForgotPassModel.getCompanyEmail());
+            }else mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
             mailMessage.setSubject("Sayın " + mailForgotPassModel.getUsername());
             mailMessage.setText("Yenilenen şifreniz aşağıda bulunmaktadır. \n\n Password: " + mailForgotPassModel.getRandomPassword());
             mailSender.send(mailMessage);

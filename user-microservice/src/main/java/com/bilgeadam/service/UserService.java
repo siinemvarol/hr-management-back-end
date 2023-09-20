@@ -16,12 +16,10 @@ import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
-import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -155,5 +153,19 @@ public class UserService extends ServiceManager<User, String> {
             return addCommentUserAndCompanyResponseModel;
         }
         return null;
+    }
+
+    // when adding new employee, returns company id based on company manager's auth id (from company service)
+    public String returnCompanyIdForEmployee(AddEmployeeGetCompanyIdModel addEmployeeGetCompanyNameModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(addEmployeeGetCompanyNameModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+    // saves new employee to user db
+    public void addEmployeeSaveUser(AddEmployeeSaveUserModel addEmployeeSaveUserModel) {
+        User user = IUserMapper.INSTANCE.fromAddEmployeeSaveUserModelToUser(addEmployeeSaveUserModel);
+        save(user);
     }
 }

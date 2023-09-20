@@ -127,4 +127,12 @@ public class RabbitMqConfig {
     public Binding guestMailRegisterBinding(final DirectExchange authExchange, final Queue guestMailRegisterQueue){
         return BindingBuilder.bind(guestMailRegisterQueue).to(authExchange).with(guestMailRegisterBinding);
     }
+
+    // add employee save auth consumer (from company service)
+    private final String addEmployeeSaveAuthQueue = "add-employee-save-auth-queue";
+    @Bean
+    Queue addEmployeeSaveAuthQueue(){
+        return new Queue(addEmployeeSaveAuthQueue);
+    }
+
 }

@@ -8,12 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class MailForgotPassModel implements Serializable {
-    private String username;
-    private String personalEmail;
-    private String companyEmail;
-    private String randomPassword;
+public class AddEmployeeGetCompanyIdModel implements Serializable {
+    private Long authid;
 }
