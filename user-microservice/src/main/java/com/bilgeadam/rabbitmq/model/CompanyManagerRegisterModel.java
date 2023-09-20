@@ -13,6 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class CompanyManagerRegisterModel implements Serializable {
+    private Long authid;
     private String name;
     private String surname;
     private String companyEmail;

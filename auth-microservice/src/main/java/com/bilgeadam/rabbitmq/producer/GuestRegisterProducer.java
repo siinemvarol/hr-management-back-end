@@ -12,6 +12,7 @@ public class GuestRegisterProducer {
     private String guestRegisterBinding = "guest-register-binding";
     private final RabbitTemplate rabbitTemplate;
     public void sendGuest(GuestRegisterModel guestRegisterModel){
+        System.out.println(guestRegisterModel);
         rabbitTemplate.convertAndSend(exchange, guestRegisterBinding, guestRegisterModel);
     }
 }

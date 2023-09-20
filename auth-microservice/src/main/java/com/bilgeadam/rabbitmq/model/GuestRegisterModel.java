@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Builder
 public class GuestRegisterModel implements Serializable {
     private String name;
+    private Long authid;
     private String surname;
     private String phone;
     private String address;

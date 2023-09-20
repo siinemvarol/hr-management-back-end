@@ -112,6 +112,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         auth.setRole(ERole.GUEST);
         save(auth);
         GuestRegisterModel guestRegisterModel = IAuthMapper.INSTANCE.fromGuestRegisterRequestToGuestRegisterModel(guestRegisterRequestDto);
+        guestRegisterModel.setAuthid(auth.getId());
         guestRegisterProducer.sendGuest(guestRegisterModel);
         GuestMailRegisterModel guestMailRegisterModel = IAuthMapper.INSTANCE.fromAuthToGuestMailRegisterModel(auth);
         guestMailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
