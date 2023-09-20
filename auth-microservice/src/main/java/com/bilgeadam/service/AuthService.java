@@ -153,4 +153,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
         companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
         return true;
     }
+
+    public Long saveEmployeeReturnId(AddEmployeeSaveAuthModel addEmployeeSaveAuthModel) {
+        Auth auth = IAuthMapper.INSTANCE.fromAddEmployeeSaveAuthModelToAuth(addEmployeeSaveAuthModel);
+        save(auth);
+        if(auth != null){
+            return auth.getId();
+        }
+        return null;
+    }
 }

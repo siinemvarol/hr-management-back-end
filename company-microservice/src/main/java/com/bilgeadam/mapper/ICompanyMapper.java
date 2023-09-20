@@ -26,5 +26,7 @@ public interface ICompanyMapper {
 
     AddCommentGetUserAndCompanyModel fromAddCommentRequestDtoToAddCommentGetUserAndCompanyModel(final Long authid);
 
-    AddCommentUserAndCompanyResponseModel fromObjectToAddCommentUserAndCompanyResponseModel(final Object convertSendAndReceive);
+    AddEmployeeSaveAuthModel fromAddEmployeeCompanyDtoToAuthModel(final AddEmployeeCompanyDto addEmployeeCompanyDto);
+
+    AddEmployeeSaveUserModel fromAddEmployeeCompanyDtoToAddEmployeeSaveUserModel(final AddEmployeeCompanyDto addEmployeeCompanyDto);
 }

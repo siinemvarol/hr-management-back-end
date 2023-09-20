@@ -128,5 +128,19 @@ public class RabbitMqConfig {
         return new Queue(addCommentGetUserAndCompanyQueue);
     }
 
+    // add employee get company id consumer (from company service)
+    private final String addEmployeeGetCompanyIdQueue = "add-employee-get-company-id-queue";
+    @Bean
+    Queue addEmployeeGetCompanyIdQueue(){
+        return new Queue(addEmployeeGetCompanyIdQueue);
+    }
+
+    // add employee save user consumer (from company service)
+    private final String addEmployeeSaveUserQueue = "add-employee-save-user-queue";
+    @Bean
+    Queue addEmployeeSaveUserQueue(){
+        return new Queue(addEmployeeSaveUserQueue);
+    }
+
 
 }

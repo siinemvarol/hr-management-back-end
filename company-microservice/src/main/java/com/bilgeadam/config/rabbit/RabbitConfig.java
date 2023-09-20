@@ -110,6 +110,41 @@ public class RabbitConfig {
         return BindingBuilder.bind(addCompanyGetUserAndCompanyQueue).to(companyExchange).with(addCommentGetUserAndCompanyBinding);
     }
 
+    // add employee get company id model producer (to user service)
+    private final String addEmployeeGetCompanyIdQueue = "add-employee-get-company-id-queue";
+    @Bean
+    Queue addEmployeeGetCompanyIdQueue(){
+        return new Queue(addEmployeeGetCompanyIdQueue);
+    }
+    private final String addEmployeeGetCompanyIdBinding = "add-employee-get-company-id-binding";
+    @Bean
+    public Binding addEmployeeGetCompanyIdBinding(final DirectExchange companyExchange, final Queue addEmployeeGetCompanyIdQueue){
+        return BindingBuilder.bind(addEmployeeGetCompanyIdQueue).to(companyExchange).with(addEmployeeGetCompanyIdBinding);
+    }
+
+    // add employee save auth producer (to auth service)
+    private final String addEmployeeSaveAuthQueue = "add-employee-save-auth-queue";
+    @Bean
+    Queue addEmployeeSaveAuthQueue(){
+        return new Queue(addEmployeeSaveAuthQueue);
+    }
+    private final String addEmployeeSaveAuthBinding = "add-employee-save-auth-binding";
+    @Bean
+    public Binding addEmployeeSaveAuthBinding(final DirectExchange companyExchange, final Queue addEmployeeSaveAuthQueue){
+        return BindingBuilder.bind(addEmployeeSaveAuthQueue).to(companyExchange).with(addEmployeeSaveAuthBinding);
+    }
+
+    // add employee save user producer (to user service)
+    private final String addEmployeeSaveUserQueue = "add-employee-save-user-queue";
+    @Bean
+    Queue addEmployeeSaveUserQueue(){
+        return new Queue(addEmployeeSaveUserQueue);
+    }
+    private final String addEmployeeSaveUserBinding = "add-employee-save-user-binding";
+    @Bean
+    public Binding addEmployeeSaveUserBinding(final DirectExchange companyExchange, final Queue addEmployeeSaveUserQueue){
+        return BindingBuilder.bind(addEmployeeSaveUserQueue).to(companyExchange).with(addEmployeeSaveUserBinding);
+    }
 
     //Consumer
 

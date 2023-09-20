@@ -31,11 +31,11 @@ public class CompanyController {
     public ResponseEntity<Boolean> update(@RequestBody @Valid CompanyUpdateRequestDto dto){
         return ResponseEntity.ok(companyService.updateCompany(dto));
     }
-    @PostMapping(GETUSERS)
+    @PostMapping(GET_USERS)
     public ResponseEntity<Boolean> getUserList(@RequestBody @Valid UserCompanyIdModel model){
         return ResponseEntity.ok(companyService.sendCompanyId(model));
     }
-    @PostMapping(ADDEMPLOYEE)
+    @PostMapping(ADD_EMPLOYEE+"/{authid}")
     public ResponseEntity<AddEmployeeCompanyModel> addEmployee(@RequestBody AddEmployeeCompanyDto addEmployeeCompanyDto){
         return ResponseEntity.ok(companyService.addEmployee(addEmployeeCompanyDto));
     }
