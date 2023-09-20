@@ -28,4 +28,5 @@ public interface IUserMapper {
     User fromEmployeeInfoUpdateRequestDtoToUser(final EmployeeInfoUpdateDto dto, @MappingTarget User user);
 
 
+    User fromAddEmployeeSaveUserModelToUser(final AddEmployeeSaveUserModel addEmployeeSaveUserModel);
 }

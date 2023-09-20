@@ -6,8 +6,8 @@ public class ApiUrls {
     public static final String COMPANY = VERSION + "/company";
     public static final String COMPANY_REGISTER = "/company-register";
     public static  final String UPDATE = "/update-company";
-    public static final String GETUSERS = "/get-users";
-    public static final String ADDEMPLOYEE = "/add-employee";
+    public static final String GET_USERS = "/get-users";
+    public static final String ADD_EMPLOYEE = "/add-employee";
     public static final String ADD_COMMENT = "/add-comment";
     public static final String GET_COMPANY_INFORMATION = "/get-company-information";
 
