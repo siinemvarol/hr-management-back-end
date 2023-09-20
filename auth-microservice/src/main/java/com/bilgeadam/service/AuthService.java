@@ -90,6 +90,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public String forgotPassword(AuthForgotPasswordRequestDto dto) {
         Optional<Auth> optionalAuth = authRepository.findOptionalByPersonalEmail(dto.getEmail());
+        if (optionalAuth.isEmpty()) {
+            optionalAuth = authRepository.findOptionalByCompanyEmail(dto.getEmail());
+            if (optionalAuth.isEmpty()) {
+                throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+            }
+        }
         if (optionalAuth.isPresent() && optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
             //random password
             String randomPassword = UUID.randomUUID().toString();
@@ -97,7 +103,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
             update(optionalAuth.get());
             UserForgotPassModel userForgotPassModel = UserForgotPassModel.builder().password(randomPassword).authid(optionalAuth.get().getId()).build();
             userForgotPassProducer.userForgotPassword(userForgotPassModel);
-            MailForgotPassModel mailForgotPassModel = MailForgotPassModel.builder().personalEmail(optionalAuth.get().getPersonalEmail()).randomPassword(randomPassword).username(optionalAuth.get().getUsername()).build();
+            MailForgotPassModel mailForgotPassModel = MailForgotPassModel.builder().personalEmail(optionalAuth.get().getPersonalEmail()).companyEmail(optionalAuth.get().getCompanyEmail()).randomPassword(randomPassword).username(optionalAuth.get().getUsername()).build();
             mailForgotPassProducer.forgotPasswordSendMail(mailForgotPassModel);
 
             return "New password is:" + optionalAuth.get().getPassword();

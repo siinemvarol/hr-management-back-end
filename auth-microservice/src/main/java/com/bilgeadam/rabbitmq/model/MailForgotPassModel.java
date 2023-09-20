@@ -14,5 +14,6 @@ import java.io.Serializable;
 public class MailForgotPassModel implements Serializable {
     private String username;
     private String personalEmail;
+    private String companyEmail;
     private String randomPassword;
 }
