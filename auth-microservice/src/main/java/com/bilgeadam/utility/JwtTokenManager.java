@@ -16,7 +16,7 @@ public class JwtTokenManager {
 
     public Optional<String> createToken(Long id, ERole eRole) {
         String token = null;
-        Date date = new Date(System.currentTimeMillis() + (1000L * 60 * 5));
+        Date date = new Date(System.currentTimeMillis() + (1000L * 60 * 60 * 24));
         try {
             token = JWT.create()
                     .withAudience(audience)
