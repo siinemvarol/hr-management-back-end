@@ -73,13 +73,6 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
-    public void addEmployeeCompany(AddEmployeeCompanyModel model) {
-        UserCreateEmployeeModel userCreateEmployeeModel = IUserMapper.INSTANCE.userCreateEmployeeModelfromAddEmployeeCompanyModel(model);
-
-        createEmployee(userCreateEmployeeModel);
-    }
-
-
     public void findByCompanyId(UserCompanyIdModel model) {
         List<UserCompanyListModel> companyIdModels = new ArrayList<>();
         List<User> userList = userRepository.findByCompanyId(model.getCompanyId());

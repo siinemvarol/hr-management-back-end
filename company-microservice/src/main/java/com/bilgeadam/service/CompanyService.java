@@ -21,7 +21,6 @@ import java.util.Optional;
 public class CompanyService extends ServiceManager<Company, String> {
     private final ICompanyRepository companyRepository;
     private final UserCompanyIdProducer userCompanyIdProducer;
-    private final AddEmployeeCompanyProducer addEmployeeCompanyProducer;
     private final AddCommentSaveCommentProducer addCommentSaveCommentProducer;
     private final GetCompanyInformationProducer getCompanyInformationProducer;
     private final AddCommentGetUserAndCompanyProducer addCommentGetUserAndCompanyProducer;
@@ -30,7 +29,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final AddEmployeeSaveUserProducer addEmployeeSaveUserProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
-                          AddEmployeeCompanyProducer addEmployeeCompanyProducer, UserCompanyIdProducer userCompanyIdProducer,
+                          UserCompanyIdProducer userCompanyIdProducer,
                           AddCommentSaveCommentProducer addCommentSaveCommentProducer,
                           GetCompanyInformationProducer getCompanyInformationProducer,
                           AddCommentGetUserAndCompanyProducer addCommentGetUserAndCompanyProducer,
@@ -40,7 +39,6 @@ public class CompanyService extends ServiceManager<Company, String> {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
-        this.addEmployeeCompanyProducer = addEmployeeCompanyProducer;
         this.addCommentSaveCommentProducer = addCommentSaveCommentProducer;
         this.getCompanyInformationProducer = getCompanyInformationProducer;
         this.addCommentGetUserAndCompanyProducer = addCommentGetUserAndCompanyProducer;
@@ -67,11 +65,10 @@ public class CompanyService extends ServiceManager<Company, String> {
         return model;
     }
 
-    public AddEmployeeCompanyModel addEmployee(AddEmployeeCompanyDto addEmployeeCompanyDto) {
+    public Boolean addEmployee(AddEmployeeCompanyDto addEmployeeCompanyDto) {
         AddEmployeeGetCompanyIdModel getCompanyNameModel = new AddEmployeeGetCompanyIdModel();
         getCompanyNameModel.setAuthid(addEmployeeCompanyDto.getAuthid());
         String companyId = addEmployeeGetCompanyIdProducer.toUserGetCompanyId(getCompanyNameModel);
-        System.out.println("company id is..." + companyId);
         Optional<Company> optionalCompany = findById(companyId);
         AddEmployeeSaveAuthModel authModel = ICompanyMapper.INSTANCE.fromAddEmployeeCompanyDtoToAuthModel(addEmployeeCompanyDto);
         String companyEmail = addEmployeeCompanyDto.getName() + addEmployeeCompanyDto.getSurname() + "@" + optionalCompany.get().getCompanyName() + ".com";
@@ -82,7 +79,6 @@ public class CompanyService extends ServiceManager<Company, String> {
         }
         authModel.setCompanyEmail(companyEmail);
         authModel.setRole(ERole.EMPLOYEE);
-        System.out.println("auth model to save is...: " + authModel);
         Long employeeAuthId = addEmployeeSaveAuthProducer.toAuthSaveEmployee(authModel);
         AddEmployeeSaveUserModel userModel = ICompanyMapper.INSTANCE.fromAddEmployeeCompanyDtoToAddEmployeeSaveUserModel(addEmployeeCompanyDto);
         userModel.setCompanyEmail(companyEmail);
@@ -90,22 +86,6 @@ public class CompanyService extends ServiceManager<Company, String> {
         userModel.setAuthid(employeeAuthId);
         userModel.setCompanyId(optionalCompany.get().getId());
         addEmployeeSaveUserProducer.toUserSaveEmployee(userModel);
-
-//        Optional<Company> optionalCompany = companyRepository.findById(addEmployeeCompanyDto.getCompanyId());
-//        if (optionalCompany.isEmpty()) {
-//            throw new CompanyManagerException(ErrorType.INVALID_COMPANY);
-//        }
-//        AddEmployeeCompanyModel addEmployeeCompanyModel = ICompanyMapper.INSTANCE.addEmployeeCompanyModelfromAddEmployeeCompanyDto(addEmployeeCompanyDto);
-//        String companyEmail = addEmployeeCompanyModel.getName() + addEmployeeCompanyModel.getSurname() + "@" + optionalCompany.get().getCompanyName() + ".com";
-//
-//        String[] mailArray = companyEmail.toLowerCase().split(" ");
-//        companyEmail = "";
-//        for (String part : mailArray) {
-//            companyEmail = companyEmail + part;
-//        }
-//        addEmployeeCompanyModel.setCompanyEmail(companyEmail);
-////        addEmployeeCompanyModel.setCompanyId(optionalCompany.get().getId());
-//        addEmployeeCompanyProducer.sendAddEmployeeMessage(addEmployeeCompanyModel);
         return null;
     }
 

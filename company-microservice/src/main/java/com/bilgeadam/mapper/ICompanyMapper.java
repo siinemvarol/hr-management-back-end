@@ -15,9 +15,6 @@ public interface ICompanyMapper {
     @Mapping(source = "id",target = "companyId")
     UserCompanyIdModel fromCompanyToUserCompanyIdModel(final Company company);
 
-    AddEmployeeCompanyModel addEmployeeCompanyModelfromAddEmployeeCompanyDto(final AddEmployeeCompanyDto addEmployeeCompanyDto);
-
-
     Company fromCompanyRegisterModelToCompany(final CompanyRegisterModel companyRegisterModel);
 
     AddCommentSaveCommentModel fromAddCommentRequestDtoToAddCommentSaveCommentModel(final AddCommentRequestDto addCommentRequestDto);
