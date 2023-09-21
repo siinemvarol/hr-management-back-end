@@ -12,8 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class CompanyRegisterModel implements Serializable {
-
-    private String id;
     private String companyName;
     private String infoEmail;
     private String companyPhone;
