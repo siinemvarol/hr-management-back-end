@@ -109,9 +109,10 @@ public class CompanyService extends ServiceManager<Company, String> {
         return null;
     }
 
-    public Boolean createNewCompany(CompanyRegisterModel companyRegisterModel) {
-        companyRepository.save(ICompanyMapper.INSTANCE.fromCompanyRegisterModelToCompany(companyRegisterModel));
-        return true;
+    public String createNewCompany(CompanyRegisterModel companyRegisterModel) {
+        Company company = ICompanyMapper.INSTANCE.fromCompanyRegisterModelToCompany(companyRegisterModel);
+        save(company);
+        return company.getId();
     }
 
     // method for adding new comment to a company by an employee
