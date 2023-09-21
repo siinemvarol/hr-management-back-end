@@ -17,19 +17,6 @@ public class RabbitMqConfig {
         return new DirectExchange(exchange);
     }
 
-    //Bunlar değişir
-    private String addEmployeeQueue = "add-employee-queue";
-    private String addEmployeeBinding = "add-employee-binding";
-
-    @Bean
-    Queue addEmployeeQueue(){
-        return new Queue(addEmployeeQueue);
-    }
-    @Bean
-    public Binding addEmployeeBinding(final Queue addEmployeeQueue, final DirectExchange directExchange){
-        return BindingBuilder.bind(addEmployeeQueue).to(directExchange).with(addEmployeeBinding);
-    }
-
     //Producer
     private String userListCompanyQueue = "userList-company-queue";
     private String userListCompanyBinding = "userList-company-binding";

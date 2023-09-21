@@ -4,7 +4,6 @@ import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
-import com.bilgeadam.rabbitmq.model.AddEmployeeCompanyModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
@@ -36,7 +35,7 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.sendCompanyId(model));
     }
     @PostMapping(ADD_EMPLOYEE+"/{authid}")
-    public ResponseEntity<AddEmployeeCompanyModel> addEmployee(@RequestBody AddEmployeeCompanyDto addEmployeeCompanyDto){
+    public ResponseEntity<Boolean> addEmployee(@RequestBody AddEmployeeCompanyDto addEmployeeCompanyDto){
         return ResponseEntity.ok(companyService.addEmployee(addEmployeeCompanyDto));
     }
 
