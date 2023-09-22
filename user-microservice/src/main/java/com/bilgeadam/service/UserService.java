@@ -94,6 +94,7 @@ public class UserService extends ServiceManager<User, String> {
 
     public Optional<User> findEmployeeByAuthId(Long authId) {
         Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+        System.out.println("returning user is.... " +  employee);
         if (employee.isPresent()) {
             return employee;
         } else {
@@ -160,5 +161,13 @@ public class UserService extends ServiceManager<User, String> {
     public void addEmployeeSaveUser(AddEmployeeSaveUserModel addEmployeeSaveUserModel) {
         User user = IUserMapper.INSTANCE.fromAddEmployeeSaveUserModelToUser(addEmployeeSaveUserModel);
         save(user);
+    }
+    // returns employee name and surname for getting pending comments (to comment service)
+    public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
+        Optional<User> optionalUser = userRepository.findById(getPendingCommentsEmployeeModel.getId());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getName() + " " + optionalUser.get().getSurname();
+        }
+        return null;
     }
 }

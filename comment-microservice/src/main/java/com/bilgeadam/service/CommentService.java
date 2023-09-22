@@ -1,15 +1,17 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.mapper.ICommentMapper;
-import com.bilgeadam.rabbitmq.model.AddCommentSaveCommentModel;
-import com.bilgeadam.rabbitmq.model.GetCompanyCommentsModel;
+import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.GetCompanyCommentsProducer;
+import com.bilgeadam.rabbitmq.producer.GetPendingCommentsCompanyNameProducer;
+import com.bilgeadam.rabbitmq.producer.GetPendingCommentsEmployeeProducer;
 import com.bilgeadam.repository.ICommentRepository;
 import com.bilgeadam.repository.entity.Comment;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +19,16 @@ import java.util.Optional;
 public class CommentService extends ServiceManager<Comment, String> {
     private final ICommentRepository commentRepository;
     private final GetCompanyCommentsProducer getCompanyCommentsProducer;
-    public CommentService(ICommentRepository commentRepository, GetCompanyCommentsProducer getCompanyCommentsProducer){
+    private final GetPendingCommentsCompanyNameProducer getPendingCommentsCompanyNameProducer;
+    private final GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer;
+    public CommentService(ICommentRepository commentRepository, GetCompanyCommentsProducer getCompanyCommentsProducer,
+                          GetPendingCommentsCompanyNameProducer getPendingCommentsCompanyNameProducer,
+                          GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer){
         super(commentRepository);
         this.commentRepository = commentRepository;
         this.getCompanyCommentsProducer = getCompanyCommentsProducer;
+        this.getPendingCommentsCompanyNameProducer = getPendingCommentsCompanyNameProducer;
+        this.getPendingCommentsEmployeeProducer = getPendingCommentsEmployeeProducer;
     }
 
     // adds comment to comment db
@@ -35,6 +43,30 @@ public class CommentService extends ServiceManager<Comment, String> {
 
     public List<Comment> getPendingComments() {
         return commentRepository.findByStatus(EStatus.PENDING);
+    }
+
+    public List<GetPendingCommentsResponseModel> getPendingComments2() {
+        List<Comment> commentList = commentRepository.findByStatus(EStatus.PENDING);
+        List<GetPendingCommentsResponseModel> returningList = new ArrayList<>();
+        commentList.forEach(comment -> {
+            GetPendingCommentsCompanyNameModel companyNameModel = new GetPendingCommentsCompanyNameModel();
+            companyNameModel.setId(comment.getCompanyId());
+            String companyName = getPendingCommentsCompanyNameProducer.returnCompanyName(companyNameModel);
+
+            GetPendingCommentsEmployeeModel employeeModel = new GetPendingCommentsEmployeeModel();
+            employeeModel.setId(comment.getUserId());
+            String employeeNameSurname = getPendingCommentsEmployeeProducer.returnEmployeeNameSurname(employeeModel);
+
+            GetPendingCommentsResponseModel model = GetPendingCommentsResponseModel.builder()
+                    .companyName(companyName)
+                    .employeeNameSurname(employeeNameSurname)
+                    .header(comment.getHeader())
+                    .content(comment.getContent())
+                    .status(comment.getStatus())
+                    .build();
+            returningList.add(model);
+        });
+        return returningList;
     }
 
     public Boolean activeComment(String id) {

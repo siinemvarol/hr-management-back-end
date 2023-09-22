@@ -150,4 +150,11 @@ public class RabbitConfig {
         return new Queue(companyRegisterQueue);
     }
 
+    // get pending comments company name consumer (to comment service)
+    private final String getPendingCommentsCompanyNameQueue = "get-pending-comments-company-name-queue";
+    @Bean
+    Queue getPendingCommentsCompanyNameQueue(){
+        return new Queue(getPendingCommentsCompanyNameQueue);
+    }
+
 }
