@@ -170,4 +170,20 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
     }
+    // returns company id to company manager for getting company info
+    public String returnCompanyIdManager(GetCompanyInformationManagerModel getCompanyInformationManagerModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyInformationManagerModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+
+    public String returnCompanyIdManagerValuation(GetCompanyValuationManagerModel getCompanyValuationManagerModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyValuationManagerModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
 }

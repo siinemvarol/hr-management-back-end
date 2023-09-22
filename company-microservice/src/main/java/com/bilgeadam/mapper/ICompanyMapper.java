@@ -2,7 +2,9 @@ package com.bilgeadam.mapper;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
+import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.Company;
 import org.mapstruct.*;
@@ -26,4 +28,8 @@ public interface ICompanyMapper {
     AddEmployeeSaveAuthModel fromAddEmployeeCompanyDtoToAuthModel(final AddEmployeeCompanyDto addEmployeeCompanyDto);
 
     AddEmployeeSaveUserModel fromAddEmployeeCompanyDtoToAddEmployeeSaveUserModel(final AddEmployeeCompanyDto addEmployeeCompanyDto);
+
+    GetCompanyInformationManagerResponseDto fromCompanyToGetCompanyInformationManagerResponseDto(final Company company);
+
+    GetCompanyValuationManagerResponseDto fromCompanyToGetCompanyValuationManagerResponseDto(final Company company);
 }
