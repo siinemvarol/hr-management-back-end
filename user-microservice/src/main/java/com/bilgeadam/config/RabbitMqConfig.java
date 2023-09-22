@@ -136,5 +136,20 @@ public class RabbitMqConfig {
         return new Queue(getPendingCommentsEmployeeQueue);
     }
 
+    // get company information manager consumer (from company service)
+    private final String getCompanyInformationManagerQueue = "get-company-information-manager-queue";
+
+    @Bean
+    Queue getCompanyInformationManagerQueue() {
+        return new Queue(getCompanyInformationManagerQueue);
+    }
+
+    // get company valuation manager consumer (from company service)
+    private final String getCompanyValuationManagerQueue = "get-company-valuation-manager-queue";
+    @Bean
+    Queue getCompanyValuationManagerQueue(){
+        return new Queue(getCompanyValuationManagerQueue);
+    }
+
 
 }

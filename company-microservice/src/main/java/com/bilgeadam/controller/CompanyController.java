@@ -3,7 +3,9 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
+import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
@@ -82,10 +84,22 @@ public class CompanyController {
 //    public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable String companyId){
 //        return ResponseEntity.ok(companyService.getCompanyInformation(companyId));
 //    }
-
+    // for employee's my company page
     @GetMapping(GET_COMPANY_INFORMATION+"/{authid}")
     public ResponseEntity<GetCompanyInformationResponseDto> getCompanyInformation(@PathVariable Long authid){
         return ResponseEntity.ok(companyService.getCompanyInformation(authid));
+    }
+
+    // for company manager's company information page
+    @GetMapping(GET_COMPANY_INFORMATION_MANAGER+"/{authid}")
+    public ResponseEntity<GetCompanyInformationManagerResponseDto> getCompanyInformationManager(@PathVariable Long authid){
+        return ResponseEntity.ok(companyService.getCompanyInformationManager(authid));
+    }
+
+    // for company manager's company information page
+    @GetMapping(GET_COMPANY_VALUATION_MANAGER+"/{authid}")
+    public ResponseEntity<GetCompanyValuationManagerResponseDto> getCompanyValuationManager(@PathVariable Long authid){
+        return ResponseEntity.ok(companyService.getCompanyValuationManager(authid));
     }
 
 }

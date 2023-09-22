@@ -3,7 +3,9 @@ package com.bilgeadam.service;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
+import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
 import com.bilgeadam.mapper.ICompanyMapper;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.*;
@@ -27,6 +29,8 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final AddEmployeeGetCompanyIdProducer addEmployeeGetCompanyIdProducer;
     private final AddEmployeeSaveAuthProducer addEmployeeSaveAuthProducer;
     private final AddEmployeeSaveUserProducer addEmployeeSaveUserProducer;
+    private final GetCompanyInformationManagerProducer getCompanyInformationManagerProducer;
+    private final GetCompanyValuationManagerProducer getCompanyValuationManagerProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
                           UserCompanyIdProducer userCompanyIdProducer,
@@ -35,7 +39,9 @@ public class CompanyService extends ServiceManager<Company, String> {
                           AddCommentGetUserAndCompanyProducer addCommentGetUserAndCompanyProducer,
                           AddEmployeeGetCompanyIdProducer addEmployeeGetCompanyIdProducer,
                           AddEmployeeSaveAuthProducer addEmployeeSaveAuthProducer,
-                          AddEmployeeSaveUserProducer addEmployeeSaveUserProducer) {
+                          AddEmployeeSaveUserProducer addEmployeeSaveUserProducer,
+                          GetCompanyInformationManagerProducer getCompanyInformationManagerProducer,
+                          GetCompanyValuationManagerProducer getCompanyValuationManagerProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
@@ -45,6 +51,8 @@ public class CompanyService extends ServiceManager<Company, String> {
         this.addEmployeeGetCompanyIdProducer = addEmployeeGetCompanyIdProducer;
         this.addEmployeeSaveAuthProducer = addEmployeeSaveAuthProducer;
         this.addEmployeeSaveUserProducer = addEmployeeSaveUserProducer;
+        this.getCompanyInformationManagerProducer = getCompanyInformationManagerProducer;
+        this.getCompanyValuationManagerProducer = getCompanyValuationManagerProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -154,9 +162,25 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
     // returns company name for getting pending comments (comment service)
     public String returnCompanyName(GetPendingCommentsCompanyNameModel getPendingCommentsCompanyNameModel) {
-        System.out.println("company service is working....");
-        System.out.println("company service - company id from model is... " + getPendingCommentsCompanyNameModel.getId());
         Optional<Company> optionalCompany = findById(getPendingCommentsCompanyNameModel.getId());
         return optionalCompany.get().getCompanyName();
+    }
+    public GetCompanyInformationManagerResponseDto getCompanyInformationManager(Long authid) {
+        GetCompanyInformationManagerModel getCompanyInformationManagerModel = new GetCompanyInformationManagerModel();
+        getCompanyInformationManagerModel.setAuthid(authid);
+        String companyId = getCompanyInformationManagerProducer.returnCompanyIdManager(getCompanyInformationManagerModel);
+        Optional<Company> optionalCompany = findById(companyId);
+        GetCompanyInformationManagerResponseDto responseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyInformationManagerResponseDto(optionalCompany.get());
+        return responseDto;
+
+    }
+
+    public GetCompanyValuationManagerResponseDto getCompanyValuationManager(Long authid) {
+        GetCompanyValuationManagerModel getCompanyValuationManagerModel = new GetCompanyValuationManagerModel();
+        getCompanyValuationManagerModel.setAuthid(authid);
+        String companyId = getCompanyValuationManagerProducer.returnCompanyIdManagerValuation(getCompanyValuationManagerModel);
+        Optional<Company> optionalCompany = findById(companyId);
+        GetCompanyValuationManagerResponseDto responseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyValuationManagerResponseDto(optionalCompany.get());
+        return responseDto;
     }
 }
