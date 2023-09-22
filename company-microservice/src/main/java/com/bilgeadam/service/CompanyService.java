@@ -172,5 +172,11 @@ public class CompanyService extends ServiceManager<Company, String> {
         return getCompanyInformationResponseDto;
 
     }
-
+    // returns company name for getting pending comments (comment service)
+    public String returnCompanyName(GetPendingCommentsCompanyNameModel getPendingCommentsCompanyNameModel) {
+        System.out.println("company service is working....");
+        System.out.println("company service - company id from model is... " + getPendingCommentsCompanyNameModel.getId());
+        Optional<Company> optionalCompany = findById(getPendingCommentsCompanyNameModel.getId());
+        return optionalCompany.get().getCompanyName();
+    }
 }

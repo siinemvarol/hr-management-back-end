@@ -142,5 +142,12 @@ public class RabbitMqConfig {
         return new Queue(addEmployeeSaveUserQueue);
     }
 
+    // get pending comments employee consumer (from comment service)
+    private final String getPendingCommentsEmployeeQueue = "get-pending-comments-employee-queue";
+    @Bean
+    Queue getPendingCommentsEmployeeQueue(){
+        return new Queue(getPendingCommentsEmployeeQueue);
+    }
+
 
 }
