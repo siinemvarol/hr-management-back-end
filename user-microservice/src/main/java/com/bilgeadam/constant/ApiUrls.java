@@ -10,4 +10,5 @@ public class ApiUrls {
     public static final String CREATEEMPLOYEE = "create-employee";
     public static final String UPDATE = "update";
     public static final String FIND_BY_ID = "find-by-id";
+    public static final String UPDATE_GUEST = "update-guest";
 }

@@ -20,5 +20,6 @@ public class ApiUrls {
     public static final String ACTIVATE_COMPANY = "/activate-company";
     public static final String DENIED_COMPANY = "/denied-company";
     public static final String ACTIVATE_COMPANIES_LIST = "/activate-companies-list";
+    public static final String FIND_BY_ID = "/find-by-id";
 
 }

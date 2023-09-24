@@ -1,6 +1,7 @@
 package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
+import com.bilgeadam.dto.request.GuestInfoUpdateDto;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.repository.entity.User;
 import org.mapstruct.*;
@@ -25,6 +26,6 @@ public interface IUserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User fromEmployeeInfoUpdateRequestDtoToUser(final EmployeeInfoUpdateDto dto, @MappingTarget User user);
 
-
     User fromAddEmployeeSaveUserModelToUser(final AddEmployeeSaveUserModel addEmployeeSaveUserModel);
+    User fromGuestInfoUpdateRequestDtoToUser(final GuestInfoUpdateDto dto, @MappingTarget User user);
 }
