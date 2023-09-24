@@ -6,6 +6,8 @@ import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
 import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
+import com.bilgeadam.exception.CompanyManagerException;
+import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
 import com.bilgeadam.rabbitmq.model.*;
 import com.bilgeadam.rabbitmq.producer.*;
@@ -182,5 +184,14 @@ public class CompanyService extends ServiceManager<Company, String> {
         Optional<Company> optionalCompany = findById(companyId);
         GetCompanyValuationManagerResponseDto responseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyValuationManagerResponseDto(optionalCompany.get());
         return responseDto;
+    }
+
+    public Optional<Company> findById(String id){
+        Optional<Company> company = companyRepository.findOptionalById(id);
+        if(company.isPresent()){
+            return company;
+        }else{
+            throw new CompanyManagerException(ErrorType.INVALID_COMPANY);
+        }
     }
 }

@@ -31,10 +31,9 @@ public class UserController {
     }
     @GetMapping(FIND_BY_ID+"/{authId}")
     public ResponseEntity<Optional<User>> findEmployeeByAuthId(@PathVariable Long authId){
-        System.out.println("sorgu atıldı");
         return ResponseEntity.ok(userService.findEmployeeByAuthId(authId));
     }
-//    @CrossOrigin("*")
+
     @PutMapping(UPDATE+"/{authId}")
     public ResponseEntity<Boolean> updateEmployeeInfo(@RequestBody EmployeeInfoUpdateDto dto, @PathVariable Long authId){
         return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
