@@ -32,4 +32,6 @@ public interface ICompanyMapper {
     GetCompanyInformationManagerResponseDto fromCompanyToGetCompanyInformationManagerResponseDto(final Company company);
 
     GetCompanyValuationManagerResponseDto fromCompanyToGetCompanyValuationManagerResponseDto(final Company company);
+
+    AddEmployeeMailModel fromAddEmployeeSaveUserModelToAddEmployeeMailModel(final AddEmployeeSaveUserModel userModel);
 }

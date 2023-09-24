@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 import static com.bilgeadam.constant.RestApiList.MAIL;
 import static com.bilgeadam.constant.RestApiList.MAILSEND;
 
@@ -21,7 +23,7 @@ public class MailController {
     private final MailService mailSenderService;
 
     @PostMapping(MAILSEND)
-    public ResponseEntity<?> sendMessage(@RequestBody MailRegisterModel mail){
+    public ResponseEntity<?> sendMessage(@RequestBody MailRegisterModel mail) throws MessagingException {
 
         return ResponseEntity.ok(mailSenderService.sendMail(mail));
 

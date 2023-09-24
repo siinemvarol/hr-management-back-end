@@ -30,6 +30,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final AddEmployeeSaveAuthProducer addEmployeeSaveAuthProducer;
     private final AddEmployeeSaveUserProducer addEmployeeSaveUserProducer;
     private final GetCompanyInformationManagerProducer getCompanyInformationManagerProducer;
+    private final AddEmployeeMailProducer addEmployeeMailProducer;
     private final GetCompanyValuationManagerProducer getCompanyValuationManagerProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
@@ -40,6 +41,7 @@ public class CompanyService extends ServiceManager<Company, String> {
                           AddEmployeeGetCompanyIdProducer addEmployeeGetCompanyIdProducer,
                           AddEmployeeSaveAuthProducer addEmployeeSaveAuthProducer,
                           AddEmployeeSaveUserProducer addEmployeeSaveUserProducer,
+                          AddEmployeeMailProducer addEmployeeMailProducer,
                           GetCompanyInformationManagerProducer getCompanyInformationManagerProducer,
                           GetCompanyValuationManagerProducer getCompanyValuationManagerProducer) {
         super(companyRepository);
@@ -52,6 +54,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         this.addEmployeeSaveAuthProducer = addEmployeeSaveAuthProducer;
         this.addEmployeeSaveUserProducer = addEmployeeSaveUserProducer;
         this.getCompanyInformationManagerProducer = getCompanyInformationManagerProducer;
+        this.addEmployeeMailProducer = addEmployeeMailProducer;
         this.getCompanyValuationManagerProducer = getCompanyValuationManagerProducer;
     }
 
@@ -94,6 +97,8 @@ public class CompanyService extends ServiceManager<Company, String> {
         userModel.setAuthid(employeeAuthId);
         userModel.setCompanyId(optionalCompany.get().getId());
         addEmployeeSaveUserProducer.toUserSaveEmployee(userModel);
+        AddEmployeeMailModel addEmployeeMailModel = ICompanyMapper.INSTANCE.fromAddEmployeeSaveUserModelToAddEmployeeMailModel(userModel);
+        addEmployeeMailProducer.sendMail(addEmployeeMailModel);
         return null;
     }
 

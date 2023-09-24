@@ -27,6 +27,12 @@ public class RabbitMqConfig {
     Queue guestMailRegisterQueue(){
         return new Queue(guestMailRegisterQueue);
     }
+    //AddEmployee mail register consumer
+    private final String addEmployeeMailQueue = "add-employee-mail-queue";
+    @Bean
+    Queue addEmployeeMailQueue(){
+        return new Queue(addEmployeeMailQueue);
+    }
 
 
 }
