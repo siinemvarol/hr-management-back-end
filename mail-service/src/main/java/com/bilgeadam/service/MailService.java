@@ -56,7 +56,11 @@ public class MailService {
 
 
     public String sendMail(AddEmployeeMailModel mailModel) throws MessagingException {
+        System.out.println(CONFIRMATION_URL);
+        System.out.println(mailModel.getActivationLink());
         CONFIRMATION_URL = CONFIRMATION_URL + mailModel.getActivationLink();
+
+
         String templateName = "authentication-email";
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
