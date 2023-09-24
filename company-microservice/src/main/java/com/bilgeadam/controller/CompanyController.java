@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bilgeadam.constant.ApiUrls.*;
 
@@ -100,6 +101,11 @@ public class CompanyController {
     @GetMapping(GET_COMPANY_VALUATION_MANAGER+"/{authid}")
     public ResponseEntity<GetCompanyValuationManagerResponseDto> getCompanyValuationManager(@PathVariable Long authid){
         return ResponseEntity.ok(companyService.getCompanyValuationManager(authid));
+    }
+    // employee dashboard company information
+    @GetMapping(FIND_BY_ID+"{id}")
+    public ResponseEntity<Optional<Company>>findById(@PathVariable String id){
+        return ResponseEntity.ok(companyService.findById(id));
     }
 
 }
