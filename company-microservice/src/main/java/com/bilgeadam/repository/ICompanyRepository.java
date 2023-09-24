@@ -13,4 +13,6 @@ public interface ICompanyRepository extends MongoRepository<Company,String> {
     List<Company> findByCreateDateAfter(Long date);
 
     List<Company> findByStatus(EStatus s);
+
+    List<Company> findCompaniesByStatus(EStatus s);
 }

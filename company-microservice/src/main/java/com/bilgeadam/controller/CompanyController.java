@@ -3,6 +3,7 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetAllCopmpaniesInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
@@ -101,5 +102,11 @@ public class CompanyController {
     public ResponseEntity<GetCompanyValuationManagerResponseDto> getCompanyValuationManager(@PathVariable Long authid){
         return ResponseEntity.ok(companyService.getCompanyValuationManager(authid));
     }
+    // for guest companies information page
+    @GetMapping(ACTIVATE_COMPANIES_LIST)
+    public ResponseEntity<List<GetAllCopmpaniesInformationResponseDto>> getAllCompaniesInformation(){
+        return ResponseEntity.ok(companyService.getAllCopmpaniesInformationResponseDto());
+    }
+
 
 }

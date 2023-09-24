@@ -19,4 +19,6 @@ public class ApiUrls {
     public static final String GET_NOT_AUTHORIZED_COMPANIES = "/get-not-authorized-companies";
     public static final String ACTIVATE_COMPANY = "/activate-company";
     public static final String DENIED_COMPANY = "/denied-company";
+    public static final String ACTIVATE_COMPANIES_LIST = "/activate-companies-list";
+
 }

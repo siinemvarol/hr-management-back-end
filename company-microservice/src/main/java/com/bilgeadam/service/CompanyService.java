@@ -3,6 +3,7 @@ package com.bilgeadam.service;
 import com.bilgeadam.dto.request.AddCommentRequestDto;
 import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
 import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.response.GetAllCopmpaniesInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService extends ServiceManager<Company, String> {
@@ -160,11 +162,13 @@ public class CompanyService extends ServiceManager<Company, String> {
         return getCompanyInformationResponseDto;
 
     }
+
     // returns company name for getting pending comments (comment service)
     public String returnCompanyName(GetPendingCommentsCompanyNameModel getPendingCommentsCompanyNameModel) {
         Optional<Company> optionalCompany = findById(getPendingCommentsCompanyNameModel.getId());
         return optionalCompany.get().getCompanyName();
     }
+
     public GetCompanyInformationManagerResponseDto getCompanyInformationManager(Long authid) {
         GetCompanyInformationManagerModel getCompanyInformationManagerModel = new GetCompanyInformationManagerModel();
         getCompanyInformationManagerModel.setAuthid(authid);
@@ -183,4 +187,19 @@ public class CompanyService extends ServiceManager<Company, String> {
         GetCompanyValuationManagerResponseDto responseDto = ICompanyMapper.INSTANCE.fromCompanyToGetCompanyValuationManagerResponseDto(optionalCompany.get());
         return responseDto;
     }
+
+    public List<Company> getActiveCompanies() {
+        List<Company> activeCompanies = companyRepository.findCompaniesByStatus(EStatus.ACTIVE);
+        return activeCompanies;
+    }
+
+
+    public List<GetAllCopmpaniesInformationResponseDto> getAllCopmpaniesInformationResponseDto() {
+        List<Company> companies = getActiveCompanies();
+        List<GetAllCopmpaniesInformationResponseDto> companiesDtos = companies.stream()
+                .map(company -> ICompanyMapper.INSTANCE.fromCompanyGetAllCopmpaniesInformationResponseDto(company))
+                .collect(Collectors.toList());
+        return  companiesDtos;
+    }
+
 }
