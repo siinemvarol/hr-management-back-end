@@ -74,13 +74,6 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
-    public void addEmployeeCompany(AddEmployeeCompanyModel model) {
-        UserCreateEmployeeModel userCreateEmployeeModel = IUserMapper.INSTANCE.userCreateEmployeeModelfromAddEmployeeCompanyModel(model);
-
-        createEmployee(userCreateEmployeeModel);
-    }
-
-
     public void findByCompanyId(UserCompanyIdModel model) {
         List<UserCompanyListModel> companyIdModels = new ArrayList<>();
         List<User> userList = userRepository.findByCompanyId(model.getCompanyId());
@@ -102,6 +95,7 @@ public class UserService extends ServiceManager<User, String> {
 
     public Optional<User> findEmployeeByAuthId(Long authId) {
         Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+        System.out.println("returning user is.... " +  employee);
         if (employee.isPresent()) {
             return employee;
         } else {
@@ -170,6 +164,7 @@ public class UserService extends ServiceManager<User, String> {
         save(user);
     }
 
+
     public Boolean updateGuestInfo(GuestInfoUpdateDto dto, Long authId) {
         Optional<User> employee = userRepository.findOptionalByAuthid(authId);
         if (employee.isPresent()) {
@@ -178,5 +173,29 @@ public class UserService extends ServiceManager<User, String> {
         } else {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
         }
+    }
+    // returns employee name and surname for getting pending comments (to comment service)
+    public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
+        Optional<User> optionalUser = userRepository.findById(getPendingCommentsEmployeeModel.getId());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getName() + " " + optionalUser.get().getSurname();
+        }
+        return null;
+    }
+    // returns company id to company manager for getting company info
+    public String returnCompanyIdManager(GetCompanyInformationManagerModel getCompanyInformationManagerModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyInformationManagerModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+
+    public String returnCompanyIdManagerValuation(GetCompanyValuationManagerModel getCompanyValuationManagerModel) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyValuationManagerModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
     }
 }

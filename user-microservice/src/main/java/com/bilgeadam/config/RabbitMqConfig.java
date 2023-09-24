@@ -17,19 +17,6 @@ public class RabbitMqConfig {
         return new DirectExchange(exchange);
     }
 
-    //Bunlar değişir
-    private String addEmployeeQueue = "add-employee-queue";
-    private String addEmployeeBinding = "add-employee-binding";
-
-    @Bean
-    Queue addEmployeeQueue(){
-        return new Queue(addEmployeeQueue);
-    }
-    @Bean
-    public Binding addEmployeeBinding(final Queue addEmployeeQueue, final DirectExchange directExchange){
-        return BindingBuilder.bind(addEmployeeQueue).to(directExchange).with(addEmployeeBinding);
-    }
-
     //Producer
     private String userListCompanyQueue = "userList-company-queue";
     private String userListCompanyBinding = "userList-company-binding";
@@ -140,6 +127,28 @@ public class RabbitMqConfig {
     @Bean
     Queue addEmployeeSaveUserQueue(){
         return new Queue(addEmployeeSaveUserQueue);
+    }
+
+    // get pending comments employee consumer (from comment service)
+    private final String getPendingCommentsEmployeeQueue = "get-pending-comments-employee-queue";
+    @Bean
+    Queue getPendingCommentsEmployeeQueue(){
+        return new Queue(getPendingCommentsEmployeeQueue);
+    }
+
+    // get company information manager consumer (from company service)
+    private final String getCompanyInformationManagerQueue = "get-company-information-manager-queue";
+
+    @Bean
+    Queue getCompanyInformationManagerQueue() {
+        return new Queue(getCompanyInformationManagerQueue);
+    }
+
+    // get company valuation manager consumer (from company service)
+    private final String getCompanyValuationManagerQueue = "get-company-valuation-manager-queue";
+    @Bean
+    Queue getCompanyValuationManagerQueue(){
+        return new Queue(getCompanyValuationManagerQueue);
     }
 
 

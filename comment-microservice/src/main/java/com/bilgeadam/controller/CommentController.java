@@ -1,5 +1,7 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.rabbitmq.model.GetPendingCommentsCompanyNameModel;
+import com.bilgeadam.rabbitmq.model.GetPendingCommentsResponseModel;
 import com.bilgeadam.repository.entity.Comment;
 import com.bilgeadam.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,8 @@ public class CommentController {
 
 
     @GetMapping(GET_PENDING_COMMENTS)
-    public ResponseEntity<List<Comment>> getPendingComments(){
-        return ResponseEntity.ok(commentService.getPendingComments());
+    public ResponseEntity<List<GetPendingCommentsResponseModel>> getPendingComments(){
+        return ResponseEntity.ok(commentService.getPendingComments2());
     }
 
     @PutMapping(ACTIVATE_COMMENT)

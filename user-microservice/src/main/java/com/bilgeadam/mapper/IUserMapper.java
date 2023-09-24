@@ -16,8 +16,6 @@ public interface IUserMapper {
 
     User fromRegisterModelToUserProfile(final UserRegisterModel model);
 
-    UserCreateEmployeeModel userCreateEmployeeModelfromAddEmployeeCompanyModel(final AddEmployeeCompanyModel model);
-
     UserCompanyListModel userCompanyListModelFromUser(final User x);
 
 

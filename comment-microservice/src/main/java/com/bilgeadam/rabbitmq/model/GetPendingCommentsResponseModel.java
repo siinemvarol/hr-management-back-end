@@ -1,5 +1,6 @@
 package com.bilgeadam.rabbitmq.model;
 
+import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +12,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CompanyRegisterModel implements Serializable {
+public class GetPendingCommentsResponseModel implements Serializable {
     private String companyName;
-    private String infoEmail;
-    private String companyPhone;
-    private String taxId;
-    private String companyAddress;
-    private String city;
-
+    private String employeeNameSurname;
+    private String header;
+    private String content;
+    private EStatus status;
 }

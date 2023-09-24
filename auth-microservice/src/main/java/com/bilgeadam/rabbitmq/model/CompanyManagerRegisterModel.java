@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Builder
 public class CompanyManagerRegisterModel implements Serializable {
     private Long authid;
+    private String companyId;
     private String name;
     private String surname;
     private String companyEmail;

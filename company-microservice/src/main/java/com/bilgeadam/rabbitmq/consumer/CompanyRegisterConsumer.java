@@ -12,8 +12,7 @@ public class CompanyRegisterConsumer {
 
     private final CompanyService companyService;
     @RabbitListener(queues = "company-register-queue")
-    public void createNewCompany(CompanyRegisterModel companyRegisterModel){
-        System.out.println("company register model consumer: " + companyRegisterModel);
-        companyService.createNewCompany(companyRegisterModel);
+    public String createNewCompany(CompanyRegisterModel companyRegisterModel){
+        return companyService.createNewCompany(companyRegisterModel);
     }
 }
