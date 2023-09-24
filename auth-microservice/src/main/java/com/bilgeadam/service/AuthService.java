@@ -33,10 +33,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
     private final GuestRegisterProducer guestRegisterProducer;
     private final JwtTokenManager jwtTokenManager;
     private final GuestMailRegisterProducer guestMailRegisterProducer;
+    private final AddEmployeeMailProducer addEmployeeMailProducer;
 
     public AuthService(IAuthRepository authRepository, UserRegisterProducer userRegisterProducer,
                        MailForgotPasswordProducer mailForgotPassProducer, UserForgotPassProducer userForgotPassProducer,
                        MailRegisterProducer mailRegisterProducer, CompanyRegisterProducer companyRegisterProducer,
+                       AddEmployeeMailProducer addEmployeeMailProducer,
                        CompanyManagerRegisterProducer companyManagerRegisterProducer, GuestRegisterProducer guestRegisterProducer,
                        GuestMailRegisterProducer guestMailRegisterProducer, JwtTokenManager jwtTokenManager) {
         super(authRepository);
@@ -49,6 +51,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.companyManagerRegisterProducer = companyManagerRegisterProducer;
         this.guestRegisterProducer = guestRegisterProducer;
         this.guestMailRegisterProducer = guestMailRegisterProducer;
+        this.addEmployeeMailProducer=addEmployeeMailProducer;
         this.jwtTokenManager = jwtTokenManager;
     }
 
@@ -173,7 +176,13 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     public Long saveEmployeeReturnId(AddEmployeeSaveAuthModel addEmployeeSaveAuthModel) {
         Auth auth = IAuthMapper.INSTANCE.fromAddEmployeeSaveAuthModelToAuth(addEmployeeSaveAuthModel);
-        save(auth);
+        auth.setActivationLink(CodeGenerator.generateCode());
+        auth= save(auth);
+        AddEmployeeMailModel addEmployeeMailModel = IAuthMapper.INSTANCE.fromAuthToAddEmployeeMailModel(auth);
+        addEmployeeMailModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
+        System.out.println(addEmployeeMailModel.getActivationLink());
+        addEmployeeMailProducer.sendMail(addEmployeeMailModel);
+
         if (auth != null) {
             return auth.getId();
         }

@@ -5,6 +5,7 @@ buildscript {
 }
 
 dependencies {
+    implementation libs.tymelift
     implementation libs.springBootMailSender
     implementation libs.swaggerui
     implementation libs.springBootRabbitMQ

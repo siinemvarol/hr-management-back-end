@@ -3,104 +3,129 @@ package com.bilgeadam.service;
 
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.MailException;
+import com.bilgeadam.rabbitmq.model.AddEmployeeMailModel;
 import com.bilgeadam.rabbitmq.model.GuestMailRegisterModel;
 import com.bilgeadam.rabbitmq.model.MailForgotPassModel;
 import com.bilgeadam.rabbitmq.model.MailRegisterModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
-
+@RequiredArgsConstructor
 public class MailService {
 
-
-
+    private static String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=";
     private final JavaMailSender mailSender;
+    private final SpringTemplateEngine templateEngine;
 
-
-    public MailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public String sendMail(MailRegisterModel mailRegisterModel) throws MessagingException {
+        CONFIRMATION_URL = CONFIRMATION_URL + mailRegisterModel.getActivationLink();
+        String templateName = "authentication-email";
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(
+                mimeMessage,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", mailRegisterModel.getUsername());
+        CONFIRMATION_URL = String.format(CONFIRMATION_URL);
+        properties.put("confirmationUrl", CONFIRMATION_URL);
+        Context context = new Context();
+        context.setVariables(properties);
+        helper.setFrom("bouali.social@gmail.com");
+        helper.setTo(mailRegisterModel.getCompanyEmail());
+        helper.setSubject("Welcome to our nice platform");
+        String template = templateEngine.process(templateName, context);
+        helper.setText(template, true);
+        mailSender.send(mimeMessage);
+        System.out.println("mail gönderildi");
+        return "başarılı";
     }
 
-    public String sendMail(MailRegisterModel mailRegisterModel) {
 
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("${spring.mail.username}"); // Şirketinizi temsil eden e-posta adresi
-            if (mailRegisterModel.getCompanyEmail()!=null){
-                mailMessage.setTo(mailRegisterModel.getCompanyEmail());
-            }else mailMessage.setTo(mailRegisterModel.getPersonalEmail());
-
-            mailMessage.setTo(mailRegisterModel.getPersonalEmail());
-            mailMessage.setSubject("Username: " + mailRegisterModel.getUsername());
-            mailMessage.setSubject("Password: " + mailRegisterModel.getPassword());
+    public String sendMail(AddEmployeeMailModel mailModel) throws MessagingException {
+        System.out.println(CONFIRMATION_URL);
+        System.out.println(mailModel.getActivationLink());
+        CONFIRMATION_URL = CONFIRMATION_URL + mailModel.getActivationLink();
 
 
-
-            mailMessage.setText("Merhaba, Neredeyse işleminiz tamamlandı.  \n\n"
-                    +"Username:      "+ mailRegisterModel.getUsername()+"\n\n"
-                    +"Password:      " + mailRegisterModel.getPassword()+"\n\n"
-                    +"Company Email: " +mailRegisterModel.getCompanyEmail()+"\n\n"
-                    + "\n\nLütfen Aktivasyon kodunu giriniz...\n\nAktivasyon Linkiniz:   "
-                    + "http://localhost:9090/api/v1/auth/user-active?token="
-                    + mailRegisterModel.getActivationLink());
-
-            mailSender.send(mailMessage);
-            System.out.println("Mail Gönderildi");
-            return "Başarılı";
-        } catch (MailException e) {
-            throw new MailException(ErrorType.MAIL_SEND_ERROR);
-        }
-
+        String templateName = "authentication-email";
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(
+                mimeMessage,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", mailModel.getUsername());
+        properties.put("companyEmail", mailModel.getCompanyEmail());
+        CONFIRMATION_URL = String.format(CONFIRMATION_URL);
+        properties.put("confirmationUrl", CONFIRMATION_URL);
+        Context context = new Context();
+        context.setVariables(properties);
+        helper.setFrom("bouali.social@gmail.com");
+        helper.setTo(mailModel.getPersonalEmail());
+        helper.setSubject("Welcome to our Human Resources platform");
+        String template = templateEngine.process(templateName, context);
+        helper.setText(template, true);
+        mailSender.send(mimeMessage);
+        System.out.println("mail gönderildi");
+        return "başarılı";
     }
+
 
     public void sendForgotPassword(MailForgotPassModel mailForgotPassModel) {
         try {
             System.out.println(mailForgotPassModel);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom("your_email@example.com"); // Şirketinizi temsil eden e-posta adresi
-            if (mailForgotPassModel.getCompanyEmail()!=null){
+            if (mailForgotPassModel.getCompanyEmail() != null) {
                 mailMessage.setTo(mailForgotPassModel.getCompanyEmail());
-            }else mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
+            } else mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
             mailMessage.setSubject("Sayın " + mailForgotPassModel.getUsername());
             mailMessage.setText("Yenilenen şifreniz aşağıda bulunmaktadır. \n\n Password: " + mailForgotPassModel.getRandomPassword());
             mailSender.send(mailMessage);
             System.out.println("Mail Gönderildi");
-//
         } catch (MailException e) {
             throw new MailException(ErrorType.MAIL_SEND_ERROR);
         }
     }
-    public String sendGuestActivationMail(GuestMailRegisterModel guestMailRegisterModel) {
-        System.out.println(guestMailRegisterModel);
 
 
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("${spring.mail.username}"); // Şirketinizi temsil eden e-posta adresi
-            mailMessage.setTo(guestMailRegisterModel.getPersonalEmail());
-
-            mailMessage.setTo(guestMailRegisterModel.getPersonalEmail());
-            mailMessage.setSubject("Username: " + guestMailRegisterModel.getUsername());
-            mailMessage.setSubject("Password: " + guestMailRegisterModel.getPassword());
-
-
-
-            mailMessage.setText("Merhaba, Neredeyse işleminiz tamamlandı.  \n\n"
-                    +"Username:      "+ guestMailRegisterModel.getUsername()+"\n\n"
-                    +"Password:      " + guestMailRegisterModel.getPassword()+"\n\n"
-                    + "\n\nLütfen Aktivasyon kodunu giriniz...\n\nAktivasyon Linkiniz:   "
-                    + "http://localhost:9090/api/v1/auth/user-active?token="
-                    + guestMailRegisterModel.getActivationLink());
-
-            mailSender.send(mailMessage);
-            System.out.println("Mail Gönderildi");
-            return "Başarılı";
-        } catch (MailException e) {
-            throw new MailException(ErrorType.MAIL_SEND_ERROR);
-        }
-
+    public String sendGuestActivationMail(GuestMailRegisterModel guestMailRegisterModel) throws MessagingException {
+        CONFIRMATION_URL = CONFIRMATION_URL + guestMailRegisterModel.getActivationLink();
+        System.out.println("guest mail register model" + guestMailRegisterModel);
+        String templateName = "authentication-email";
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(
+                mimeMessage,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", guestMailRegisterModel.getUsername());
+        CONFIRMATION_URL = String.format(CONFIRMATION_URL);
+        properties.put("confirmationUrl", CONFIRMATION_URL);
+        Context context = new Context();
+        context.setVariables(properties);
+        helper.setTo(guestMailRegisterModel.getPersonalEmail());
+        helper.setSubject("Welcome to our nice platform");
+        String template = templateEngine.process(templateName, context);
+        helper.setText(template, true);
+        mailSender.send(mimeMessage);
+        return "başarılı";
     }
 
 

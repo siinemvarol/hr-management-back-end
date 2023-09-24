@@ -35,4 +35,5 @@ public interface ICompanyMapper {
     GetCompanyValuationManagerResponseDto fromCompanyToGetCompanyValuationManagerResponseDto(final Company company);
 
     GetAllCopmpaniesInformationResponseDto fromCompanyGetAllCopmpaniesInformationResponseDto(final Company company);
+
 }

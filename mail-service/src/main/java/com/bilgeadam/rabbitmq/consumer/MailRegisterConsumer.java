@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+
 @Service
 @RequiredArgsConstructor
 public class MailRegisterConsumer {
@@ -13,7 +15,7 @@ public class MailRegisterConsumer {
 
     @RabbitListener(queues =  "mail-register-queue")
 
-    public void addEmployee(MailRegisterModel mailRegisterModel){
+    public void addEmployee(MailRegisterModel mailRegisterModel) throws MessagingException {
         System.out.println(mailRegisterModel);
         mailService.sendMail(mailRegisterModel);
     }
