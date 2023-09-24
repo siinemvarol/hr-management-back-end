@@ -153,10 +153,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
         save(auth);
         CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);
         companyRegisterProducer.sendCompany(companyRegisterModel);
-
         CompanyManagerRegisterModel companyManagerRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(dto);
-
-
+        companyManagerRegisterModel.setAuthid(auth.getId());
         companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
         return true;
     }
