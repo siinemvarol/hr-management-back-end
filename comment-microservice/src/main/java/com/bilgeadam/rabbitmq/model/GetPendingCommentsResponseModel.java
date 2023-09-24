@@ -13,6 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class GetPendingCommentsResponseModel implements Serializable {
+    private String id;
+    private String userId;
     private String companyName;
     private String employeeNameSurname;
     private String header;
