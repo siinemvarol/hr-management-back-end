@@ -1,6 +1,7 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
+import com.bilgeadam.dto.request.GuestInfoUpdateDto;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
@@ -161,6 +162,17 @@ public class UserService extends ServiceManager<User, String> {
     public void addEmployeeSaveUser(AddEmployeeSaveUserModel addEmployeeSaveUserModel) {
         User user = IUserMapper.INSTANCE.fromAddEmployeeSaveUserModelToUser(addEmployeeSaveUserModel);
         save(user);
+    }
+
+
+    public Boolean updateGuestInfo(GuestInfoUpdateDto dto, Long authId) {
+        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+        if (employee.isPresent()) {
+            userRepository.save(IUserMapper.INSTANCE.fromGuestInfoUpdateRequestDtoToUser(dto, employee.get()));
+            return true;
+        } else {
+            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+        }
     }
     // returns employee name and surname for getting pending comments (to comment service)
     public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
