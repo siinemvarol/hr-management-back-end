@@ -1,7 +1,7 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
-import com.bilgeadam.dto.request.GuestInfoUpdateDto;
+//import com.bilgeadam.dto.request.GuestInfoUpdateDto;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
@@ -165,15 +165,15 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
-    public Boolean updateGuestInfo(GuestInfoUpdateDto dto, Long authId) {
-        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
-        if (employee.isPresent()) {
-            userRepository.save(IUserMapper.INSTANCE.fromGuestInfoUpdateRequestDtoToUser(dto, employee.get()));
-            return true;
-        } else {
-            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
-        }
-    }
+//    public Boolean updateGuestInfo(GuestInfoUpdateDto dto, Long authId) {
+//        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
+//        if (employee.isPresent()) {
+//            userRepository.save(IUserMapper.INSTANCE.fromGuestInfoUpdateRequestDtoToUser(dto, employee.get()));
+//            return true;
+//        } else {
+//            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+//        }
+//    }
     // returns employee name and surname for getting pending comments (to comment service)
     public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
         Optional<User> optionalUser = userRepository.findById(getPendingCommentsEmployeeModel.getId());
@@ -190,9 +190,25 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
     }
-
+    // returns company id to company manager for getting company valuation
     public String returnCompanyIdManagerValuation(GetCompanyValuationManagerModel getCompanyValuationManagerModel) {
         Optional<User> optionalUser = userRepository.findOptionalByAuthid(getCompanyValuationManagerModel.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+    // returns company id from auth id, for update information in company information page (from company service)
+    public String returnCompanyIdForUpdateInformation(UpdateCompanyInformationModel model) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
+        if (optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+    // returns company id from auth id, for update valuation in company information page (from company service)
+    public String returnCompanyIdForUpdateValuation(UpdateCompanyValuationModel model) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
         if(optionalUser.isPresent()){
             return optionalUser.get().getCompanyId();
         }

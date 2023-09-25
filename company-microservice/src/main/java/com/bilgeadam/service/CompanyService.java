@@ -1,12 +1,7 @@
 package com.bilgeadam.service;
 
-import com.bilgeadam.dto.request.AddCommentRequestDto;
-import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
-import com.bilgeadam.dto.response.GetAllCopmpaniesInformationResponseDto;
-import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
-import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
-import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
+import com.bilgeadam.dto.request.*;
+import com.bilgeadam.dto.response.*;
 import com.bilgeadam.exception.CompanyManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.mapper.ICompanyMapper;
@@ -35,6 +30,8 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final AddEmployeeSaveUserProducer addEmployeeSaveUserProducer;
     private final GetCompanyInformationManagerProducer getCompanyInformationManagerProducer;
     private final GetCompanyValuationManagerProducer getCompanyValuationManagerProducer;
+    private final UpdateCompanyInformationProducer updateCompanyInformationProducer;
+    private final UpdateCompanyValuationProducer updateCompanyValuationProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
                           UserCompanyIdProducer userCompanyIdProducer,
@@ -45,7 +42,9 @@ public class CompanyService extends ServiceManager<Company, String> {
                           AddEmployeeSaveAuthProducer addEmployeeSaveAuthProducer,
                           AddEmployeeSaveUserProducer addEmployeeSaveUserProducer,
                           GetCompanyInformationManagerProducer getCompanyInformationManagerProducer,
-                          GetCompanyValuationManagerProducer getCompanyValuationManagerProducer) {
+                          GetCompanyValuationManagerProducer getCompanyValuationManagerProducer,
+                          UpdateCompanyInformationProducer updateCompanyInformationProducer,
+                          UpdateCompanyValuationProducer updateCompanyValuationProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
@@ -57,6 +56,8 @@ public class CompanyService extends ServiceManager<Company, String> {
         this.addEmployeeSaveUserProducer = addEmployeeSaveUserProducer;
         this.getCompanyInformationManagerProducer = getCompanyInformationManagerProducer;
         this.getCompanyValuationManagerProducer = getCompanyValuationManagerProducer;
+        this.updateCompanyInformationProducer = updateCompanyInformationProducer;
+        this.updateCompanyValuationProducer = updateCompanyValuationProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -214,4 +215,25 @@ public class CompanyService extends ServiceManager<Company, String> {
         }
     }
 
+    public Boolean updateCompanyInformation(Long authid, UpdateCompanyInformationRequestDto dto) {
+        UpdateCompanyInformationModel model = new UpdateCompanyInformationModel();
+        model.setAuthid(authid);
+        String companyId = updateCompanyInformationProducer.returnCompanyIdForUpdateInformation(model);
+        Optional<Company> optionalCompany = companyRepository.findById(companyId);
+        if (optionalCompany.isPresent()){
+            update(ICompanyMapper.INSTANCE.fromUpdateCompanyInformationRequestDtoToCompany(dto, optionalCompany.get()));
+        }
+        return null;
+    }
+
+    public Boolean updateCompanyValuation(Long authid, UpdateCompanyValuationRequestDto dto) {
+        UpdateCompanyValuationModel model = new UpdateCompanyValuationModel();
+        model.setAuthid(authid);
+        String companyId = updateCompanyValuationProducer.returnCompanyIdForUpdateValuation(model);
+        Optional<Company> optionalCompany = companyRepository.findById(companyId);
+        if (optionalCompany.isPresent()){
+            update(ICompanyMapper.INSTANCE.fromUpdateCompanyValuationRequestDtoToCompany(dto, optionalCompany.get()));
+        }
+        return null;
+    }
 }
