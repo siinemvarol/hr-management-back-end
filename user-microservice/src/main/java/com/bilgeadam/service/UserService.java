@@ -1,7 +1,10 @@
 package com.bilgeadam.service;
 
+import com.bilgeadam.dto.request.ChangeAvatarDto;
 import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
-//import com.bilgeadam.dto.request.GuestInfoUpdateDto;
+
+import com.bilgeadam.dto.request.GetImageDto;
+
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.mapper.IUserMapper;
@@ -17,9 +20,19 @@ import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
+import nonapi.io.github.classgraph.utils.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -165,6 +178,7 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
+
 //    public Boolean updateGuestInfo(GuestInfoUpdateDto dto, Long authId) {
 //        Optional<User> employee = userRepository.findOptionalByAuthid(authId);
 //        if (employee.isPresent()) {
@@ -174,6 +188,7 @@ public class UserService extends ServiceManager<User, String> {
 //            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
 //        }
 //    }
+
     // returns employee name and surname for getting pending comments (to comment service)
     public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
         Optional<User> optionalUser = userRepository.findById(getPendingCommentsEmployeeModel.getId());
@@ -198,6 +213,53 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
     }
+
+
+    @Value("${upload.path}")
+    private String uploadPath;
+    public String changeProfilePhoto(MultipartFile file, Long userAuthId) {
+        System.out.println("file : " +file);
+        System.out.println("user Id : "+userAuthId);
+        try {
+            User user = userRepository.findOptionalByAuthid(userAuthId).orElse(null);
+            // Kullanıcının ID'sini dosya adına ekle
+            String fileName = userAuthId.toString()+".jpg";
+            String filePath = uploadPath + File.separator + fileName;
+            System.out.println(filePath);
+            // Dosyayı belirtilen dizine kaydet
+            file.transferTo(new File(filePath));
+
+            if (user != null) {
+                user.setAvatar(fileName);
+                userRepository.save(user);
+            }
+            return "Dosya yükleme başarılı";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Dosya yükleme hatası";
+        }
+    }
+
+    public GetImageDto getImage(String fileName) throws FileNotFoundException {
+        // Belirtilen dosyanın yolu
+        String filePath = "C:\\Users\\kerim\\Desktop\\Hr-Project2\\user-microservice\\src\\main\\resources\\images\\" + fileName+".jpg";
+
+        // Dosya kontrolü
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new UserManagerException(ErrorType.BAD_REQUEST);
+        }
+
+        // Dosya içeriğini oku
+        InputStream in = new FileInputStream(file);
+        InputStreamResource resource = new InputStreamResource(in);
+
+        // Response Headers ayarla
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(file.length());
+        headers.setContentType(MediaType.IMAGE_JPEG); // Medya tipini ayarla
+        return GetImageDto.builder().resource(resource).headers(headers).build();
+
     // returns company id from auth id, for update information in company information page (from company service)
     public String returnCompanyIdForUpdateInformation(UpdateCompanyInformationModel model) {
         Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
@@ -213,5 +275,6 @@ public class UserService extends ServiceManager<User, String> {
             return optionalUser.get().getCompanyId();
         }
         return null;
+
     }
 }
