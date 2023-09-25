@@ -58,6 +58,8 @@ public class CommentService extends ServiceManager<Comment, String> {
             String employeeNameSurname = getPendingCommentsEmployeeProducer.returnEmployeeNameSurname(employeeModel);
 
             GetPendingCommentsResponseModel model = GetPendingCommentsResponseModel.builder()
+                    .id(comment.getId())
+                    .userId(comment.getUserId())
                     .companyName(companyName)
                     .employeeNameSurname(employeeNameSurname)
                     .header(comment.getHeader())

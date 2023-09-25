@@ -154,6 +154,7 @@ public class RabbitConfig {
         return BindingBuilder.bind(addEmployeeSaveUserQueue).to(companyExchange).with(addEmployeeSaveUserBinding);
     }
 
+
     // get company information manager producer (to user service)
     private final String getCompanyInformationManagerQueue = "get-company-information-manager-queue";
 
