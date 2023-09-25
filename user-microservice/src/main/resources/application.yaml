@@ -6,3 +6,6 @@ spring:
     import: "configserver:"
   application:
     name: user-application
+
+upload:
+  path: ${IMAGE_SOURCE}

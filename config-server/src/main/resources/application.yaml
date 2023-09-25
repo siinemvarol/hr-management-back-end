@@ -1,5 +1,9 @@
 server:
   port: 8888
+  tomcat:
+    max-http-header-size: 8192000
+
+
 
 spring:
   profiles:

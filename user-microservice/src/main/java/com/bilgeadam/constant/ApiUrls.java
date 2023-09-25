@@ -11,4 +11,7 @@ public class ApiUrls {
     public static final String UPDATE = "update";
     public static final String FIND_BY_ID = "find-by-id";
     public static final String UPDATE_GUEST = "update-guest";
+    public static final String CHANGE_PROFILE_PHOTO = "change-profile-photo";
+    public static final String TRANSFER_PHOTO = "transfer-photo";
+    public static final String GET_IMAGE = "/images/{fileName}";
 }
