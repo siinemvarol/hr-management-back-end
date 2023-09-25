@@ -30,4 +30,6 @@ public class EmployeeInfoUpdateDto {
     private String address;
 
     private String info;
+
+    private String birthday;
 }
