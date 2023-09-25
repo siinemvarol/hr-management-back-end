@@ -151,5 +151,18 @@ public class RabbitMqConfig {
         return new Queue(getCompanyValuationManagerQueue);
     }
 
+    // update company information consumer (company information page) (from company service)
+    private final String updateCompanyInformationQueue = "update-company-information-queue";
+    @Bean
+    Queue updateCompanyInformationQueue(){
+        return new Queue(updateCompanyInformationQueue);
+    }
+
+    // update company valuation consumer (company information page) (from company service)
+    private final String updateCompanyValuationQueue = "update-company-valuation-queue";
+    @Bean
+    Queue updateCompanyValuationQueue(){
+        return new Queue(updateCompanyValuationQueue);
+    }
 
 }

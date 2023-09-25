@@ -12,9 +12,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeInfoUpdateDto {
-
-    @NotEmpty(message = "Name field cannot be empty")
+public class GuestInfoUpdateDto {
+    @NotEmpty (message = "Name field cannot be empty")
     @Size(min = 3, max = 20, message = "Name must be between 3 and 20 characters.")
     private String name;
 
@@ -29,7 +28,6 @@ public class EmployeeInfoUpdateDto {
     @NotEmpty(message = "Address field cannot be empty" )
     private String address;
 
-    private String info;
-
-    private String birthday;
+    private String personalEmail;
 }
+

@@ -2,7 +2,9 @@ package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.EmployeeInfoUpdateDto;
 
+
 import com.bilgeadam.dto.request.GetImageDto;
+
 import com.bilgeadam.rabbitmq.model.UserCreateEmployeeModel;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.service.UserService;
@@ -49,11 +51,6 @@ public class UserController {
         return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
     }
 
-
-
-
-
-
     //Kullanıcı frontende bilgisayarından foto seçerek Backende image olarak gönderiyor burada
     //Daha sonra buraya gelen image resources/images e ekleniyor.
     //ekelen fotonun ismi alınarak user.setavatar databaseye isi kayıt ediliyor.
@@ -78,6 +75,12 @@ public class UserController {
                 .headers(getImageDto.getHeaders())
                 .body(getImageDto.getResource());
     }
+
+//    @PutMapping(UPDATE_GUEST+"/{authId}")
+//    public ResponseEntity<Boolean> updateGuestInfo(@RequestBody GuestInfoUpdateDto dto, @PathVariable Long authId){
+//        return ResponseEntity.ok(userService.updateGuestInfo(dto,authId));
+//    }
+
 
 }
 
