@@ -179,6 +179,30 @@ public class RabbitConfig {
         return BindingBuilder.bind(getCompanyValuationManagerQueue).to(companyExchange).with(getCompanyValuationManagerBinding);
     }
 
+    // update company information (company information page) (to user service)
+    private final String updateCompanyInformationQueue = "update-company-information-queue";
+    @Bean
+    Queue updateCompanyInformationQueue(){
+        return new Queue(updateCompanyInformationQueue);
+    }
+    private final String updateCompanyInformationBinding = "update-company-information-binding";
+    @Bean
+    public Binding updateCompanyInformationBinding(final DirectExchange companyExchange, final Queue updateCompanyInformationQueue){
+        return BindingBuilder.bind(updateCompanyInformationQueue).to(companyExchange).with(updateCompanyInformationBinding);
+    }
+
+    // update company valuation (company information page) (to user service)
+    private final String updateCompanyValuationQueue = "update-company-valuation-queue";
+    @Bean
+    Queue updateCompanyValuationQueue(){
+        return new Queue(updateCompanyValuationQueue);
+    }
+    private final String updateCompanyValuationBinding = "update-company-valuation-binding";
+    @Bean
+    public Binding updateCompanyValuationBinding(final DirectExchange companyExchange, final Queue updateCompanyValuationQueue){
+        return BindingBuilder.bind(updateCompanyValuationQueue).to(companyExchange).with(updateCompanyValuationBinding);
+    }
+
     //Consumer
 
     String userListCompanyQueue = "userList-company-queue";

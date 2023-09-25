@@ -1,12 +1,7 @@
 package com.bilgeadam.controller;
 
-import com.bilgeadam.dto.request.AddCommentRequestDto;
-import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
-import com.bilgeadam.dto.response.GetAllCopmpaniesInformationResponseDto;
-import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
-import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
-import com.bilgeadam.dto.response.GetCompanyValuationManagerResponseDto;
+import com.bilgeadam.dto.request.*;
+import com.bilgeadam.dto.response.*;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
@@ -115,4 +110,15 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.findById(id));
     }
 
+    // company information page - update company information
+    @PutMapping(UPDATE_COMPANY_INFORMATION+"/{authid}")
+    public ResponseEntity<Boolean> updateCompanyInformation(@PathVariable Long authid, @RequestBody UpdateCompanyInformationRequestDto dto){
+        return ResponseEntity.ok(companyService.updateCompanyInformation(authid, dto));
+    }
+
+    // company information page - update company valuation
+    @PutMapping(UPDATE_COMPANY_VALUATION+"/{authid}")
+    public ResponseEntity<Boolean> updateCompanyValuation(@PathVariable Long authid, @RequestBody UpdateCompanyValuationRequestDto dto){
+        return ResponseEntity.ok(companyService.updateCompanyValuation(authid, dto));
+    }
 }

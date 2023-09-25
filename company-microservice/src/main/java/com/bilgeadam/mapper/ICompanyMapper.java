@@ -1,7 +1,5 @@
 package com.bilgeadam.mapper;
-import com.bilgeadam.dto.request.AddCommentRequestDto;
-import com.bilgeadam.dto.request.AddEmployeeCompanyDto;
-import com.bilgeadam.dto.request.CompanyUpdateRequestDto;
+import com.bilgeadam.dto.request.*;
 import com.bilgeadam.dto.response.GetAllCopmpaniesInformationResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationManagerResponseDto;
 import com.bilgeadam.dto.response.GetCompanyInformationResponseDto;
@@ -35,4 +33,10 @@ public interface ICompanyMapper {
     GetCompanyValuationManagerResponseDto fromCompanyToGetCompanyValuationManagerResponseDto(final Company company);
 
     GetAllCopmpaniesInformationResponseDto fromCompanyGetAllCopmpaniesInformationResponseDto(final Company company);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Company fromUpdateCompanyInformationRequestDtoToCompany(UpdateCompanyInformationRequestDto dto, @MappingTarget Company company);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Company fromUpdateCompanyValuationRequestDtoToCompany(UpdateCompanyValuationRequestDto dto, @MappingTarget Company company);
 }
