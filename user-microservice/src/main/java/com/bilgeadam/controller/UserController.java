@@ -54,10 +54,10 @@ public class UserController {
     //Kullanıcı frontende bilgisayarından foto seçerek Backende image olarak gönderiyor burada
     //Daha sonra buraya gelen image resources/images e ekleniyor.
     //ekelen fotonun ismi alınarak user.setavatar databaseye isi kayıt ediliyor.
-    @PostMapping(TRANSFER_PHOTO)
-    public String handleFileUpload(@RequestPart("file") MultipartFile file, @RequestParam("userId") Long userId) {
-        return userService.changeProfilePhoto(file, userId);
-    }
+//    @PostMapping(TRANSFER_PHOTO)
+//    public String handleFileUpload(@RequestPart("file") MultipartFile file, @RequestParam("userId") Long userId) {
+//        return userService.changeProfilePhoto(file, userId);
+//    }
 
     //burda da end point olarak frontendden gelen user id si ile image bulunuyor dosyalardan.
     // bulunan image response olarak dönülüyor.
@@ -65,16 +65,16 @@ public class UserController {
     //burada bir nvi kendi cloudumuzu kullanıyoruz
    // kodun işlemesi için herkesin kendi resources/images adresini userServicedeki pathe eklemesi gerek.
 
-    @GetMapping(GET_IMAGE)
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable String fileName) throws IOException {
-
-       GetImageDto getImageDto =userService.getImage(fileName);
-
-        // ResponseEntity oluştur
-        return ResponseEntity.ok()
-                .headers(getImageDto.getHeaders())
-                .body(getImageDto.getResource());
-    }
+//    @GetMapping(GET_IMAGE)
+//    public ResponseEntity<InputStreamResource> getImage(@PathVariable String fileName) throws IOException {
+//
+//       GetImageDto getImageDto =userService.getImage(fileName);
+//
+//        // ResponseEntity oluştur
+//        return ResponseEntity.ok()
+//                .headers(getImageDto.getHeaders())
+//                .body(getImageDto.getResource());
+//    }
 
 //    @PutMapping(UPDATE_GUEST+"/{authId}")
 //    public ResponseEntity<Boolean> updateGuestInfo(@RequestBody GuestInfoUpdateDto dto, @PathVariable Long authId){

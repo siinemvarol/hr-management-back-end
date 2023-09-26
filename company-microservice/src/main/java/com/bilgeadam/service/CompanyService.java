@@ -32,6 +32,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     private final GetCompanyValuationManagerProducer getCompanyValuationManagerProducer;
     private final UpdateCompanyInformationProducer updateCompanyInformationProducer;
     private final UpdateCompanyValuationProducer updateCompanyValuationProducer;
+    private final GetCompanyEmployeesCompanyIdProducer getCompanyEmployeesCompanyIdProducer;
 
     public CompanyService(ICompanyRepository companyRepository,
                           UserCompanyIdProducer userCompanyIdProducer,
@@ -44,7 +45,8 @@ public class CompanyService extends ServiceManager<Company, String> {
                           GetCompanyInformationManagerProducer getCompanyInformationManagerProducer,
                           GetCompanyValuationManagerProducer getCompanyValuationManagerProducer,
                           UpdateCompanyInformationProducer updateCompanyInformationProducer,
-                          UpdateCompanyValuationProducer updateCompanyValuationProducer) {
+                          UpdateCompanyValuationProducer updateCompanyValuationProducer,
+                          GetCompanyEmployeesCompanyIdProducer getCompanyEmployeesCompanyIdProducer) {
         super(companyRepository);
         this.companyRepository = companyRepository;
         this.userCompanyIdProducer = userCompanyIdProducer;
@@ -58,6 +60,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         this.getCompanyValuationManagerProducer = getCompanyValuationManagerProducer;
         this.updateCompanyInformationProducer = updateCompanyInformationProducer;
         this.updateCompanyValuationProducer = updateCompanyValuationProducer;
+        this.getCompanyEmployeesCompanyIdProducer = getCompanyEmployeesCompanyIdProducer;
     }
 
     public Boolean updateCompany(CompanyUpdateRequestDto dto) {
@@ -235,5 +238,12 @@ public class CompanyService extends ServiceManager<Company, String> {
             update(ICompanyMapper.INSTANCE.fromUpdateCompanyValuationRequestDtoToCompany(dto, optionalCompany.get()));
         }
         return null;
+    }
+
+    public List<GetCompanyEmployeesResponseModel> getCompanyEmployees(Long authid) {
+        GetCompanyEmployeesCompanyIdModel model = new GetCompanyEmployeesCompanyIdModel();
+        model.setAuthid(authid);
+        List<GetCompanyEmployeesResponseModel> responseList = getCompanyEmployeesCompanyIdProducer.sendAuthIdGetEmployees(model);
+        return responseList;
     }
 }

@@ -30,6 +30,9 @@ public interface IUserMapper {
 
     User fromAddEmployeeSaveUserModelToUser(final AddEmployeeSaveUserModel addEmployeeSaveUserModel);
 
-  //  User fromGuestInfoUpdateRequestDtoToUser(final GuestInfoUpdateDto dto, @MappingTarget User user);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    GetCompanyEmployeesResponseModel fromUserToGetCompanyEmployeesResponseModel(final User user);
+
+    //  User fromGuestInfoUpdateRequestDtoToUser(final GuestInfoUpdateDto dto, @MappingTarget User user);
 
 }

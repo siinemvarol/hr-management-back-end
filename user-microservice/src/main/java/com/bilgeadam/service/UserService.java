@@ -215,50 +215,51 @@ public class UserService extends ServiceManager<User, String> {
     }
 
 
-    @Value("${upload.path}")
-    private String uploadPath;
-    public String changeProfilePhoto(MultipartFile file, Long userAuthId) {
-        System.out.println("file : " +file);
-        System.out.println("user Id : "+userAuthId);
-        try {
-            User user = userRepository.findOptionalByAuthid(userAuthId).orElse(null);
-            // Kullanıcının ID'sini dosya adına ekle
-            String fileName = userAuthId.toString()+".jpg";
-            String filePath = uploadPath + File.separator + fileName;
-            System.out.println(filePath);
-            // Dosyayı belirtilen dizine kaydet
-            file.transferTo(new File(filePath));
+//    @Value("${upload.path}")
+//    private String uploadPath;
+//    public String changeProfilePhoto(MultipartFile file, Long userAuthId) {
+//        System.out.println("file : " +file);
+//        System.out.println("user Id : "+userAuthId);
+//        try {
+//            User user = userRepository.findOptionalByAuthid(userAuthId).orElse(null);
+//            // Kullanıcının ID'sini dosya adına ekle
+//            String fileName = userAuthId.toString()+".jpg";
+//            String filePath = uploadPath + File.separator + fileName;
+//            System.out.println(filePath);
+//            // Dosyayı belirtilen dizine kaydet
+//            file.transferTo(new File(filePath));
+//
+//            if (user != null) {
+//                user.setAvatar(fileName);
+//                userRepository.save(user);
+//            }
+//            return "Dosya yükleme başarılı";
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "Dosya yükleme hatası";
+//        }
+//    }
 
-            if (user != null) {
-                user.setAvatar(fileName);
-                userRepository.save(user);
-            }
-            return "Dosya yükleme başarılı";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Dosya yükleme hatası";
-        }
-    }
-
-    public GetImageDto getImage(String fileName) throws FileNotFoundException {
-        // Belirtilen dosyanın yolu
-        String filePath = "C:\\Users\\kerim\\Desktop\\Hr-Project2\\user-microservice\\src\\main\\resources\\images\\" + fileName+".jpg";
-
-        // Dosya kontrolü
-        File file = new File(filePath);
-        if (!file.exists()) {
-            throw new UserManagerException(ErrorType.BAD_REQUEST);
-        }
-
-        // Dosya içeriğini oku
-        InputStream in = new FileInputStream(file);
-        InputStreamResource resource = new InputStreamResource(in);
-
-        // Response Headers ayarla
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentLength(file.length());
-        headers.setContentType(MediaType.IMAGE_JPEG); // Medya tipini ayarla
-        return GetImageDto.builder().resource(resource).headers(headers).build();
+//    public GetImageDto getImage(String fileName) throws FileNotFoundException {
+//        // Belirtilen dosyanın yolu
+//        String filePath = "C:\\Users\\kerim\\Desktop\\Hr-Project2\\user-microservice\\src\\main\\resources\\images\\" + fileName + ".jpg";
+//
+//        // Dosya kontrolü
+//        File file = new File(filePath);
+//        if (!file.exists()) {
+//            throw new UserManagerException(ErrorType.BAD_REQUEST);
+//        }
+//
+//        // Dosya içeriğini oku
+//        InputStream in = new FileInputStream(file);
+//        InputStreamResource resource = new InputStreamResource(in);
+//
+//        // Response Headers ayarla
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentLength(file.length());
+//        headers.setContentType(MediaType.IMAGE_JPEG); // Medya tipini ayarla
+//        return GetImageDto.builder().resource(resource).headers(headers).build();
+//    }
 
     // returns company id from auth id, for update information in company information page (from company service)
     public String returnCompanyIdForUpdateInformation(UpdateCompanyInformationModel model) {
@@ -276,5 +277,21 @@ public class UserService extends ServiceManager<User, String> {
         }
         return null;
 
+    }
+
+    // returns company id from authid, for getting company employees (from company service)
+    public List<GetCompanyEmployeesResponseModel> sendAuthIdGetEmployees(GetCompanyEmployeesCompanyIdModel model){
+        Optional<User> companyManager = userRepository.findOptionalByAuthid(model.getAuthid());
+        if(companyManager.isPresent()){
+            String companyId = companyManager.get().getCompanyId();
+            List<User> allEmployee = userRepository.findByCompanyId(companyId);
+            List<GetCompanyEmployeesResponseModel> returningList = new ArrayList<>();
+            allEmployee.forEach(employee -> {
+                GetCompanyEmployeesResponseModel employeeModel = IUserMapper.INSTANCE.fromUserToGetCompanyEmployeesResponseModel(employee);
+                returningList.add(employeeModel);
+            });
+            return returningList;
+        }
+        return null;
     }
 }

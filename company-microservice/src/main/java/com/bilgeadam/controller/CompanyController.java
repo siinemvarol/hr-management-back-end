@@ -2,6 +2,7 @@ package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.*;
 import com.bilgeadam.dto.response.*;
+import com.bilgeadam.rabbitmq.model.GetCompanyEmployeesResponseModel;
 import com.bilgeadam.rabbitmq.model.UserCompanyIdModel;
 import com.bilgeadam.repository.entity.Company;
 import com.bilgeadam.service.CompanyService;
@@ -120,5 +121,10 @@ public class CompanyController {
     @PutMapping(UPDATE_COMPANY_VALUATION+"/{authid}")
     public ResponseEntity<Boolean> updateCompanyValuation(@PathVariable Long authid, @RequestBody UpdateCompanyValuationRequestDto dto){
         return ResponseEntity.ok(companyService.updateCompanyValuation(authid, dto));
+    }
+
+    @GetMapping(GET_COMPANY_EMPLOYEES+"/{authid}")
+    public ResponseEntity<List<GetCompanyEmployeesResponseModel>> getCompanyEmployees(@PathVariable Long authid){
+        return ResponseEntity.ok(companyService.getCompanyEmployees(authid));
     }
 }
