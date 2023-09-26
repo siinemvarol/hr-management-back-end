@@ -165,4 +165,11 @@ public class RabbitMqConfig {
         return new Queue(updateCompanyValuationQueue);
     }
 
+    // get company employees for company manager consumer (from company service)
+    private final String getCompanyEmployeesCompanyIdQueue = "get-company-employees-company-id-queue";
+    @Bean
+    Queue getCompanyEmployeesCompanyIdQueue() {
+        return new Queue(getCompanyEmployeesCompanyIdQueue);
+    }
+
 }

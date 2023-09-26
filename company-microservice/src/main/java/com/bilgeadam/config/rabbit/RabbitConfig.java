@@ -162,47 +162,71 @@ public class RabbitConfig {
     Queue getCompanyInformationManagerQueue() {
         return new Queue(getCompanyInformationManagerQueue);
     }
+
     private final String getCompanyInformationManagerBinding = "get-company-information-manager-binding";
+
     @Bean
-    public Binding getCompanyInformationManagerBinding(final DirectExchange companyExchange, final Queue getCompanyInformationManagerQueue){
+    public Binding getCompanyInformationManagerBinding(final DirectExchange companyExchange, final Queue getCompanyInformationManagerQueue) {
         return BindingBuilder.bind(getCompanyInformationManagerQueue).to(companyExchange).with(getCompanyInformationManagerBinding);
     }
 
     // get company valuation manager producer (to user service)
     private final String getCompanyValuationManagerQueue = "get-company-valuation-manager-queue";
+
     @Bean
-    Queue getCompanyValuationManagerQueue(){
+    Queue getCompanyValuationManagerQueue() {
         return new Queue(getCompanyValuationManagerQueue);
     }
+
     private final String getCompanyValuationManagerBinding = "get-company-valuation-manager-binding";
+
     @Bean
-    public Binding getCompanyValuationManagerBinding(final DirectExchange companyExchange, final Queue getCompanyValuationManagerQueue){
+    public Binding getCompanyValuationManagerBinding(final DirectExchange companyExchange, final Queue getCompanyValuationManagerQueue) {
         return BindingBuilder.bind(getCompanyValuationManagerQueue).to(companyExchange).with(getCompanyValuationManagerBinding);
     }
 
-    // update company information (company information page) (to user service)
+    // update company information producer (company information page) (to user service)
     private final String updateCompanyInformationQueue = "update-company-information-queue";
+
     @Bean
-    Queue updateCompanyInformationQueue(){
+    Queue updateCompanyInformationQueue() {
         return new Queue(updateCompanyInformationQueue);
     }
+
     private final String updateCompanyInformationBinding = "update-company-information-binding";
+
     @Bean
-    public Binding updateCompanyInformationBinding(final DirectExchange companyExchange, final Queue updateCompanyInformationQueue){
+    public Binding updateCompanyInformationBinding(final DirectExchange companyExchange, final Queue updateCompanyInformationQueue) {
         return BindingBuilder.bind(updateCompanyInformationQueue).to(companyExchange).with(updateCompanyInformationBinding);
     }
 
-    // update company valuation (company information page) (to user service)
+    // update company valuation producer (company information page) (to user service)
     private final String updateCompanyValuationQueue = "update-company-valuation-queue";
+
     @Bean
-    Queue updateCompanyValuationQueue(){
+    Queue updateCompanyValuationQueue() {
         return new Queue(updateCompanyValuationQueue);
     }
+
     private final String updateCompanyValuationBinding = "update-company-valuation-binding";
+
     @Bean
-    public Binding updateCompanyValuationBinding(final DirectExchange companyExchange, final Queue updateCompanyValuationQueue){
+    public Binding updateCompanyValuationBinding(final DirectExchange companyExchange, final Queue updateCompanyValuationQueue) {
         return BindingBuilder.bind(updateCompanyValuationQueue).to(companyExchange).with(updateCompanyValuationBinding);
     }
+
+    // get company employees for company manager (company id) producer (to user service)
+    private final String getCompanyEmployeesCompanyIdQueue = "get-company-employees-company-id-queue";
+    @Bean
+    Queue getCompanyEmployeesCompanyIdQueue() {
+        return new Queue(getCompanyEmployeesCompanyIdQueue);
+    }
+    private final String getCompanyEmployeesCompanyIdBinding = "get-company-employees-company-id-binding";
+    @Bean
+    public Binding getCompanyEmployeesCompanyIdBinding(final DirectExchange companyExchange, final Queue getCompanyEmployeesCompanyIdQueue) {
+        return BindingBuilder.bind(getCompanyEmployeesCompanyIdQueue).to(companyExchange).with(getCompanyEmployeesCompanyIdBinding);
+    }
+
 
     //Consumer
 
