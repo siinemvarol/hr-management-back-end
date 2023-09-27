@@ -99,4 +99,8 @@ public class CommentService extends ServiceManager<Comment, String> {
         System.out.println("comment service'teki comment list...: " + commentList);
         return commentList;
     }
+    public List<Comment> getCommentsWithCompanyId(String companyId) {
+        List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
+        return commentList;
+    }
 }
