@@ -46,4 +46,9 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentsByCompanyId(authid));
     }
 
+    @GetMapping(GET_COMMENTS_BY_COMPANY_FOR_GUEST+"/{companyid}")
+    public ResponseEntity<List<Comment>> getCommentsByCompanyForGuest(@PathVariable String companyId){
+        return ResponseEntity.ok(commentService.getCommentsWithCompanyId(companyId));
+    }
+
 }

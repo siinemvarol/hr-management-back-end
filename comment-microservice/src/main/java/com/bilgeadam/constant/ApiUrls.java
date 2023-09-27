@@ -11,4 +11,5 @@ public class ApiUrls {
     public static final String DENIED_COMMENT = "/denied-comment";
     public static final String GET_COMMENTS_BY_COMPANY = "/get-comments-by-company";
     public static final String ADD_NEW_COMMENT = "/add-new-comment";
+    public static final String GET_COMMENTS_BY_COMPANY_FOR_GUEST = "/get-comments-by-guest";
 }
