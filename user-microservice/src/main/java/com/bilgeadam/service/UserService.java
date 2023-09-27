@@ -194,7 +194,7 @@ public class UserService extends ServiceManager<User, String> {
     public String returnEmployeeNameSurname(GetPendingCommentsEmployeeModel getPendingCommentsEmployeeModel) {
         Optional<User> optionalUser = userRepository.findById(getPendingCommentsEmployeeModel.getId());
         if(optionalUser.isPresent()){
-            return optionalUser.get().getName() + " " + optionalUser.get().getSurname();
+            return optionalUser.get().getName() + " " + optionalUser.get().getSurname()+" "+optionalUser.get().getAvatar()+" "+optionalUser.get().getAuthid();
         }
         return null;
     }
@@ -223,11 +223,9 @@ public class UserService extends ServiceManager<User, String> {
         System.out.println("user Id : "+userAuthId);
         try {
             User user = userRepository.findOptionalByAuthid(userAuthId).orElse(null);
-            // Kullanıcının ID'sini dosya adına ekle
             String fileName = userAuthId.toString()+".jpg";
             String filePath = uploadPath + File.separator + fileName;
             System.out.println(filePath);
-            // Dosyayı belirtilen dizine kaydet
             file.transferTo(new File(filePath));
 
             if (user != null) {
@@ -242,20 +240,13 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public GetImageDto getImage(String fileName) throws FileNotFoundException {
-        // Belirtilen dosyanın yolu
         String filePath = uploadPath+"\\" + fileName + ".jpg";
-
-        // Dosya kontrolü
         File file = new File(filePath);
         if (!file.exists()) {
             throw new UserManagerException(ErrorType.BAD_REQUEST);
         }
-
-        // Dosya içeriğini oku
         InputStream in = new FileInputStream(file);
         InputStreamResource resource = new InputStreamResource(in);
-
-        // Response Headers ayarla
         HttpHeaders headers = new HttpHeaders();
         headers.setContentLength(file.length());
         headers.setContentType(MediaType.IMAGE_JPEG); // Medya tipini ayarla
@@ -286,11 +277,13 @@ public class UserService extends ServiceManager<User, String> {
         if(companyManager.isPresent()){
             String companyId = companyManager.get().getCompanyId();
             List<User> allEmployee = userRepository.findByCompanyId(companyId);
+            System.out.println("allEmployee : "+allEmployee);
             List<GetCompanyEmployeesResponseModel> returningList = new ArrayList<>();
             allEmployee.forEach(employee -> {
                 GetCompanyEmployeesResponseModel employeeModel = IUserMapper.INSTANCE.fromUserToGetCompanyEmployeesResponseModel(employee);
                 returningList.add(employeeModel);
             });
+            System.out.println(returningList);
             return returningList;
         }
         return null;

@@ -55,11 +55,16 @@ public class CommentService extends ServiceManager<Comment, String> {
 
             GetPendingCommentsEmployeeModel employeeModel = new GetPendingCommentsEmployeeModel();
             employeeModel.setId(comment.getUserId());
-            String employeeNameSurname = getPendingCommentsEmployeeProducer.returnEmployeeNameSurname(employeeModel);
+            String[] employeeNameSurnameArray = getPendingCommentsEmployeeProducer.returnEmployeeNameSurname(employeeModel).split(" ");
+            String employeeNameSurname = employeeNameSurnameArray[0] + " " + employeeNameSurnameArray[1];
+            String avatar = employeeNameSurnameArray[2];
+            Long authId = Long.valueOf(employeeNameSurnameArray[3]);
 
             GetPendingCommentsResponseModel model = GetPendingCommentsResponseModel.builder()
                     .id(comment.getId())
                     .userId(comment.getUserId())
+                    .authId(authId)
+                    .avatar(avatar)
                     .companyName(companyName)
                     .employeeNameSurname(employeeNameSurname)
                     .header(comment.getHeader())
@@ -67,6 +72,7 @@ public class CommentService extends ServiceManager<Comment, String> {
                     .status(comment.getStatus())
                     .build();
             returningList.add(model);
+            System.out.println("model"+model.getAuthId());
         });
         return returningList;
     }
