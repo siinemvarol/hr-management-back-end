@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class GetPendingCommentsResponseModel implements Serializable {
     private String id;
     private String userId;
+    private Long authId;
+    private String avatar;
     private String companyName;
     private String employeeNameSurname;
     private String header;
