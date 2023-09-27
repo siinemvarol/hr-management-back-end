@@ -81,6 +81,15 @@ public class UserController {
     public ResponseEntity<Boolean> updateGuestInfo(@RequestBody GuestInfoUpdateDto dto, @PathVariable Long authId){
         return ResponseEntity.ok(userService.updateGuestInfo(dto,authId));
     }
+    @GetMapping(GET_NUMBER_OF_EMPLOYEES)
+    public ResponseEntity<Integer> getNumberOfEmployees(){
+        return ResponseEntity.ok(userService.getNumberOfEmployees());
+    }
+
+    @GetMapping(GET_NUMBER_OF_ALL_USERS)
+    public ResponseEntity<Integer> getNumberOfAllUsers(){
+        return ResponseEntity.ok(userService.getNumberOfAllUsers());
+    }
 
 
 }

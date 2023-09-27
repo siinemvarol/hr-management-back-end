@@ -51,4 +51,9 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentsWithCompanyId(companyId));
     }
 
+    @GetMapping(GET_NUMBER_OF_COMMENTS)
+    public ResponseEntity<Integer> getNumberOfComments(){
+        return ResponseEntity.ok(commentService.getNumberOfComments());
+    }
+
 }
