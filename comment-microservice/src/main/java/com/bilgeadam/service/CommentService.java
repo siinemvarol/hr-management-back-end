@@ -109,4 +109,8 @@ public class CommentService extends ServiceManager<Comment, String> {
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
         return commentList;
     }
+
+    public Integer getNumberOfComments() {
+        return commentRepository.findAll().size();
+    }
 }
