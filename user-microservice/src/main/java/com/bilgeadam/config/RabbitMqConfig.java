@@ -172,4 +172,18 @@ public class RabbitMqConfig {
         return new Queue(getCompanyEmployeesCompanyIdQueue);
     }
 
+    // get total comments by company consumer for employee dashboard (from comment service)
+    private final String getTotalCommentsByCompanyQueue = "get-total-comments-by-company-queue";
+    @Bean
+    Queue getTotalCommentsByCompanyQueue(){
+        return new Queue(getTotalCommentsByCompanyQueue);
+    }
+
+    // get total comments by employee consumer for employee dashboard (from comment service)
+    private final String getTotalCommentsByEmployeeQueue = "get-total-comments-by-employee-queue";
+    @Bean
+    Queue getTotalCommentsByEmployeeQueue(){
+        return new Queue(getTotalCommentsByEmployeeQueue);
+    }
+
 }

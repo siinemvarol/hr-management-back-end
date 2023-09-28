@@ -2,9 +2,7 @@ package com.bilgeadam.service;
 
 import com.bilgeadam.mapper.ICommentMapper;
 import com.bilgeadam.rabbitmq.model.*;
-import com.bilgeadam.rabbitmq.producer.GetCompanyCommentsProducer;
-import com.bilgeadam.rabbitmq.producer.GetPendingCommentsCompanyNameProducer;
-import com.bilgeadam.rabbitmq.producer.GetPendingCommentsEmployeeProducer;
+import com.bilgeadam.rabbitmq.producer.*;
 import com.bilgeadam.repository.ICommentRepository;
 import com.bilgeadam.repository.entity.Comment;
 import com.bilgeadam.repository.enums.EStatus;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService extends ServiceManager<Comment, String> {
@@ -21,14 +20,20 @@ public class CommentService extends ServiceManager<Comment, String> {
     private final GetCompanyCommentsProducer getCompanyCommentsProducer;
     private final GetPendingCommentsCompanyNameProducer getPendingCommentsCompanyNameProducer;
     private final GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer;
+    private final GetTotalCommentsByCompanyProducer getTotalCommentsByCompanyProducer;
+    private final GetTotalCommentsByEmployeeProducer getTotalCommentsByEmployeeProducer;
     public CommentService(ICommentRepository commentRepository, GetCompanyCommentsProducer getCompanyCommentsProducer,
                           GetPendingCommentsCompanyNameProducer getPendingCommentsCompanyNameProducer,
-                          GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer){
+                          GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer,
+                          GetTotalCommentsByCompanyProducer getTotalCommentsByCompanyProducer,
+                          GetTotalCommentsByEmployeeProducer getTotalCommentsByEmployeeProducer){
         super(commentRepository);
         this.commentRepository = commentRepository;
         this.getCompanyCommentsProducer = getCompanyCommentsProducer;
         this.getPendingCommentsCompanyNameProducer = getPendingCommentsCompanyNameProducer;
         this.getPendingCommentsEmployeeProducer = getPendingCommentsEmployeeProducer;
+        this.getTotalCommentsByCompanyProducer = getTotalCommentsByCompanyProducer;
+        this.getTotalCommentsByEmployeeProducer = getTotalCommentsByEmployeeProducer;
     }
 
     // adds comment to comment db
@@ -102,7 +107,6 @@ public class CommentService extends ServiceManager<Comment, String> {
         getCompanyCommentsModel.setAuthid(authid);
         String companyId = getCompanyCommentsProducer.sendAuthIdToUser(getCompanyCommentsModel);
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
-        System.out.println("comment service'teki comment list...: " + commentList);
         return commentList;
     }
     public List<Comment> getCommentsWithCompanyId(String companyId) {
@@ -112,5 +116,24 @@ public class CommentService extends ServiceManager<Comment, String> {
 
     public Integer getNumberOfComments() {
         return commentRepository.findAll().size();
+    }
+
+   // returns total comments of a company for employee dashboard
+    public Integer getTotalCommentsByCompany(Long authid) {
+        GetTotalCommentsByCompanyModel model = new GetTotalCommentsByCompanyModel();
+        model.setAuthid(authid);
+        String companyId = getTotalCommentsByCompanyProducer.companyIdForCompanyComments(model);
+        List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
+        return commentList.size();
+    }
+
+    public Integer getTotalCommentsByEmployee(Long authid) {
+        GetTotalCommentsByEmployeeModel model = new GetTotalCommentsByEmployeeModel();
+        model.setAuthid(authid);
+        GetTotalCommentsByEmployeeResponseModel responseModel = getTotalCommentsByEmployeeProducer.companyUserIdForEmployeeComments(model);
+        String userId = responseModel.getUserId();
+        List<Comment> commentList = commentRepository.findAllByUserId(userId);
+        List<Comment> pendingCommentList = commentList.stream().filter(comment ->  comment.getStatus().equals(EStatus.PENDING)).collect(Collectors.toList());
+        return pendingCommentList.size();
     }
 }

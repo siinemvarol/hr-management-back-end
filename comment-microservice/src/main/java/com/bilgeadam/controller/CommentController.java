@@ -56,4 +56,14 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getNumberOfComments());
     }
 
+    @GetMapping(GET_TOTAL_COMMENTS_BY_COMPANY+"/{authid}")
+    public ResponseEntity<Integer> getTotalCommentsByCompany(@PathVariable Long authid){
+        return ResponseEntity.ok(commentService.getTotalCommentsByCompany(authid));
+    }
+
+    @GetMapping(GET_TOTAL_COMMENTS_BY_EMPLOYEE+"/{authid}")
+    public ResponseEntity<Integer> getTotalCommentsByEmployee(@PathVariable Long authid){
+        System.out.println("controller ...");
+        return ResponseEntity.ok(commentService.getTotalCommentsByEmployee(authid));
+    }
 }

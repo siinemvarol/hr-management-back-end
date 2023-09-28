@@ -22,6 +22,7 @@ import com.bilgeadam.repository.enums.ERole;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
 import nonapi.io.github.classgraph.utils.FileUtils;
+import org.mapstruct.control.MappingControl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -297,5 +298,37 @@ public class UserService extends ServiceManager<User, String> {
 
     public Integer getNumberOfAllUsers() {
         return userRepository.findAll().size();
+    }
+
+    // returns number of all employees in a company for employee dashboard
+    public Integer getAllEmployeesInCompany(Long authid) {
+        Optional<User> optionalUser = findEmployeeByAuthId(authid);
+        if(optionalUser.isPresent()){
+            String companyId = optionalUser.get().getCompanyId();
+            List<User> employeeList = userRepository.findByCompanyId(companyId);
+            return employeeList.size();
+        }
+        return null;
+    }
+
+    //returns companyId for total comments by company for employee dashboard
+    public String companyIdForCompanyComments(GetTotalCommentsByCompanyModel model) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
+        if(optionalUser.isPresent()){
+            return optionalUser.get().getCompanyId();
+        }
+        return null;
+    }
+
+    //returns company id and user id for total comments by employee for employee dashboard
+    public GetTotalCommentsByEmployeeResponseModel companyUserIdForEmployeeComments(GetTotalCommentsByEmployeeModel model) {
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
+        if(optionalUser.isPresent()){
+            GetTotalCommentsByEmployeeResponseModel responseModel = new GetTotalCommentsByEmployeeResponseModel();
+            responseModel.setCompanyId(optionalUser.get().getCompanyId());
+            responseModel.setUserId(optionalUser.get().getId());
+            return responseModel;
+        }
+        return null;
     }
 }

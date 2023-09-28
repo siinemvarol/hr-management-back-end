@@ -51,6 +51,30 @@ public class RabbitConfig {
         return BindingBuilder.bind(getPendingCommentsEmployeeQueue).to(commentExchange).with(getPendingCommentsEmployeeBinding);
     }
 
+    // get total comments by company producer for employee dashboard (to user service to get companyId)
+    private final String getTotalCommentsByCompanyQueue = "get-total-comments-by-company-queue";
+    @Bean
+    Queue getTotalCommentsByCompanyQueue(){
+        return new Queue(getTotalCommentsByCompanyQueue);
+    }
+    private final String getTotalCommentsByCompanyBinding = "get-total-comments-by-company-binding";
+    @Bean
+    public Binding getTotalCommentsByCompanyBinding(final DirectExchange commentExchange, final Queue getTotalCommentsByCompanyQueue){
+        return BindingBuilder.bind(getTotalCommentsByCompanyQueue).to(commentExchange).with(getTotalCommentsByCompanyBinding);
+    }
+
+    // get total comments by employee producer for employee dashboard (to user service to get company id and user id)
+    private final String getTotalCommentsByEmployeeQueue = "get-total-comments-by-employee-queue";
+    @Bean
+    Queue getTotalCommentsByEmployeeQueue(){
+        return new Queue(getTotalCommentsByEmployeeQueue);
+    }
+    private final String getTotalCommentsByEmployeeBinding = "get-total-comments-by-employee-binding";
+    @Bean
+    public Binding getTotalCommentsByEmployeeBinding(final DirectExchange commentExchange, final Queue getTotalCommentsByEmployeeQueue){
+        return BindingBuilder.bind(getTotalCommentsByEmployeeQueue).to(commentExchange).with(getTotalCommentsByEmployeeBinding);
+    }
+
     // add comment save comment consumer
     private final String addCommentSaveCommentQueue = "add-comment-save-comment-queue";
     @Bean

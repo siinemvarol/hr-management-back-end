@@ -91,6 +91,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getNumberOfAllUsers());
     }
 
+    @GetMapping(GET_ALL_EMPLOYEES_IN_COMPANY+"/{authid}")
+    public ResponseEntity<Integer> getAllEmployeesInCompany(@PathVariable Long authid){
+        return ResponseEntity.ok(userService.getAllEmployeesInCompany(authid));
+    }
 
 }
 
