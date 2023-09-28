@@ -24,5 +24,5 @@ public class ApiUrls {
     public static final String UPDATE_COMPANY_INFORMATION = "/update-company-information";
     public static final String UPDATE_COMPANY_VALUATION = "/update-company-valuation";
     public static final String GET_COMPANY_EMPLOYEES = "/get-company-employees";
-
+    public static final String GET_COMPANY_EMPLOYEES_NEW = "/get-company-employees-new";
 }
