@@ -226,7 +226,7 @@ public class UserService extends ServiceManager<User, String> {
             User user = userRepository.findOptionalByAuthid(userAuthId).orElse(null);
             String fileName = userAuthId.toString()+".jpg";
             String filePath = uploadPath + File.separator + fileName;
-            System.out.println(filePath);
+            System.out.println("file path"+filePath);
             file.transferTo(new File(filePath));
 
             if (user != null) {
@@ -239,9 +239,9 @@ public class UserService extends ServiceManager<User, String> {
             return "Dosya yükleme hatası";
         }
     }
-
     public GetImageDto getImage(String fileName) throws FileNotFoundException {
-        String filePath = uploadPath+"\\" + fileName + ".jpg";
+        String filePath = uploadPath + File.separator + fileName+".jpg";
+        System.out.println("get image :"+filePath);
         File file = new File(filePath);
         if (!file.exists()) {
             throw new UserManagerException(ErrorType.BAD_REQUEST);

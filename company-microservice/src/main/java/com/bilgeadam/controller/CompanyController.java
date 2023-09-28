@@ -127,4 +127,12 @@ public class CompanyController {
     public ResponseEntity<List<GetCompanyEmployeesResponseModel>> getCompanyEmployees(@PathVariable Long authid){
         return ResponseEntity.ok(companyService.getCompanyEmployees(authid));
     }
+    @GetMapping(GET_COMPANY_EMPLOYEES_NEW+"/{authid}")
+    public ResponseEntity<Integer> getCompanyEmployeesNew(@PathVariable Long authid){
+        long currentTimeMillis = System.currentTimeMillis();
+        System.out.println(currentTimeMillis);
+        return ResponseEntity.ok(companyService.getCompanyEmployeesLast24Hours(authid));
+
+    }
+
 }

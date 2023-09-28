@@ -22,4 +22,5 @@ public class GetCompanyEmployeesResponseModel implements Serializable {
     private String info;
     private String avatar;
     private String birthday;
+    private Long createdDate;
 }

@@ -14,6 +14,7 @@ import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -246,4 +247,20 @@ public class CompanyService extends ServiceManager<Company, String> {
         List<GetCompanyEmployeesResponseModel> responseList = getCompanyEmployeesCompanyIdProducer.sendAuthIdGetEmployees(model);
         return responseList;
     }
-}
+
+
+    public Integer getCompanyEmployeesLast24Hours(Long authid) {
+        GetCompanyEmployeesCompanyIdModel model = new GetCompanyEmployeesCompanyIdModel();
+        model.setAuthid(authid);
+        List<GetCompanyEmployeesResponseModel> responseList = getCompanyEmployeesCompanyIdProducer.sendAuthIdGetEmployees(model);
+        long currentTimeMillis = System.currentTimeMillis();
+        List<GetCompanyEmployeesResponseModel> last24HoursList = new ArrayList<>();
+        for (GetCompanyEmployeesResponseModel responseModel : responseList) {
+            long createdDate = responseModel.getCreatedDate();
+            if (currentTimeMillis - createdDate <= 24 * 60 * 60 * 1000) {
+                last24HoursList.add(responseModel);
+            }
+        }
+        return last24HoursList.size();
+    }
+    }
