@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class GetAllCopmpaniesInformationResponseDto {
+    private String companyId;
     private String companyName;
     private String companyPhone;
     private String infoEmail;
