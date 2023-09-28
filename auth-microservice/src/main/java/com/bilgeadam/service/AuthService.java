@@ -18,6 +18,10 @@ import com.bilgeadam.utility.JwtTokenManager;
 import com.bilgeadam.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -140,37 +144,52 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return true;
     }
 
-    public Auth userActive(String token) {
+    public String userActive(String token) throws IOException {
+        System.out.println(token);
         Long authid = Long.parseLong(token.split("-")[0]);
         String activationLink = token.split("-")[1];
         Optional<Auth> optionalAuth = authRepository.findOptionalById(authid);
+
+
+        Path path = Paths.get("C:\\Users\\kerim\\Desktop\\Hr-Project\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-failed.html");
+        Path path2 = Paths.get("C:\\Users\\kerim\\Desktop\\Hr-Project\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-succes.html");
+
+        byte[] errorBytes = Files.readAllBytes(path);
+        byte[] succesfullBytes = Files.readAllBytes(path2);
+
         if (optionalAuth.isEmpty()) {
-            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+            return new String(errorBytes);
         }
         if (optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
-            throw new AuthManagerException(ErrorType.ACCOUNT_ALREADY_ACTIVE);
+            return new String(errorBytes);
         }
         if (optionalAuth.get().getActivationLink().equals(activationLink)) {
             optionalAuth.get().setStatus(EStatus.ACTIVE);
             update(optionalAuth.get());
             UserRegisterModel userRegisterModel = IAuthMapper.INSTANCE.fromAuthToUserRegisterModel(optionalAuth.get());
+            System.out.println(userRegisterModel);
             userRegisterModel.setStatus(EStatus.ACTIVE);
             userRegisterProducer.sendRegisterProducer(userRegisterModel);
         } else throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
-        return optionalAuth.get();
+        return new String(succesfullBytes);
 
     }
 
     public Boolean companyRegister(CompanyRegisterRequestDto dto) {
         Auth auth = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToAuth(dto);
         auth.setRole(ERole.COMPANY_MANAGER);
+        auth.setActivationLink(CodeGenerator.generateCode());
         save(auth);
         CompanyRegisterModel companyRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyRegisterModel(dto);
         String companyId = companyRegisterProducer.createNewCompany(companyRegisterModel);
         CompanyManagerRegisterModel companyManagerRegisterModel = IAuthMapper.INSTANCE.fromCompanyRegisterRequestDtoToCompanyManagerRegisterModel(dto);
         companyManagerRegisterModel.setAuthid(auth.getId());
         companyManagerRegisterModel.setCompanyId(companyId);
+        companyManagerRegisterModel.setCompanyId(companyId);
         companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
+        MailRegisterModel mailRegisterModel= IAuthMapper.INSTANCE.fromAuthToMailRegisterModel(auth);
+        mailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
+        mailRegisterProducer.sendMailRegister(mailRegisterModel);
         return true;
     }
 
