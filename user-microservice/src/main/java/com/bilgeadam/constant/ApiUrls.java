@@ -16,4 +16,5 @@ public class ApiUrls {
     public static final String GET_IMAGE = "/images/{fileName}";
     public static final String GET_NUMBER_OF_EMPLOYEES = "/get-number-of-employees";
     public static final String GET_NUMBER_OF_ALL_USERS = "/get-number-of-all-users";
+    public static final String GET_ALL_EMPLOYEES_IN_COMPANY = "/get-all-employees-in-company";
 }

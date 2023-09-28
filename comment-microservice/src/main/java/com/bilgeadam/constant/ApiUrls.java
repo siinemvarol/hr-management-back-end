@@ -13,4 +13,6 @@ public class ApiUrls {
     public static final String ADD_NEW_COMMENT = "/add-new-comment";
     public static final String GET_COMMENTS_BY_COMPANY_FOR_GUEST = "/get-comments-by-guest";
     public static final String GET_NUMBER_OF_COMMENTS = "/get-number-of-comments";
+    public static final String GET_TOTAL_COMMENTS_BY_COMPANY = "/get-total-comments-by-company";
+    public static final String GET_TOTAL_COMMENTS_BY_EMPLOYEE = "/get-total-comments-by-employee";
 }

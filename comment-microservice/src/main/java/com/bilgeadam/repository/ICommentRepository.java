@@ -12,4 +12,5 @@ public interface ICommentRepository extends MongoRepository<Comment, String> {
     List<Comment> findByStatus(EStatus eStatus);
     List<Comment> findAllByCompanyId(String companyId);
 
+    List<Comment> findAllByUserId(String userId);
 }
