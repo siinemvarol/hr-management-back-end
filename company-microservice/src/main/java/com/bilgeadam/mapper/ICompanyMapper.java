@@ -31,7 +31,7 @@ public interface ICompanyMapper {
     GetCompanyInformationManagerResponseDto fromCompanyToGetCompanyInformationManagerResponseDto(final Company company);
 
     GetCompanyValuationManagerResponseDto fromCompanyToGetCompanyValuationManagerResponseDto(final Company company);
-
+    @Mapping(source = "id",target = "companyId")
     GetAllCopmpaniesInformationResponseDto fromCompanyGetAllCopmpaniesInformationResponseDto(final Company company);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
