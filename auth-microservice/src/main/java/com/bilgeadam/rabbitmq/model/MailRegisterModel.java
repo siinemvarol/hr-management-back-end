@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Builder
 public class MailRegisterModel implements Serializable {
     private String activationLink;
+    private String name;
     private String username;
     private String password;
     private String personalEmail;

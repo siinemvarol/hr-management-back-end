@@ -53,7 +53,7 @@ public class UserService extends ServiceManager<User, String> {
     }
 
     public Boolean createUser(UserRegisterModel model) {
-        Optional<User> optionalUser = userRepository.findOptionalByUsername(model.getUsername());
+        Optional<User> optionalUser = userRepository.findOptionalByAuthid(model.getAuthid());
         if (optionalUser.isPresent()) {
             optionalUser.get().setStatus(EStatus.ACTIVE);
             update(optionalUser.get());

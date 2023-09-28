@@ -25,12 +25,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MailService {
 
-    private static String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=";
+
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
     public String sendMail(MailRegisterModel mailRegisterModel) throws MessagingException {
-        CONFIRMATION_URL = CONFIRMATION_URL + mailRegisterModel.getActivationLink();
+
+        String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=" + mailRegisterModel.getActivationLink();
+        System.out.println("Confirmation URL: " + CONFIRMATION_URL);
         String templateName = "authentication-email";
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
@@ -39,7 +41,16 @@ public class MailService {
                 StandardCharsets.UTF_8.name()
         );
         Map<String, Object> properties = new HashMap<>();
-        properties.put("username", mailRegisterModel.getUsername());
+        if (mailRegisterModel.getPersonalEmail() != null) {
+            properties.put("companyEmail", mailRegisterModel.getPersonalEmail());
+        }else if(mailRegisterModel.getCompanyEmail() != null){
+            properties.put("companyEmail", mailRegisterModel.getCompanyEmail());
+        }if (mailRegisterModel.getUsername() != null) {
+            properties.put("username", mailRegisterModel.getUsername());
+        }else if (mailRegisterModel.getName() != null) {
+            properties.put("username", mailRegisterModel.getName());
+        }
+
         CONFIRMATION_URL = String.format(CONFIRMATION_URL);
         properties.put("confirmationUrl", CONFIRMATION_URL);
         Context context = new Context();
@@ -56,9 +67,10 @@ public class MailService {
 
 
     public String sendMail(AddEmployeeMailModel mailModel) throws MessagingException {
-        System.out.println(CONFIRMATION_URL);
-        System.out.println(mailModel.getActivationLink());
-        CONFIRMATION_URL = CONFIRMATION_URL + mailModel.getActivationLink();
+
+
+        String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=" + mailModel.getActivationLink();
+        System.out.println("Confirmation URL: " + CONFIRMATION_URL);
 
 
         String templateName = "authentication-email";
@@ -105,7 +117,7 @@ public class MailService {
 
 
     public String sendGuestActivationMail(GuestMailRegisterModel guestMailRegisterModel) throws MessagingException {
-        CONFIRMATION_URL = CONFIRMATION_URL + guestMailRegisterModel.getActivationLink();
+        String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=" + guestMailRegisterModel.getActivationLink();
         System.out.println("guest mail register model" + guestMailRegisterModel);
         String templateName = "authentication-email";
         MimeMessage mimeMessage = mailSender.createMimeMessage();
