@@ -293,7 +293,8 @@ public class UserService extends ServiceManager<User, String> {
     // returns number of all employees in platform for guest dashboard
     public Integer getNumberOfEmployees() {
         List<User> employeeList = userRepository.findByRole(ERole.EMPLOYEE.name());
-        return employeeList.size();
+        List<User> companyManagerList = userRepository.findByRole(ERole.COMPANY_MANAGER.name());
+        return (employeeList.size()+companyManagerList.size());
     }
 
     public Integer getNumberOfAllUsers() {
