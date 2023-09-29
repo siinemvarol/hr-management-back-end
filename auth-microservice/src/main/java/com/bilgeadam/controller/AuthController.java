@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.io.IOException;
+
 import static com.bilgeadam.constant.ApiUrls.*;
 
 @RestController
@@ -33,7 +35,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.forgotPassword(dto));
     }
     @GetMapping(USER_ACTIVE)
-    public Auth userActive(String token){
+    public String userActive(String token) throws IOException {
         return authService.userActive(token);
     }
 
