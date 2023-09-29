@@ -171,6 +171,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         companyManagerRegisterModel.setAuthid(auth.getId());
         companyManagerRegisterModel.setCompanyId(companyId);
         companyManagerRegisterProducer.sendCompanyManager(companyManagerRegisterModel);
+
         return true;
     }
 

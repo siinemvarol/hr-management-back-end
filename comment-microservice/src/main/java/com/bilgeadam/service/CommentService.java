@@ -107,6 +107,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         getCompanyCommentsModel.setAuthid(authid);
         String companyId = getCompanyCommentsProducer.sendAuthIdToUser(getCompanyCommentsModel);
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
+        System.out.println(authid);
         return commentList;
     }
     public List<Comment> getCommentsWithCompanyId(String companyId) {
