@@ -190,6 +190,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         MailRegisterModel mailRegisterModel= IAuthMapper.INSTANCE.fromAuthToMailRegisterModel(auth);
         mailRegisterModel.setActivationLink(auth.getId() + "-" + auth.getActivationLink());
         mailRegisterProducer.sendMailRegister(mailRegisterModel);
+
         return true;
     }
 

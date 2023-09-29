@@ -109,6 +109,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
         List<Comment> approvedComments = commentList.stream().filter(comment -> comment.getStatus().equals(EStatus.APPROVED)).collect(Collectors.toList());
         return approvedComments;
+
     }
     public List<Comment> getCommentsWithCompanyId(String companyId) {
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
