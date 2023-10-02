@@ -17,18 +17,19 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(AuthManagerException.class)
-    public ResponseEntity<ErrorMessage> handlerManagerException(AuthManagerException exception){
+    public ResponseEntity<ErrorMessage> handlerManagerException(AuthManagerException exception) {
         ErrorType errorType = exception.getErrorType();
         HttpStatus httpStatus = errorType.httpStatus;
-        return new ResponseEntity<>(createError(errorType,exception),httpStatus);
+        return new ResponseEntity<>(createError(errorType, exception), httpStatus);
     }
 
-    private ErrorMessage createError(ErrorType errorType,Exception exception) {
-       return ErrorMessage.builder()
-               .code(errorType.getCode())
-               .message(errorType.getMessage())
-               .build();
+    private ErrorMessage createError(ErrorType errorType, Exception exception) {
+        return ErrorMessage.builder()
+                .code(errorType.getCode())
+                .message(errorType.getMessage())
+                .build();
     }
+
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ErrorMessage> handleAllExceptions(Exception exception) {
         ErrorType errorType = ErrorType.INTERNAL_ERROR;
@@ -38,6 +39,7 @@ public class GlobalExceptionHandler {
         errorMessage.setFields(fields);
         return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
     }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.ok("Beklenmeyen bir hata olustu: " + ex.getMessage());
@@ -78,9 +80,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
     }
 
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    public final ResponseEntity<ErrorMessage> handlePsqlException(DataIntegrityViolationException exception) {
-//        ErrorType errorType = ErrorType.USERNAME_DUPLICATE;
-//        return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
-//    }
 }

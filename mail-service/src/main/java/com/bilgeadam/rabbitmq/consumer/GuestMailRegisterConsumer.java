@@ -15,7 +15,6 @@ public class GuestMailRegisterConsumer {
 
     @RabbitListener(queues =  "guest-mail-register-queue")
     public void sendGuestActivationMail(GuestMailRegisterModel guestMailRegisterModel)  {
-        System.out.println(guestMailRegisterModel);
         try {
             mailService.sendGuestActivationMail(guestMailRegisterModel);
         }catch (Exception e){

@@ -63,7 +63,6 @@ public class CommentController {
 
     @GetMapping(GET_TOTAL_COMMENTS_BY_EMPLOYEE+"/{authid}")
     public ResponseEntity<Integer> getTotalCommentsByEmployee(@PathVariable Long authid){
-        System.out.println("controller ...");
         return ResponseEntity.ok(commentService.getTotalCommentsByEmployee(authid));
     }
 }

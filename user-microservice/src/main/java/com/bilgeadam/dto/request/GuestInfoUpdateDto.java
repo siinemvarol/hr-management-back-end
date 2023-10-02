@@ -21,7 +21,6 @@ public class GuestInfoUpdateDto {
     @Size(min = 3, max = 20, message = "Surname must be between 3 and 20 characters.")
     private String surname;
 
-
     @NotEmpty(message = "Phone field cannot be empty" )
     private String phone;
 

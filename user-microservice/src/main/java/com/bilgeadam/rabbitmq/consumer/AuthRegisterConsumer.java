@@ -13,7 +13,6 @@ public class AuthRegisterConsumer {
     @RabbitListener(queues = "user-register-queue")
 
     public void consumerRegister(UserRegisterModel model){
-        System.out.println("user register"+model);
         userService.createUser(model);
     }
 }

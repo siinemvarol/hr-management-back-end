@@ -17,7 +17,6 @@ public class UserCompanyIdModelsProducer {
 
     private final RabbitTemplate rabbitTemplate;
     public void sendUserList(List<UserCompanyListModel> companyIdModels){
-        System.out.println(companyIdModels + "producer");
         rabbitTemplate.convertAndSend(exchange, userListCompanyBinding, companyIdModels);
     }
 }

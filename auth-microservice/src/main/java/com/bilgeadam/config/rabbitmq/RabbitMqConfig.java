@@ -53,7 +53,7 @@ public class RabbitMqConfig {
     }
 
 
-    //Mail register producer(Auth için activation mail gönderimi)
+    //Mail register producer
     private String mailRegisterQueue = "mail-register-queue";
 
     @Bean
@@ -67,7 +67,7 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(mailRegisterQueue).to(authExchange).with(mailRegisterBinding);
     }
 
-    //maile forgot password gönderimi producer
+    //mail forgot password
     private String mailForgotPasswordQueue = "mail-forgot-password-queue";
 
     @Bean
@@ -81,7 +81,7 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(mailForgotPasswordQueue).to(authExchange).with(mailForgotPassBinding);
     }
 
-    //Usera forgot password gönderimi producer
+    //User forgot password
     private String userForgotPasswordQueue = "user-forgot-password-queue";
 
     @Bean

@@ -8,8 +8,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/muhammetkrkrt/ConfigHr.git
+          uri: https://github.com/ayse-ozcan/ConfigHr.git
           default-label: master
           skip-ssl-validation: true
-          username: muhammetkrkrt
+          username: ayse-ozcan
           password: ${GIT_CONFIG_PASS}

@@ -11,16 +11,11 @@ import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 import static com.bilgeadam.constant.ApiUrls.*;
@@ -29,16 +24,10 @@ import static com.bilgeadam.constant.ApiUrls.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(USER)
-//@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
-    //   Geçici Süreliğine Devre DISIYIZZZ!!(K:T)
-    //    @PutMapping(FORGOT_PASSWORD)
-    //    public ResponseEntity<Boolean> forgotPassword(@RequestBody UserForgotPassModel userForgotPassModel){
-    //        return ResponseEntity.ok(userService.forgotPassword(userForgotPassModel));
-    //    }
-    @PostMapping(CREATEEMPLOYEE)
+    @PostMapping(CREATE_EMPLOYEE)
     public ResponseEntity<UserCreateEmployeeModel> addEmployee(@RequestBody UserCreateEmployeeModel userAddEmployeeModel){
         return ResponseEntity.ok(userService.createEmployee(userAddEmployeeModel));
     }
@@ -52,26 +41,18 @@ public class UserController {
         return ResponseEntity.ok(userService.updateEmployeeInfo(dto,authId));
     }
 
-    //Kullanıcı frontende bilgisayarından foto seçerek Backende image olarak gönderiyor burada
-    //Daha sonra buraya gelen image resources/images e ekleniyor.
-    //ekelen fotonun ismi alınarak user.setavatar databaseye isi kayıt ediliyor.
+    //The user selects a photo from own computer in the frontend.
+    //Then the image that comes here is added to resources/images.
+    //The name of the added photo is taken and its name is recorded in the user.setavatar database.
     @PostMapping(TRANSFER_PHOTO)
     public String handleFileUpload(@RequestPart("file") MultipartFile file, @RequestParam("userId") Long userId) {
         return userService.changeProfilePhoto(file, userId);
     }
 
-    //burda da end point olarak frontendden gelen user id si ile image bulunuyor dosyalardan.
-    // bulunan image response olarak dönülüyor.
-    //dönülen url sayesinde profil fotoğrafı değiştiriliyor.
-    //burada bir nvi kendi cloudumuzu kullanıyoruz
-   // kodun işlemesi için herkesin kendi resources/images adresini userServicedeki pathe eklemesi gerek.
-
     @GetMapping(GET_IMAGE)
     public ResponseEntity<InputStreamResource> getImage(@PathVariable String fileName) throws IOException {
 
        GetImageDto getImageDto =userService.getImage(fileName);
-
-        // ResponseEntity oluştur
         return ResponseEntity.ok()
                 .headers(getImageDto.getHeaders())
                 .body(getImageDto.getResource());

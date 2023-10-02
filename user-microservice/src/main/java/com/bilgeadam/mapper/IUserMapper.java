@@ -16,11 +16,9 @@ import java.util.Optional;
 public interface IUserMapper {
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
-
     User fromRegisterModelToUserProfile(final UserRegisterModel model);
 
     UserCompanyListModel userCompanyListModelFromUser(final User x);
-
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User fromCompanyManagerRegisterModelToUser(final CompanyManagerRegisterModel companyManagerRegisterModel);
@@ -34,6 +32,6 @@ public interface IUserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     GetCompanyEmployeesResponseModel fromUserToGetCompanyEmployeesResponseModel(final User user);
 
-      User fromGuestInfoUpdateRequestDtoToUser(final GuestInfoUpdateDto dto, @MappingTarget User user);
+    User fromGuestInfoUpdateRequestDtoToUser(final GuestInfoUpdateDto dto, @MappingTarget User user);
 
 }

@@ -22,11 +22,12 @@ public class CommentService extends ServiceManager<Comment, String> {
     private final GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer;
     private final GetTotalCommentsByCompanyProducer getTotalCommentsByCompanyProducer;
     private final GetTotalCommentsByEmployeeProducer getTotalCommentsByEmployeeProducer;
+
     public CommentService(ICommentRepository commentRepository, GetCompanyCommentsProducer getCompanyCommentsProducer,
                           GetPendingCommentsCompanyNameProducer getPendingCommentsCompanyNameProducer,
                           GetPendingCommentsEmployeeProducer getPendingCommentsEmployeeProducer,
                           GetTotalCommentsByCompanyProducer getTotalCommentsByCompanyProducer,
-                          GetTotalCommentsByEmployeeProducer getTotalCommentsByEmployeeProducer){
+                          GetTotalCommentsByEmployeeProducer getTotalCommentsByEmployeeProducer) {
         super(commentRepository);
         this.commentRepository = commentRepository;
         this.getCompanyCommentsProducer = getCompanyCommentsProducer;
@@ -77,7 +78,6 @@ public class CommentService extends ServiceManager<Comment, String> {
                     .status(comment.getStatus())
                     .build();
             returningList.add(model);
-            System.out.println("model"+model.getAuthId());
         });
         return returningList;
     }
@@ -89,7 +89,7 @@ public class CommentService extends ServiceManager<Comment, String> {
             update(optionalComment.get());
             return true;
         }
-        throw new RuntimeException("hata");
+        throw new RuntimeException("Error");
     }
 
     public Boolean deniedComment(String id) {
@@ -99,7 +99,7 @@ public class CommentService extends ServiceManager<Comment, String> {
             update(optionalCompany.get());
             return true;
         }
-        throw new RuntimeException("hata");
+        throw new RuntimeException("Error");
     }
 
     public List<Comment> getCommentsByCompanyId(Long authid) {
@@ -111,6 +111,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         return approvedComments;
 
     }
+
     public List<Comment> getCommentsWithCompanyId(String companyId) {
         List<Comment> commentList = commentRepository.findAllByCompanyId(companyId);
         return commentList;
@@ -120,7 +121,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         return commentRepository.findAll().size();
     }
 
-   // returns total comments of a company for employee dashboard
+    // returns total comments of a company for employee dashboard
     public Integer getTotalCommentsByCompany(Long authid) {
         GetTotalCommentsByCompanyModel model = new GetTotalCommentsByCompanyModel();
         model.setAuthid(authid);
@@ -135,7 +136,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         GetTotalCommentsByEmployeeResponseModel responseModel = getTotalCommentsByEmployeeProducer.companyUserIdForEmployeeComments(model);
         String userId = responseModel.getUserId();
         List<Comment> commentList = commentRepository.findAllByUserId(userId);
-        List<Comment> pendingCommentList = commentList.stream().filter(comment ->  comment.getStatus().equals(EStatus.PENDING)).collect(Collectors.toList());
+        List<Comment> pendingCommentList = commentList.stream().filter(comment -> comment.getStatus().equals(EStatus.PENDING)).collect(Collectors.toList());
         return pendingCommentList.size();
     }
 }

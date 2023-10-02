@@ -32,7 +32,9 @@ public class AddEmployeeCompanyDto {
     @Email(message = "Please enter a valid email address.")
     private String personalEmail;
 
-    @NotEmpty(message = "Password cannot be empty")
+    @NotEmpty
+    @Pattern(message = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])(?=\\S+$).{8,32}$")
     private String password;
 
     @NotEmpty(message = "Phone cannot be empty" )

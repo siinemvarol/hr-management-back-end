@@ -28,7 +28,9 @@ public class CompanyRegisterRequestDto {
     @NotEmpty(message = "Phone field cannot be empty" )
     private String phone;
 
-    @NotEmpty(message = "Password field cannot be empty")
+    @NotEmpty
+    @Pattern(message = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!])(?=\\S+$).{8,32}$")
     private String password;
 
     // company
@@ -43,7 +45,7 @@ public class CompanyRegisterRequestDto {
     private String companyPhone;
 
     @NotEmpty(message = "Tax id field cannot be empty" )
-    //@Digits(message=" Tax number must be 10 digits.", fraction = 0, integer = 10)
+    @Digits(message=" Tax number must be 10 digits.", fraction = 0, integer = 10)
     private String taxId;
 
     @NotEmpty(message = "Company address field cannot be empty" )

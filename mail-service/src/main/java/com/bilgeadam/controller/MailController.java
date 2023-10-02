@@ -2,8 +2,6 @@ package com.bilgeadam.controller;
 
 
 
-import com.bilgeadam.entity.Mail;
-import com.bilgeadam.rabbitmq.consumer.MailRegisterConsumer;
 import com.bilgeadam.rabbitmq.model.MailRegisterModel;
 import com.bilgeadam.service.MailService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 
 import static com.bilgeadam.constant.RestApiList.MAIL;
-import static com.bilgeadam.constant.RestApiList.MAILSEND;
+import static com.bilgeadam.constant.RestApiList.MAIL_SEND;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ import static com.bilgeadam.constant.RestApiList.MAILSEND;
 public class MailController {
     private final MailService mailSenderService;
 
-    @PostMapping(MAILSEND)
+    @PostMapping(MAIL_SEND)
     public ResponseEntity<?> sendMessage(@RequestBody MailRegisterModel mail) throws MessagingException {
 
         return ResponseEntity.ok(mailSenderService.sendMail(mail));

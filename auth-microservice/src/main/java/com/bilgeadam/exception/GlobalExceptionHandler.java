@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.ok("Beklenmeyen bir hata olustu: " + ex.getMessage());
+        return ResponseEntity.ok("Unexpected error occurred: " + ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

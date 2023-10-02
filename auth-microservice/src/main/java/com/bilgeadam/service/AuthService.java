@@ -151,11 +151,11 @@ public class AuthService extends ServiceManager<Auth, Long> {
         Optional<Auth> optionalAuth = authRepository.findOptionalById(authid);
 
 
-        Path path = Paths.get("C:\\Users\\kerim\\Desktop\\Hr-Project\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-failed.html");
-        Path path2 = Paths.get("C:\\Users\\kerim\\Desktop\\Hr-Project\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-succes.html");
+        Path path = Paths.get("D:\\MAKS\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-failed.html");
+        Path path2 = Paths.get("D:\\MAKS\\hr-management-back-end\\auth-microservice\\src\\main\\resources\\templates\\authentication-success.html");
 
         byte[] errorBytes = Files.readAllBytes(path);
-        byte[] succesfullBytes = Files.readAllBytes(path2);
+        byte[] successfulBytes = Files.readAllBytes(path2);
 
         if (optionalAuth.isEmpty()) {
             return new String(errorBytes);
@@ -171,7 +171,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
             userRegisterModel.setStatus(EStatus.ACTIVE);
             userRegisterProducer.sendRegisterProducer(userRegisterModel);
         } else throw new AuthManagerException(ErrorType.ACCOUNT_NOT_ACTIVE);
-        return new String(succesfullBytes);
+        return new String(successfulBytes);
 
     }
 

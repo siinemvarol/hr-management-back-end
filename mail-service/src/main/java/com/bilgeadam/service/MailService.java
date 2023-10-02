@@ -43,11 +43,12 @@ public class MailService {
         Map<String, Object> properties = new HashMap<>();
         if (mailRegisterModel.getPersonalEmail() != null) {
             properties.put("companyEmail", mailRegisterModel.getPersonalEmail());
-        }else if(mailRegisterModel.getCompanyEmail() != null){
+        } else if (mailRegisterModel.getCompanyEmail() != null) {
             properties.put("companyEmail", mailRegisterModel.getCompanyEmail());
-        }if (mailRegisterModel.getUsername() != null) {
+        }
+        if (mailRegisterModel.getUsername() != null) {
             properties.put("username", mailRegisterModel.getUsername());
-        }else if (mailRegisterModel.getName() != null) {
+        } else if (mailRegisterModel.getName() != null) {
             properties.put("username", mailRegisterModel.getName());
         }
 
@@ -61,8 +62,7 @@ public class MailService {
         String template = templateEngine.process(templateName, context);
         helper.setText(template, true);
         mailSender.send(mimeMessage);
-        System.out.println("mail gönderildi");
-        return "başarılı";
+        return "Successful";
     }
 
 
@@ -93,23 +93,20 @@ public class MailService {
         String template = templateEngine.process(templateName, context);
         helper.setText(template, true);
         mailSender.send(mimeMessage);
-        System.out.println("mail gönderildi");
-        return "başarılı";
+        return "Successful";
     }
 
 
     public void sendForgotPassword(MailForgotPassModel mailForgotPassModel) {
         try {
-            System.out.println(mailForgotPassModel);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("your_email@example.com"); // Şirketinizi temsil eden e-posta adresi
+            mailMessage.setFrom("your_email@example.com");
             if (mailForgotPassModel.getCompanyEmail() != null) {
                 mailMessage.setTo(mailForgotPassModel.getCompanyEmail());
             } else mailMessage.setTo(mailForgotPassModel.getPersonalEmail());
-            mailMessage.setSubject("Sayın " + mailForgotPassModel.getUsername());
-            mailMessage.setText("Yenilenen şifreniz aşağıda bulunmaktadır. \n\n Password: " + mailForgotPassModel.getRandomPassword());
+            mailMessage.setSubject("Dear " + mailForgotPassModel.getUsername());
+            mailMessage.setText("Your new password is below. \n\n Password: " + mailForgotPassModel.getRandomPassword());
             mailSender.send(mailMessage);
-            System.out.println("Mail Gönderildi");
         } catch (MailException e) {
             throw new MailException(ErrorType.MAIL_SEND_ERROR);
         }
@@ -118,7 +115,6 @@ public class MailService {
 
     public String sendGuestActivationMail(GuestMailRegisterModel guestMailRegisterModel) throws MessagingException {
         String CONFIRMATION_URL = "http://localhost:9090/api/v1/auth/user-active?token=" + guestMailRegisterModel.getActivationLink();
-        System.out.println("guest mail register model" + guestMailRegisterModel);
         String templateName = "authentication-email";
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
@@ -137,7 +133,7 @@ public class MailService {
         String template = templateEngine.process(templateName, context);
         helper.setText(template, true);
         mailSender.send(mimeMessage);
-        return "başarılı";
+        return "Successful";
     }
 
 

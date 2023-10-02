@@ -16,7 +16,6 @@ public interface IAuthMapper {
 
     Auth fromRegisterDto(final AuthRegisterRequestDto dto);
 
-
     MailRegisterModel fromAuthToMailRegisterModel(final Auth auth);
 
     AuthRegisterResponseDto fromAuth(final Auth auth);

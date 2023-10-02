@@ -9,10 +9,10 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @Getter
 public enum ErrorType {
-    INTERNAL_SERVER_ERROR(1000,"Sunucuda Bilinmeyen bir hata oluştu", HttpStatus.INTERNAL_SERVER_ERROR),
-    BAD_REQUEST_ERROR(1001,"İstek formatı hatalı",HttpStatus.BAD_REQUEST),
-    REGISTER_KULLANICIADI_KAYITLI(1001,"Kullanıcı adı kayıtlı",HttpStatus.BAD_REQUEST),
-    MAIL_SEND_ERROR(1001,"Mail gönderme Hatası",HttpStatus.BAD_REQUEST);
+    INTERNAL_ERROR(5000,"Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR),
+    BAD_REQUEST(4000,"", HttpStatus.BAD_REQUEST),
+    USERNAME_DUPLICATE(4002,"User already exist" ,HttpStatus.BAD_REQUEST),
+    MAIL_SEND_ERROR(1001,"Email send error",HttpStatus.BAD_REQUEST);
     int code;
     String message;
     HttpStatus httpStatus;

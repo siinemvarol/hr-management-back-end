@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    private String exchange = "user-exchange";//exchange sabittir
+    private String exchange = "user-exchange";
     //Add Employee Producer
     @Bean
     DirectExchange directExchange(){

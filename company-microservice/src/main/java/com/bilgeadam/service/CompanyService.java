@@ -70,7 +70,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             save(ICompanyMapper.INSTANCE.fromCompanyUpdateDto(dto, optionalCompany.get()));
             return true;
         }
-        throw new RuntimeException("hata");
+        throw new RuntimeException("Error");
     }
 
     public Boolean sendCompanyId(UserCompanyIdModel model) {
@@ -146,7 +146,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             update(optionalCompany.get());
             return true;
         }
-        throw new RuntimeException("hata");
+        throw new RuntimeException("Error");
     }
 
     public Boolean deniedCompany(String id) {
@@ -156,7 +156,7 @@ public class CompanyService extends ServiceManager<Company, String> {
             update(optionalCompany.get());
             return true;
         }
-        throw new RuntimeException("hata");
+        throw new RuntimeException("Error");
     }
 
 
@@ -206,15 +206,15 @@ public class CompanyService extends ServiceManager<Company, String> {
         List<GetAllCopmpaniesInformationResponseDto> companiesDtos = companies.stream()
                 .map(company -> ICompanyMapper.INSTANCE.fromCompanyGetAllCopmpaniesInformationResponseDto(company))
                 .collect(Collectors.toList());
-        return  companiesDtos;
+        return companiesDtos;
     }
 
 
-    public Optional<Company> findById(String id){
+    public Optional<Company> findById(String id) {
         Optional<Company> company = companyRepository.findOptionalById(id);
-        if(company.isPresent()){
+        if (company.isPresent()) {
             return company;
-        }else{
+        } else {
             throw new CompanyManagerException(ErrorType.INVALID_COMPANY);
         }
     }
@@ -224,7 +224,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         model.setAuthid(authid);
         String companyId = updateCompanyInformationProducer.returnCompanyIdForUpdateInformation(model);
         Optional<Company> optionalCompany = companyRepository.findById(companyId);
-        if (optionalCompany.isPresent()){
+        if (optionalCompany.isPresent()) {
             update(ICompanyMapper.INSTANCE.fromUpdateCompanyInformationRequestDtoToCompany(dto, optionalCompany.get()));
         }
         return null;
@@ -235,7 +235,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         model.setAuthid(authid);
         String companyId = updateCompanyValuationProducer.returnCompanyIdForUpdateValuation(model);
         Optional<Company> optionalCompany = companyRepository.findById(companyId);
-        if (optionalCompany.isPresent()){
+        if (optionalCompany.isPresent()) {
             update(ICompanyMapper.INSTANCE.fromUpdateCompanyValuationRequestDtoToCompany(dto, optionalCompany.get()));
         }
         return null;
@@ -263,4 +263,4 @@ public class CompanyService extends ServiceManager<Company, String> {
         }
         return last24HoursList.size();
     }
-    }
+}

@@ -17,7 +17,6 @@ public class UserListCompanyConsumer {
 
     @RabbitListener(queues = "userList-company-queue")
     public void userListCompany(List<UserCompanyListModel> model){
-        System.out.println(model + "consumer");
         companyService.userListCompany(model);
     }
 }
