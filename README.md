@@ -50,7 +50,7 @@ docker run -d name some-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT
 ### Architecture
 - Each microservice has its own database as shown on the following picture.
 
-![Kubernetes Engine](/user-microservice/src/main/resources/images/k8s.png)
+![Cloud Architecture](/user-microservice/src/main/resources/images/cloud-architecture.png)
 
 ### Project Deployment
 1. In the Gradle tool window, open the project's node, then the Tasks node, and double-click on "build," then double-click on "buildDependents."
