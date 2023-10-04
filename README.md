@@ -66,7 +66,7 @@ ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/application.jar"]
 
 #### Build an image from a Dockerfile
 ```
-docker build --build-arg JAR_FILE=config-server-git/build/libs/config-server-git-v.0.0.1.jar -t ayseozcan/config-server-git:v.1.0 .
+docker build --build-arg JAR_FILE=config-server-git/build/libs/config-server-git-v.0.0.1.jar -t siinemvarol/config-server-git:v.1.0 .
 ```
 #### The sample YAML file is as follows.
 - Config Server - Deployment.yaml
@@ -85,7 +85,7 @@ spec:
     spec:
       containers: 
       - name: config 
-        image: ayseozcan/hrms-config-server-git:v.1.0
+        image: siinemvarol/hrms-config-server-git:v.1.0
         resources:
           requests:
             cpu: "300m"
